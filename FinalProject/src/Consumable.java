@@ -7,10 +7,21 @@ public abstract class Consumable {
 	private String name;
 	private int remainingUses;
 	
+	// constructor
 	public Consumable(int cost, String name, int remainingUses) {
 		this.cost = cost;
 		this.name = name;
 		this.remainingUses = remainingUses;
 	}
-
+	
+	// getters and setters
+	public int getRemainingUses() {
+		return this.remainingUses;
+	}
+	
+	// misc methods
+	public int decreaseRemainingUses() {
+		this.remainingUses--;
+		return this.remainingUses;
+	}
 }
