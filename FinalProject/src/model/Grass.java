@@ -4,8 +4,8 @@ package model;
 
 public class Grass extends Terrain {
 	// constructor
-	public Grass() {
-		super(true);
+	public Grass(int[] location) {
+		super(true, location);
 	}
 
 }

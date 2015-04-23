@@ -6,11 +6,13 @@ public abstract class Terrain {
 	// private variables
 	private Unit unit;
 	private boolean standable;
+	private int[] location;
 	
 	// constructor
-	public Terrain(boolean standable) {
+	public Terrain(boolean standable, int[] location) {
 		this.unit = null;
 		this.standable = standable;
+		this.location = location;
 	}
 	
 	// getters and setters
@@ -32,10 +34,18 @@ public abstract class Terrain {
 		return this.standable;
 	}
 	
+	public int[] getLocation() {
+		return this.location;
+	}
+	
 	// misc methods
 	public Unit moveUnit() {
 		Unit moveUnit = this.unit;
 		this.unit = null;
 		return moveUnit;
+	}
+	
+	public String toString() {
+		return "[" + this.location[0] + "," + this.location[1] + "]";
 	}
 }

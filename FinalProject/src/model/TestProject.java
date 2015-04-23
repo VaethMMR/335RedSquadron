@@ -4,6 +4,9 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.junit.Test;
 
 import controller.GamePlay;
@@ -15,23 +18,15 @@ public class TestProject {
 	public void test() {
 		// test GamePlay
 		GamePlay newGame = new GamePlay();
-		
+		// print map with initial Unit distribution
+		newGame.getMap().printMap();
+		// move the Unit at [0,0] to [5,5]
+		newGame.getMap().moveUnit(new int[]{0,0}, new int[]{5,5});
 		newGame.getMap().printMap();
 		
-		/*// Test printing out the map
-		Map theMap = new Map("GrassMap");
-		
-		Unit newUnit = new Hero(null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		theMap.getMap()[1][1].setUnit(newUnit);
-		theMap.printMap();
-		
-		// move the unit and print again
-		System.out.println();
-		Unit thatUnit = theMap.getMap()[1][1].moveUnit();
-		theMap.getMap()[1][3].setUnit(thatUnit);
-		theMap.printMap();*/
-
-
+		ArrayList<Unit> unitsInGame = newGame.getMap().getUnitsOnMap();
+		newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
+		newGame.getMap().printMap();
 	}
 
 }
