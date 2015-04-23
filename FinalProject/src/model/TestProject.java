@@ -4,6 +4,7 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import controller.GamePlay;
 public class TestProject {
 
 	@Test
-	public void test() {
+	public void test() throws IOException {
 		// test GamePlay
 		GamePlay newGame = new GamePlay();
 		// print map with initial Unit distribution
@@ -26,6 +27,7 @@ public class TestProject {
 		
 		ArrayList<Unit> unitsInGame = newGame.getMap().getUnitsOnMap();
 		newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
+		Runtime.getRuntime().exec("clear");
 		newGame.getMap().printMap();
 	}
 

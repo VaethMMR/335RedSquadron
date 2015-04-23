@@ -1,18 +1,36 @@
 package controller;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
+import view.GameView;
 import model.*;
 
-public class GamePlay {
+public class GamePlay extends JFrame {
 	// private variables
 	private GameMap map;
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
+	private GameView console = new view.GameView();
 
 	// constructor
 	public GamePlay() {
+		setLayout(new BorderLayout()); // set the layout manager
+		this.setPreferredSize(new Dimension(530, 550));
+		// add the ICritterView JPanel
+		this.add(console, BorderLayout.NORTH);
+
+		// set up close operation
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// pack the GUI
+		this.pack();
+
+		
 		// make map
 		this.map = new GameMap("GrassMap");
 		
@@ -67,10 +85,35 @@ public class GamePlay {
 		return this.map;
 	}
 	
+	public GameView getGameView() {
+		return this.console;
+	}
+	
+	public List<Unit> getPlayerTeam() {
+		return this.playerTeam;
+	}
+	
 	// misc methods
 	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
 		//int currentPosition = ;
 		return true;
 	}
+	
+	// main method
+	public static void main(String[] arg) {
+		GamePlay newGame = new GamePlay();
+		newGame.setVisible(true);
+		// print map with initial Unit distribution
+
+		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		// move the Unit at [0,0] to [5,5]
+		newGame.getMap().moveUnit(new int[]{0,0}, new int[]{5,5});
+
+		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		
+		newGame.getMap().moveUnit(newGame.getPlayerTeam().get(1), new int[]{3,5});
+
+		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		}
 
 }

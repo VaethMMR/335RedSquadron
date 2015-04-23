@@ -80,6 +80,10 @@ public class GameMap {
 		if (location.getUnit() == null) {
 			return false;
 		}
+		// make sure the space to move to is not full
+		if (this.map[newCoordinates[0]][newCoordinates[1]].getUnit() != null) {
+			return false;
+		}
 		Unit toMove = location.getUnit();
 		// make sure the new location is within toMove's movement range
 		int horizontal = (currentCoordinates[0] - newCoordinates[0]);
@@ -105,7 +109,7 @@ public class GameMap {
 		return true;
 	}
 	
-	// print the map, with Units, to the terminal
+	// print the map, with Units, to the console
 	public void printMap() {
 		for (int i = 0; i < 25; i++) {
 			for (int j = 0; j < 25; j++) {
@@ -129,5 +133,34 @@ public class GameMap {
 			}
 			System.out.println();
 		}
+		System.out.println();
+	}
+	
+	// return the map as text
+	public String returnMap() {
+		String mapString = "";
+		for (int i = 0; i < 25; i++) {
+			for (int j = 0; j < 25; j++) {
+				if (this.map[i][j].getClass().getSimpleName().equals("Grass")) {
+					if (this.map[i][j].getUnit() == null) {
+						mapString += "[ ]";
+					} else {
+						if (this.map[i][j].getUnit() instanceof Hero) {
+							mapString += "[H]";
+						} else if (this.map[i][j].getUnit() instanceof Marksman) {
+							mapString += "[M]";
+						} else if (this.map[i][j].getUnit() instanceof Saint) {
+							mapString += "[S]";
+						} else if (this.map[i][j].getUnit() instanceof Sorcerer) {
+							mapString += "[s]";
+						} else if (this.map[i][j].getUnit() instanceof Axereaver) {
+							mapString += "[A]";
+						}
+					}
+				}
+			}
+			mapString += "\n";
+		}
+		return mapString;
 	}
 }
