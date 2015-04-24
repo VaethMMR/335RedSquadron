@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -47,21 +49,25 @@ public class GameView extends JPanel {
 		// add buttons
 		JButton move = new JButton("Move");
 		actionPanel.add(move);
+		move.addActionListener(new moveActionListener());
 		
 		JTextArea coordinateEntry = new JTextArea();
 		actionPanel.add(coordinateEntry);
 		
 		JButton submitAction = new JButton("Submit");
 		actionPanel.add(submitAction);
+		submitAction.addActionListener(new submitActionListener());
 		
 		JButton attack = new JButton("Attack");
 		actionPanel.add(attack);
+		attack.addActionListener(new attackActionListener());
 		
 		JTextArea enemySelect = new JTextArea();
 		actionPanel.add(enemySelect);
 		
 		JButton endTurn = new JButton("End Turn");
 		actionPanel.add(endTurn);
+		endTurn.addActionListener(new endTurnActionListener());
 
 		add(actionPanel, BorderLayout.CENTER);
 		
@@ -87,6 +93,31 @@ public class GameView extends JPanel {
 			String listItem= i.getClass().getSimpleName() + " " + i.getName();
 			//now add the element
 			playerUnitsModel.addElement(listItem);
+		}
+	}
+	
+	// action listeners
+	private class moveActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			
+		}
+	}
+	
+	private class attackActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			// do stuff
+		}
+	}
+	
+	private class submitActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			// do stuff
+		}
+	}
+	
+	private class endTurnActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			// do stuff
 		}
 	}
 
