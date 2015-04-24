@@ -191,10 +191,12 @@ public class GameView extends JPanel {
 				String coordinateText = coordinateEntry.getText().substring(1,coordinateEntry.getText().length()-1);
 				int commaIndex = coordinateText.indexOf(",");
 				int[] coordinates = new int[] {Integer.parseInt(coordinateText.substring(0,commaIndex)), Integer.parseInt(coordinateText.substring(commaIndex+1,coordinateText.length()))};
-				theGame.getMap().moveUnit(theUnit, coordinates);
-				setConsole(theGame.getMap().returnMap());
-				units.remove(theUnit);
-				setupPlayerList(units);
+				boolean moved = theGame.getMap().moveUnit(theUnit, coordinates);
+				if (moved) {
+					setConsole(theGame.getMap().returnMap());
+					units.remove(theUnit);
+					setupPlayerList(units);
+				}
 			}
 		}
 	}
@@ -252,6 +254,7 @@ public class GameView extends JPanel {
 	private class endTurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent arg0) {
 			// run AI Move
+			
 			setupPlayerList(theGame.getMap().getPlayerTeam());
 		}
 	}

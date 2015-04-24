@@ -16,18 +16,20 @@ public class GamePlay extends JFrame {
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
 	private GameView console;
-
+	private Model model;
+	private Ai ai;
+	
 	// constructor
 	public GamePlay() {
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
-		Unit playerHero = new Hero("PlayerHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
-		Unit playerMelee = new Axereaver("PlayerMelee", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
-		Unit playerRanged = new Marksman("PlayerRanged", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 25);
-		Unit playerSaint = new Saint("PlayerSaint", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 2);
-		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 3);
-		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
+		Unit playerHero = new Hero("PlayerHero", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
+		Unit playerMelee = new Axereaver("PlayerMelee", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
+		Unit playerRanged = new Marksman("PlayerRanged", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5);
+		Unit playerSaint = new Saint("PlayerSaint", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 2);
+		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3);
+		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
 		playerTeam.add(playerHero);
 		playerTeam.add(playerMelee);
 		playerTeam.add(playerRanged);
@@ -37,12 +39,12 @@ public class GamePlay extends JFrame {
 		
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
-		Unit aiHero = new Hero("aiHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
-		Unit aiMelee = new Axereaver("aiMelee", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 1);
-		Unit aiRanged = new Marksman("aiRanged", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 5);
-		Unit aiSaint = new Saint("aiSaint", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 2);
-		Unit aiSorcerer = new Sorcerer("aiSorcerer", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 3);
-		Unit aiAxereaver = new Axereaver("aiAxereaver", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 1);
+		Unit aiHero = new Hero("aiHero", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
+		Unit aiMelee = new Axereaver("aiMelee", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
+		Unit aiRanged = new Marksman("aiRanged", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5);
+		Unit aiSaint = new Saint("aiSaint", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 2);
+		Unit aiSorcerer = new Sorcerer("aiSorcerer", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3);
+		Unit aiAxereaver = new Axereaver("aiAxereaver", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
 		aiTeam.add(aiHero);
 		aiTeam.add(aiMelee);
 		aiTeam.add(aiRanged);
@@ -55,7 +57,7 @@ public class GamePlay extends JFrame {
 		map.setPlayerTeam(playerTeam);
 		map.setAiTeam(aiTeam);
 		
-		this.console = new view.GameView(this);
+		this.console = new view.GameView(this);		
 		
 		// place units on map
 		map.placeUnit(playerTeam.get(0), new int[]{0,0});
@@ -71,6 +73,8 @@ public class GamePlay extends JFrame {
 		map.placeUnit(aiTeam.get(3), new int[]{23,23});
 		map.placeUnit(aiTeam.get(4), new int[]{24,22});
 		map.placeUnit(aiTeam.get(5), new int[]{22,24});
+		
+		this.model = new Model(this);
 
 		setLayout(new BorderLayout()); // set the layout manager
 		this.setPreferredSize(new Dimension(530, 625));
@@ -117,8 +121,6 @@ public class GamePlay extends JFrame {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
 				
-		// print map with initial Unit distribution
-
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());

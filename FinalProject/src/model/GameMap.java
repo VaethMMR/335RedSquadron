@@ -107,10 +107,13 @@ public class GameMap {
 		Terrain location = this.map[currentCoordinates[0]][currentCoordinates[1]];
 		// make sure there is a Unit here
 		if (location.getUnit() == null) {
+			System.out.println("Unit not found at given move coordinates");
+			// TODO: throw exception
 			return false;
 		}
 		// make sure the space to move to is not full
 		if (this.map[newCoordinates[0]][newCoordinates[1]].getUnit() != null) {
+			System.out.println("There is already a Unit in that space.");
 			return false;
 			// TODO: Throw space full exception or something
 		}
@@ -126,6 +129,7 @@ public class GameMap {
 		}
 		int spacesToMove = horizontal + vertical - 1;
 		if (spacesToMove > toMove.getMovement()) {
+			System.out.println("Specified coordinates are out of this Unit's movement range.");
 			// TODO: Throw exception
 			return false;
 		}
