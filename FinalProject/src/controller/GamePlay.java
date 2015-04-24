@@ -96,7 +96,7 @@ public class GamePlay extends JFrame {
 	// misc methods
 	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
 		//int currentPosition = ;
-		return true;
+		return  true;
 	}
 	
 	// main method
