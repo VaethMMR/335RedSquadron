@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.GamePlay;
+
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
@@ -14,9 +16,10 @@ public class GameMap {
 	private Map<Unit, Terrain> unitLocations = new HashMap<Unit, Terrain>();
 	private List<Unit> playerTeam = new ArrayList<Unit>();
 	private List<Unit> aiTeam = new ArrayList<Unit>();
+	private GamePlay theGame;
 	
 	// constructor
-	public GameMap(String type) {
+	public GameMap(String type, GamePlay theGame) {
 		map = new Terrain[25][25];
 		layoutMap(type);
 	}
@@ -24,6 +27,10 @@ public class GameMap {
 	// getters and setters
 	public Terrain[][] getMap() {
 		return this.map;
+	}
+	
+	public void setMap(Terrain[][] newMap) {
+		this.map = newMap;
 	}
 	
 	public Map<Unit, Terrain> getUnitLocations() {
@@ -72,7 +79,8 @@ public class GameMap {
 	}
 	
 	public boolean removeUnit(Unit toRemove) {
-		this.unitLocations.get(toRemove).setUnit(null);
+		Terrain clearLocation = this.unitLocations.get(toRemove);
+		clearLocation.setUnit(null);
 		this.unitLocations.remove(toRemove);
 		return true;
 		// TODO: some sort of exception thing

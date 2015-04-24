@@ -19,8 +19,6 @@ public class GamePlay extends JFrame {
 
 	// constructor
 	public GamePlay() {
-		// make map
-		this.map = new GameMap("GrassMap");
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
@@ -36,7 +34,6 @@ public class GamePlay extends JFrame {
 		playerTeam.add(playerSaint);
 		playerTeam.add(playerSorcerer);
 		playerTeam.add(playerAxereaver);
-		map.setPlayerTeam(playerTeam);
 		
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
@@ -52,8 +49,12 @@ public class GamePlay extends JFrame {
 		aiTeam.add(aiSaint);
 		aiTeam.add(aiSorcerer);
 		aiTeam.add(aiAxereaver);
-		map.setAiTeam(aiTeam);
 
+		// make map
+		this.map = new GameMap("GrassMap", this);
+		map.setPlayerTeam(playerTeam);
+		map.setAiTeam(aiTeam);
+		
 		this.console = new view.GameView(this);
 		
 		// place units on map
@@ -106,10 +107,17 @@ public class GamePlay extends JFrame {
 		return true;
 	}
 	
+	public boolean removeUnit(Unit toRemove) {
+		return this.getPlayerTeam().remove(toRemove);
+	}
+	
 	// main method
 	public static void main(String[] arg) {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
+		
+		//newGame.removeUnit(newGame.getPlayerTeam().get(0));
+		
 		// print map with initial Unit distribution
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());

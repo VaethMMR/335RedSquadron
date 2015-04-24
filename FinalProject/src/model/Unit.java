@@ -1,8 +1,7 @@
 package model;
 /* creates a unit with all stats associated
 I added a tostring method
-removed defend method, put all of the code into attack method
-get methods for each stat
+Author: Connor Broderick
 */
 import java.util.Random;
 import java.io.*;
@@ -43,17 +42,19 @@ public class Unit {
    public boolean move(int[] x){
       return true;  
    }
-   //using stats fight each other! Weapons accuracy and might and triangle advantage heavily influence this, so this method is incomplete until items is completed.
-   public boolean attack(Unit other){
+   /* not sure how to implement range vs melee attack, basically check the grid, and if it is a ranged attack
+   the second half of the code in this method would not be implemented, since there is no attack back. 
+   Only thing missing now is that, and tome type weapons where it is resis and magic used.*/
+      public boolean attack(Unit other, Weapon ourWeapon, Weapon enemyWeapon){
       int damagedealt = 0;
       int critChance = 0;
       int nextrandomInt = 0;
-      int hitchance = ((skill * 2) + luck) - ((other.speed *2) + other.luck);//weapon accuracy and triangle would come into affect here as well
+      int hitchance = ((skill * 2) + luck + ourWeapon.getAccuracy()) - ((other.speed *2) + other.luck);//weapon triangle would come into affect here as well
       Random randomGenerator = new Random();
       int randomInt = randomGenerator.nextInt(100);
       if(randomInt > 100 - hitchance){//hit confirmed
-         damagedealt = strength - other.defense;//will be strength + weapon might - other.defense
-         critChance = skill / 2 - other.luck;//skill / 2 + weapon crit chance
+         damagedealt = strength + ourWeapon.getMight() - other.defense;
+         critChance = ((skill / 2)+ ourWeapon.getCritical()) - other.luck;
          nextrandomInt = randomGenerator.nextInt(100); 
          if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
             damagedealt = damagedealt * 3;
@@ -68,9 +69,9 @@ public class Unit {
       if(speed >= other.speed + 4){//if your speed is 4 greater than the enemy you get to attack twice! Code copy pasted from above for second attack
          randomInt = randomGenerator.nextInt(100);
          if(randomInt > 100 - hitchance){//hit confirmed
-            damagedealt = strength - other.defense;
+            damagedealt = strength + ourWeapon.getMight() - other.defense;
             nextrandomInt = randomGenerator.nextInt(100); 
-            if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
+            if(nextrandomInt > 100 - critChance){//if it is a crit then damage dealt is multiplied by 3
                damagedealt = damagedealt * 3;
                System.out.println("Special crit lines here!");
             }
@@ -81,12 +82,14 @@ public class Unit {
             } 
          }
       }//end of second attack
+      
+      
       //if the enemy is still alive, aka no return true then the enemy gets to attack back! copy and pasted from above except other.defense becomes defense and vice-versa
-      hitchance = ((other.skill * 2) + other.luck) - ((speed *2) + luck);//weapon accuracy and triangle would come into affect here as well
+      hitchance = ((other.skill * 2) + other.luck + enemyWeapon.getAccuracy()) - ((speed *2) + luck);//weapon accuracy and triangle would come into affect here as well
       randomInt = randomGenerator.nextInt(100);
       if(randomInt > 100 - hitchance){//hit confirmed
-         damagedealt = other.strength - defense;//will be strength + weapon might - other.defense
-         critChance = other.skill / 2 - luck;//skill / 2 + weapon crit chance
+         damagedealt = other.strength + enemyWeapon.getMight() - defense;
+         critChance = ((other.skill / 2) + enemyWeapon.getCritical()) - luck;
          nextrandomInt = randomGenerator.nextInt(100); 
          if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
             damagedealt = damagedealt * 3;
@@ -102,7 +105,7 @@ public class Unit {
       if(other.speed >= speed + 4){//if your speed is 4 greater than the enemy you get to attack twice! Code copy pasted from above for second attack
          randomInt = randomGenerator.nextInt(100);
          if(randomInt > 100 - hitchance){//hit confirmed
-            damagedealt = other.strength - defense;
+            damagedealt = other.strength + enemyWeapon.getMight() - defense;
             nextrandomInt = randomGenerator.nextInt(100); 
             if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
                damagedealt = damagedealt * 3;
@@ -113,7 +116,7 @@ public class Unit {
                this.die();
                System.out.println("Heroic death line here");
                return false;//hero has fallen!
-            } 
+               } 
          }
       }//end of second attack
 
@@ -137,7 +140,7 @@ public class Unit {
       Random randomGenerator = new Random();
       int randomnum = randomGenerator.nextInt(100);
       if(randomnum >= 100 - hp1)
-         hp = hp + 1;
+       hp = hp + 1;
       randomnum = randomGenerator.nextInt(100);   
       if(randomnum >= 100 - str)
          strength = strength + 1;
@@ -163,11 +166,18 @@ public class Unit {
       return 1;
    }
    
-   public void useItem(){
-      //lower item use by one
+   public void useItem(Consumable booster){
+      booster.decreaseRemainingUses();
+      if(booster.getName() == "Vulnary"){//then it is a 10 heal!
+         currentHp += 10;
+         if(currentHp >= hp){//cant heal more than max hp
+            currentHp = hp;
+         }   
+      }//end of heal item
+      
    }
    
-   public void trade(Unit other){
+    public void trade(Unit other){
       //in addition to item it will need a unit argument to know who it is trading with. 
    }
 
@@ -191,11 +201,10 @@ public class Unit {
    level = n;
    }
 
-   
    public void setHp ( int n ) {
    currentHp = n;
    }
-
+   
    public int getHp(){
       return hp;
    }
@@ -228,7 +237,7 @@ public class Unit {
    public void setSkill(int n){
       skill = n;
    }   
-   
+         
    public int getSkill(){
       return skill;
    }

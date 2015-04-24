@@ -19,6 +19,10 @@ public abstract class Consumable {
 	public int getRemainingUses() {
 		return this.remainingUses;
 	}
+   
+   public String getName(){
+      return name;
+   }
 	
 	// misc methods
 	public int decreaseRemainingUses() {

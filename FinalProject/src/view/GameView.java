@@ -17,7 +17,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import controller.GamePlay;
+import model.Bow;
+import model.Melee;
+import model.Sword;
+import model.Terrain;
 import model.Unit;
+import model.Weapon;
 
 public class GameView extends JPanel {
 	private JTextArea consoleUI;
@@ -183,7 +188,8 @@ public class GameView extends JPanel {
 				int[] coordinates = new int[] {Integer.parseInt(coordinateText.substring(0,commaIndex)), Integer.parseInt(coordinateText.substring(commaIndex+1,coordinateText.length()))};
 				theGame.getMap().moveUnit(theUnit, coordinates);
 				setConsole(theGame.getMap().returnMap());
-				//playerUnitsModel.removeElement(theUnit);
+				units.remove(theUnit);
+				setupPlayerList(units);
 			}
 		}
 	}
@@ -211,9 +217,20 @@ public class GameView extends JPanel {
 				}
 				if (defendingUnit != null) {
 					// initiate attack
-					boolean killed = attackingUnit.attack(defendingUnit);
+					Weapon attackingWeapon;
+					if (attackingUnit instanceof Melee) {
+						attackingWeapon = new Sword(10, "Sword");
+					} else {
+						attackingWeapon = new Bow(10, "Bow");
+					}
+					boolean killed = attackingUnit.attack(defendingUnit, attackingWeapon, attackingWeapon);
 					if (killed) {
-						//theGame.getMap().removeUnit(defendingUnit);
+						// figure out which team the dead Unit is on
+						if (units.contains(defendingUnit)) {
+							units.remove(defendingUnit);
+							setupPlayerList(units);
+						}
+						theGame.getMap().removeUnit(defendingUnit);
 						setConsole(theGame.getMap().returnMap());
 					}
 				}
@@ -223,7 +240,8 @@ public class GameView extends JPanel {
 	
 	private class endTurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent arg0) {
-			// do stuff
+			List<Unit> units = theGame.getPlayerTeam();
+			setupPlayerList(units);
 		}
 	}
 
