@@ -43,6 +43,10 @@ public class GameMap {
 		return (ArrayList<Unit>) unitsOnMap;
 	}
 	
+	public List<Unit> getPlayerTeam() {
+		return this.playerTeam;
+	}
+	
 	public void setPlayerTeam(List<Unit> playerTeam) {
 		this.playerTeam = playerTeam;
 	}
@@ -80,7 +84,7 @@ public class GameMap {
 	
 	public boolean removeUnit(Unit toRemove) {
 		Terrain clearLocation = this.unitLocations.get(toRemove);
-		clearLocation.setUnit(null);
+		clearLocation.moveUnit();
 		this.unitLocations.remove(toRemove);
 		return true;
 		// TODO: some sort of exception thing
@@ -123,7 +127,6 @@ public class GameMap {
 		int spacesToMove = horizontal + vertical - 1;
 		if (spacesToMove > toMove.getMovement()) {
 			// TODO: Throw exception
-			System.out.println(toMove.getName() + toMove.getMovement());
 			return false;
 		}
 
@@ -139,8 +142,8 @@ public class GameMap {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
 		int range = theUnit.getResistance();
-		int[] attackWidth = new int[] {location[0] - range + 1, location[0] + range + 1};
-		int[] attackHeight = new int[] {location[1] - range + 1, location[1] + range + 1};
+		int[] attackWidth = new int[] {location[0] - range - 1, location[0] + range + 1};
+		int[] attackHeight = new int[] {location[1] - range - 1, location[1] + range + 1};
 		if (attackWidth[0] < 0) {
 			attackWidth[0] = 0;
 		}

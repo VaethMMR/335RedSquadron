@@ -37,12 +37,12 @@ public class GamePlay extends JFrame {
 		
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
-		Unit aiHero = new Hero("aiHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit aiMelee = new Axereaver("aiMelee", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 0);
-		Unit aiRanged = new Marksman("aiRanged", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 0);
-		Unit aiSaint = new Saint("aiSaint", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 0);
-		Unit aiSorcerer = new Sorcerer("aiSorcerer", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 0);
-		Unit aiAxereaver = new Axereaver("aiAxereaver", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 0);
+		Unit aiHero = new Hero("aiHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
+		Unit aiMelee = new Axereaver("aiMelee", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 1);
+		Unit aiRanged = new Marksman("aiRanged", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 5);
+		Unit aiSaint = new Saint("aiSaint", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 2);
+		Unit aiSorcerer = new Sorcerer("aiSorcerer", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 3);
+		Unit aiAxereaver = new Axereaver("aiAxereaver", null, 0, 0, 20, 20, 0, 0, 0, 0, 0, 1);
 		aiTeam.add(aiHero);
 		aiTeam.add(aiMelee);
 		aiTeam.add(aiRanged);
@@ -108,26 +108,21 @@ public class GamePlay extends JFrame {
 	}
 	
 	public boolean removeUnit(Unit toRemove) {
-		return this.getPlayerTeam().remove(toRemove);
+		//return this.getPlayerTeam().remove(toRemove);
+		return true;
 	}
 	
 	// main method
 	public static void main(String[] arg) {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
-		
-		//newGame.removeUnit(newGame.getPlayerTeam().get(0));
-		
+				
 		// print map with initial Unit distribution
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
-		// move the Unit at [0,0] to [5,5]
-		newGame.getMap().moveUnit(new int[]{0,0}, new int[]{5,5});
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		
-		newGame.getMap().moveUnit(newGame.getPlayerTeam().get(2), new int[]{10,10});
-
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		}
 

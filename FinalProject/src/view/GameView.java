@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -176,7 +177,11 @@ public class GameView extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			Unit theUnit = null;
 			String unitName = playerUnits.getSelectedValue();
-			List<Unit> units = theGame.getPlayerTeam();
+			List<Unit> playerTeam = theGame.getPlayerTeam();
+			List<Unit> units = new ArrayList<Unit>();
+			for(Unit i : playerTeam) {
+				units.add(i);
+			}
 			for(Unit i : units){
 				if (i.getName() == unitName) {
 					theUnit = i;
@@ -199,7 +204,11 @@ public class GameView extends JPanel {
 			// find the attacking Unit
 			Unit attackingUnit = null;
 			String unitName = playerUnits.getSelectedValue();
-			List<Unit> units = theGame.getPlayerTeam();
+			List<Unit> playerTeam = theGame.getPlayerTeam();
+			List<Unit> units = new ArrayList<Unit>();
+			for(Unit i : playerTeam) {
+				units.add(i);
+			}
 			for(Unit i : units){
 				if (i.getName() == unitName) {
 					attackingUnit = i;
@@ -209,7 +218,11 @@ public class GameView extends JPanel {
 				// find defending Unit
 				Unit defendingUnit = null;
 				String defenderName = inRangeUnits.getSelectedValue();
-				List<Unit> aiUnits = theGame.getAiTeam();
+				List<Unit> aiTeam = theGame.getAiTeam();
+				List<Unit> aiUnits = new ArrayList<Unit>();
+				for(Unit i : aiTeam) {
+					aiUnits.add(i);
+				}
 				for(Unit i : aiUnits){
 					if (i.getName() == defenderName) {
 						defendingUnit = i;
@@ -226,13 +239,11 @@ public class GameView extends JPanel {
 					boolean killed = attackingUnit.attack(defendingUnit, attackingWeapon, attackingWeapon);
 					if (killed) {
 						// figure out which team the dead Unit is on
-						if (units.contains(defendingUnit)) {
-							units.remove(defendingUnit);
-							setupPlayerList(units);
-						}
 						theGame.getMap().removeUnit(defendingUnit);
 						setConsole(theGame.getMap().returnMap());
 					}
+					units.remove(attackingUnit);
+					setupPlayerList(units);
 				}
 			}
 		}
@@ -240,8 +251,8 @@ public class GameView extends JPanel {
 	
 	private class endTurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent arg0) {
-			List<Unit> units = theGame.getPlayerTeam();
-			setupPlayerList(units);
+			// run AI Move
+			setupPlayerList(theGame.getMap().getPlayerTeam());
 		}
 	}
 
