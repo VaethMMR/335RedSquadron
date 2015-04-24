@@ -24,18 +24,19 @@ public class GamePlay extends JFrame {
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
-		Unit playerHero = new Hero("PlayerHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit playerMelee = new Axereaver("PlayerMelee", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit playerRanged = new Marksman("PlayerRanged", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit playerSaint = new Saint("PlayerSaint", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
-		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20);
+		Unit playerHero = new Hero("PlayerHero", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
+		Unit playerMelee = new Axereaver("PlayerMelee", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
+		Unit playerRanged = new Marksman("PlayerRanged", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 25);
+		Unit playerSaint = new Saint("PlayerSaint", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 2);
+		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 3);
+		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 20, 20, 20, 20, 20, 20, 20, 20, 20, 1);
 		playerTeam.add(playerHero);
 		playerTeam.add(playerMelee);
 		playerTeam.add(playerRanged);
 		playerTeam.add(playerSaint);
 		playerTeam.add(playerSorcerer);
 		playerTeam.add(playerAxereaver);
+		map.setPlayerTeam(playerTeam);
 		
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
@@ -51,6 +52,7 @@ public class GamePlay extends JFrame {
 		aiTeam.add(aiSaint);
 		aiTeam.add(aiSorcerer);
 		aiTeam.add(aiAxereaver);
+		map.setAiTeam(aiTeam);
 
 		this.console = new view.GameView(this);
 		
@@ -68,9 +70,9 @@ public class GamePlay extends JFrame {
 		map.placeUnit(aiTeam.get(3), new int[]{23,23});
 		map.placeUnit(aiTeam.get(4), new int[]{24,22});
 		map.placeUnit(aiTeam.get(5), new int[]{22,24});
-				
+
 		setLayout(new BorderLayout()); // set the layout manager
-		this.setPreferredSize(new Dimension(530, 550));
+		this.setPreferredSize(new Dimension(530, 625));
 		// add the ICritterView JPanel
 		this.add(console, BorderLayout.CENTER);
 
@@ -94,6 +96,10 @@ public class GamePlay extends JFrame {
 		return this.playerTeam;
 	}
 	
+	public List<Unit> getAiTeam() {
+		return this.aiTeam;
+	}
+	
 	// misc methods
 	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
 		//int currentPosition = ;
@@ -112,7 +118,7 @@ public class GamePlay extends JFrame {
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		
-		newGame.getMap().moveUnit(newGame.getPlayerTeam().get(1), new int[]{3,5});
+		newGame.getMap().moveUnit(newGame.getPlayerTeam().get(2), new int[]{10,10});
 
 		newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		}
