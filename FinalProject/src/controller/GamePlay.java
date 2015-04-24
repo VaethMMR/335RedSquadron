@@ -15,22 +15,10 @@ public class GamePlay extends JFrame {
 	private GameMap map;
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
-	private GameView console = new view.GameView();
+	private GameView console;
 
 	// constructor
 	public GamePlay() {
-		setLayout(new BorderLayout()); // set the layout manager
-		this.setPreferredSize(new Dimension(530, 550));
-		// add the ICritterView JPanel
-		this.add(console, BorderLayout.NORTH);
-
-		// set up close operation
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// pack the GUI
-		this.pack();
-
-		
 		// make map
 		this.map = new GameMap("GrassMap");
 		
@@ -64,6 +52,8 @@ public class GamePlay extends JFrame {
 		aiTeam.add(aiSorcerer);
 		aiTeam.add(aiAxereaver);
 
+		this.console = new view.GameView(this);
+		
 		// place units on map
 		map.placeUnit(playerTeam.get(0), new int[]{0,0});
 		map.placeUnit(playerTeam.get(1), new int[]{1,0});
@@ -78,6 +68,17 @@ public class GamePlay extends JFrame {
 		map.placeUnit(aiTeam.get(3), new int[]{23,23});
 		map.placeUnit(aiTeam.get(4), new int[]{24,22});
 		map.placeUnit(aiTeam.get(5), new int[]{22,24});
+				
+		setLayout(new BorderLayout()); // set the layout manager
+		this.setPreferredSize(new Dimension(530, 550));
+		// add the ICritterView JPanel
+		this.add(console, BorderLayout.CENTER);
+
+		// set up close operation
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// pack the GUI
+		this.pack();
 	}
 	
 	// getters and setters
@@ -96,7 +97,7 @@ public class GamePlay extends JFrame {
 	// misc methods
 	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
 		//int currentPosition = ;
-		return  true;
+		return true;
 	}
 	
 	// main method
