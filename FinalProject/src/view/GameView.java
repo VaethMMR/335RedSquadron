@@ -255,6 +255,7 @@ public class GameView extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			// run AI Move
 			
+			setConsole(theGame.getMap().returnMap());
 			setupPlayerList(theGame.getMap().getPlayerTeam());
 		}
 	}
