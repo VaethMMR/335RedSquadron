@@ -84,8 +84,6 @@ public class GamePlay extends JFrame {
 
 		// pack the GUI
 		this.pack();
-		JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
-
 	}
 	
 	// getters and setters
