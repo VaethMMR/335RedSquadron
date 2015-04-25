@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import view.GameView;
 import model.*;
@@ -16,8 +17,7 @@ public class GamePlay extends JFrame {
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
 	private GameView console;
-	private Model model;
-	private Ai ai;
+
 	
 	// constructor
 	public GamePlay() {
@@ -74,8 +74,6 @@ public class GamePlay extends JFrame {
 		map.placeUnit(aiTeam.get(4), new int[]{24,22});
 		map.placeUnit(aiTeam.get(5), new int[]{22,24});
 		
-		this.model = new Model(this);
-
 		setLayout(new BorderLayout()); // set the layout manager
 		this.setPreferredSize(new Dimension(530, 625));
 		// add the ICritterView JPanel
@@ -86,6 +84,8 @@ public class GamePlay extends JFrame {
 
 		// pack the GUI
 		this.pack();
+		JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+
 	}
 	
 	// getters and setters

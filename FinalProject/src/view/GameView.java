@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -33,7 +34,7 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> inRangeUnitsModel;
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
-
+	
 	// constructor
 	public GameView(GamePlay theGame) {
 		this.theGame = theGame;
@@ -243,9 +244,21 @@ public class GameView extends JPanel {
 						// figure out which team the dead Unit is on
 						theGame.getMap().removeUnit(defendingUnit);
 						setConsole(theGame.getMap().returnMap());
+						if(theGame.getPlayerTeam().contains(defendingUnit)){
+							theGame.getPlayerTeam().remove(defendingUnit);
+						}
+						if(theGame.getAiTeam().contains(defendingUnit)){
+							theGame.getAiTeam().remove(defendingUnit);
+						}
 					}
 					units.remove(attackingUnit);
 					setupPlayerList(units);
+					if(theGame.getAiTeam().isEmpty() == true){
+						JOptionPane.showMessageDialog(null, " Victory!\nThe enemy team is destroyed.");
+					}
+					if(theGame.getPlayerTeam().isEmpty() == true){
+						JOptionPane.showMessageDialog(null, " Defeated!\nYour team has been destroyed.");
+					}
 				}
 			}
 		}
