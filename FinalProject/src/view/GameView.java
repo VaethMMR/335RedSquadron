@@ -18,6 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import ai.AI;
+import ai.AttackPlayer;
+import ai.Roam;
 import controller.GamePlay;
 import model.Bow;
 import model.Melee;
@@ -34,7 +37,7 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> inRangeUnitsModel;
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
-	
+
 	// constructor
 	public GameView(GamePlay theGame) {
 		this.theGame = theGame;
@@ -168,7 +171,7 @@ public class GameView extends JPanel {
 				}
 			}
 			if (theUnit != null) {
-				List<Unit> inRangeUnits = theGame.getMap().getInRangeUnits(theUnit);
+				List<Unit> inRangeUnits = theGame.getMap().getInRangeAiUnits(theUnit);
 				setupinRangeList(inRangeUnits);
 			}
 		}
@@ -196,7 +199,7 @@ public class GameView extends JPanel {
 				if (moved) {
 					setConsole(theGame.getMap().returnMap());
 					units.remove(theUnit);
-					setupPlayerList(units);
+					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
 				}
 			}
 		}
@@ -239,26 +242,33 @@ public class GameView extends JPanel {
 					} else {
 						attackingWeapon = new Bow(10, "Bow");
 					}
-					boolean killed = attackingUnit.attack(defendingUnit, attackingWeapon, attackingWeapon);
-					if (killed) {
+					Weapon defendingWeapon;
+					if (defendingUnit instanceof Melee) {
+						defendingWeapon = new Sword(10, "Sword");
+					} else {
+						defendingWeapon = new Bow(10, "Bow");
+					}
+					attackingUnit.attack(defendingUnit, attackingWeapon, defendingWeapon);
+					if (defendingUnit.getCurrentHp() < 1) {
 						// figure out which team the dead Unit is on
 						theGame.getMap().removeUnit(defendingUnit);
-						setConsole(theGame.getMap().returnMap());
-						if(theGame.getPlayerTeam().contains(defendingUnit)){
-							theGame.getPlayerTeam().remove(defendingUnit);
-						}
-						if(theGame.getAiTeam().contains(defendingUnit)){
+						if(theGame.getPlayerTeam().contains(defendingUnit))
+								theGame.getPlayerTeam().remove(defendingUnit);
+						else
 							theGame.getAiTeam().remove(defendingUnit);
-						}
+						setConsole(theGame.getMap().returnMap());
+					}
+					if (attackingUnit.getCurrentHp() < 1) {
+						// figure out which team the dead Unit is on
+						theGame.getMap().removeUnit(attackingUnit);
+						if(theGame.getPlayerTeam().contains(attackingUnit))
+							theGame.getPlayerTeam().remove(attackingUnit);
+					else
+						theGame.getAiTeam().remove(attackingUnit);
+						setConsole(theGame.getMap().returnMap());
 					}
 					units.remove(attackingUnit);
-					setupPlayerList(units);
-					if(theGame.getAiTeam().isEmpty() == true){
-						JOptionPane.showMessageDialog(null, " Victory!\nThe enemy team is destroyed.");
-					}
-					if(theGame.getPlayerTeam().isEmpty() == true){
-						JOptionPane.showMessageDialog(null, " Defeated!\nYour team has been destroyed.");
-					}
+					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
 				}
 			}
 		}
@@ -266,8 +276,22 @@ public class GameView extends JPanel {
 	
 	private class endTurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent arg0) {
+			//Restore the JList of all living units
+			setupPlayerList(theGame.getPlayerTeam());
 			// run AI Move
-			
+			AI ai = theGame.getAI();
+			for(int i = 0; i < ai.getTeam().size(); i++){
+				ai.useStrategy(ai.getTeam().get(i));
+				if(theGame.getAiTeam().isEmpty() == true){
+					JOptionPane.showMessageDialog(null, " Victory!\nThe enemy team is destroyed.");
+					break;
+				}
+				if(theGame.getPlayerTeam().isEmpty() == true){
+					JOptionPane.showMessageDialog(null, " Defeated!\nYour team has been destroyed.");
+					break;
+				}
+			setConsole(theGame.getMap().returnMap());
+			}
 			setConsole(theGame.getMap().returnMap());
 			setupPlayerList(theGame.getMap().getPlayerTeam());
 		}

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import controller.GamePlay;
 
 // 335 Final Project - Red Squadron
@@ -96,7 +98,18 @@ public class GameMap {
 		if (!this.unitLocations.containsKey(toMove)) {
 			return false;
 		}
+		
+		//Make sure coordinates are in bounds
+		if(newCoordinates[0] < 0 || newCoordinates[1] < 0 || newCoordinates[0] >= this.getMap()[0].length || newCoordinates[1] >= this.getMap().length)
+				return false;
 		// get the Terrain piece the Unit toMove is on
+		// make sure the space to move to is not full
+				if (this.map[newCoordinates[0]][newCoordinates[1]].getUnit() != null) {
+					if(playerTeam.contains(toMove))
+						JOptionPane.showMessageDialog(null, "There is already a Unit in that space.");
+					return false;
+					// TODO: Throw space full exception or something
+				}
 		int[] currentCoordinates = this.unitLocations.get(toMove).getLocation();
 		return moveUnit(currentCoordinates, newCoordinates);
 	}
@@ -107,15 +120,9 @@ public class GameMap {
 		Terrain location = this.map[currentCoordinates[0]][currentCoordinates[1]];
 		// make sure there is a Unit here
 		if (location.getUnit() == null) {
-			System.out.println("Unit not found at given move coordinates");
+			JOptionPane.showMessageDialog(null, "Unit not found at given move coordinates");
 			// TODO: throw exception
 			return false;
-		}
-		// make sure the space to move to is not full
-		if (this.map[newCoordinates[0]][newCoordinates[1]].getUnit() != null) {
-			System.out.println("There is already a Unit in that space.");
-			return false;
-			// TODO: Throw space full exception or something
 		}
 		Unit toMove = location.getUnit();
 		// make sure the new location is within toMove's movement range
@@ -129,7 +136,7 @@ public class GameMap {
 		}
 		int spacesToMove = horizontal + vertical - 1;
 		if (spacesToMove > toMove.getMovement()) {
-			System.out.println("Specified coordinates are out of this Unit's movement range.");
+			JOptionPane.showMessageDialog(null, "Specified coordinates are out of this Unit's movement range.");
 			// TODO: Throw exception
 			return false;
 		}
@@ -142,7 +149,37 @@ public class GameMap {
 		return true;
 	}
 	
-	public List<Unit> getInRangeUnits(Unit theUnit) {
+	public List<Unit> getInRangeAiUnits(Unit theUnit) {
+		List<Unit> inRangeUnits = new ArrayList<Unit>();
+		int[] location = this.getUnitLocations().get(theUnit).getLocation();
+		int range = theUnit.getResistance();
+		int[] attackWidth = new int[] {location[0] - range - 1, location[0] + range + 1};
+		int[] attackHeight = new int[] {location[1] - range - 1, location[1] + range + 1};
+		if (attackWidth[0] < 0) {
+			attackWidth[0] = 0;
+		}
+		if (attackWidth[1] > 24) {
+			attackWidth[1] = 24;
+		}
+		if (attackHeight[0] < 0) {
+			attackHeight[0] = 0;
+		}
+		if (attackHeight[1] > 24) {
+			attackHeight[1] = 24;
+		}
+		for (int i = attackWidth[0]; i < attackWidth[1]; i++) {
+			for (int j = attackHeight[0]; j < attackHeight[1]; j++) {
+				if (this.getMap()[i][j].getUnit() != null) {
+					if (this.aiTeam.contains(this.getMap()[i][j].getUnit())) {
+						inRangeUnits.add(this.getMap()[i][j].getUnit());
+					}
+				}
+			}
+		}
+		return inRangeUnits;
+	}
+	
+	public List<Unit> getInRangePlayerUnits(Unit theUnit) {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
 		int range = theUnit.getResistance();
@@ -163,7 +200,7 @@ public class GameMap {
 		for (int i = attackWidth[0]; i < attackWidth[1]; i++) {
 			for (int j = attackHeight[0]; j < attackHeight[1]; j++) {
 				if (this.getMap()[i][j].getUnit() != null) {
-					if (this.aiTeam.contains(this.getMap()[i][j].getUnit())) {
+					if (this.playerTeam.contains(this.getMap()[i][j].getUnit())) {
 						inRangeUnits.add(this.getMap()[i][j].getUnit());
 					}
 				}

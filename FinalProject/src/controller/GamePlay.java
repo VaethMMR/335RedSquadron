@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
+import ai.AI;
 import view.GameView;
 import model.*;
 
@@ -17,16 +17,17 @@ public class GamePlay extends JFrame {
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
 	private GameView console;
-
+	private Model model;
+	private AI ai;
 	
 	// constructor
 	public GamePlay() {
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
-		Unit playerHero = new Hero("PlayerHero", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
-		Unit playerMelee = new Axereaver("PlayerMelee", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
-		Unit playerRanged = new Marksman("PlayerRanged", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 5);
+		Unit playerHero = new Hero("PlayerHero", null, 20, 15, 15, 10, 15, 15, 15, 15, 15, 1);
+		Unit playerMelee = new Axereaver("PlayerMelee", null, 1, 1, 50, 1, 1, 1, 1, 1, 0, 1);
+		Unit playerRanged = new Marksman("PlayerRanged", null, 1, 1, 50, 1, 1, 1, 1, 1, 1, 5);
 		Unit playerSaint = new Saint("PlayerSaint", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 2);
 		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3);
 		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
@@ -74,6 +75,9 @@ public class GamePlay extends JFrame {
 		map.placeUnit(aiTeam.get(4), new int[]{24,22});
 		map.placeUnit(aiTeam.get(5), new int[]{22,24});
 		
+		this.model = new Model(this);
+		ai = new AI(aiTeam, model);
+
 		setLayout(new BorderLayout()); // set the layout manager
 		this.setPreferredSize(new Dimension(530, 625));
 		// add the ICritterView JPanel
@@ -89,6 +93,10 @@ public class GamePlay extends JFrame {
 	// getters and setters
 	public GameMap getMap() {
 		return this.map;
+	}
+	
+	public AI getAI(){
+		return ai;
 	}
 	
 	public GameView getGameView() {

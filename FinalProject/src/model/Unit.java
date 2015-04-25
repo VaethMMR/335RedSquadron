@@ -6,6 +6,8 @@ Author: Connor Broderick
 import java.util.Random;
 import java.io.*;
 
+import javax.swing.JOptionPane;
+
 public class Unit {
    private String name; 
    private String type;
@@ -58,7 +60,7 @@ public class Unit {
          nextrandomInt = randomGenerator.nextInt(100); 
          if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
             damagedealt = damagedealt * 3;
-            System.out.println("Special crit lines here!");
+			JOptionPane.showMessageDialog(null, "Critical Hit!\nDamage 3x");
          }
          other.currentHp = other.currentHp - damagedealt;//deal the damage 
          if(other.currentHp <= 0){//confirmed dead
@@ -73,7 +75,7 @@ public class Unit {
             nextrandomInt = randomGenerator.nextInt(100); 
             if(nextrandomInt > 100 - critChance){//if it is a crit then damage dealt is multiplied by 3
                damagedealt = damagedealt * 3;
-               System.out.println("Special crit lines here!");
+   			JOptionPane.showMessageDialog(null, "Critical Hit!\nDamage 3x");
             }
             other.currentHp = other.currentHp - damagedealt;//deal the damage 
             if(other.currentHp <= 0){//confirmed dead
@@ -93,12 +95,11 @@ public class Unit {
          nextrandomInt = randomGenerator.nextInt(100); 
          if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
             damagedealt = damagedealt * 3;
-            System.out.println("Special crit lines here!");
+			JOptionPane.showMessageDialog(null, "Critical Hit!\nDamage 3x");
          }
          currentHp = currentHp - damagedealt;//deal the damage 
          if(currentHp <= 0){//confirmed dead
             this.die();
-            System.out.println("Heroic death line here");
             return false;//hero has fallen!
          } 
       }      
@@ -109,13 +110,12 @@ public class Unit {
             nextrandomInt = randomGenerator.nextInt(100); 
             if(nextrandomInt > 100 - critChance){//if it is a crit, then damage dealt is multiplied by 3
                damagedealt = damagedealt * 3;
-               System.out.println("Special crit lines here!");
+   			JOptionPane.showMessageDialog(null, "Critical Hit!\nDamage 3x");
             }
             currentHp = currentHp - damagedealt;//deal the damage 
             if(currentHp <= 0){//confirmed dead
                this.die();
-               System.out.println("Heroic death line here");
-               return false;//hero has fallen!
+               return true;//hero has fallen!
                } 
          }
       }//end of second attack
@@ -134,6 +134,7 @@ public class Unit {
    
    public void die(){
       //remove unit from the map
+		JOptionPane.showMessageDialog(null, this.getName() + " is dead");
    }
    //level up will take growth rates, then use random number generator and adjust stats as needed. will return 1 always. 
    public int levelup(int hp1, int str, int mag, int sk, int spd, int luk, int def, int res){

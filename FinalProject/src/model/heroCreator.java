@@ -1,5 +1,5 @@
 package model;
-public class heroCreater {
+public class heroCreator {
 
    public static void main(String[] args) {
       Axereaver Francis = new Axereaver("Francis", "Axereaver", 1, 25, 5, 10, 0, 8, 5, 4, 7, 1);
