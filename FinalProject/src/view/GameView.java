@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -39,7 +37,7 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> inRangeUnitsModel;
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
-	//private Inventory theInventory;
+	private GraphicPanel graphics;
 
 	// constructor
 	public GameView(GamePlay theGame) {
@@ -47,14 +45,19 @@ public class GameView extends JPanel {
 		this.setLayout(new BorderLayout());//setup our layout manager
 		
 		// Set up the console
-		consoleUI = new JTextArea();
+		/*consoleUI = new JTextArea();
 		consoleUI.setEditable(false);
 		consoleUI.setFont(new Font("monospaced", Font.PLAIN, 12));
-		add(consoleUI, BorderLayout.NORTH);
+		add(consoleUI, BorderLayout.NORTH);*/
+		
+		// Set up the GUI
+		graphics = new GraphicPanel(theGame.getMap());
+		add(graphics, BorderLayout.CENTER);
 		
 		// Set up the actionPanel
 		JPanel actionPanel = new JPanel();
-		actionPanel.setLayout(new GridLayout(2, 4));
+		actionPanel.setPreferredSize(new Dimension(260,710));
+		actionPanel.setLayout(new GridLayout(4, 2));
 		
 		// create JList
 		playerUnitsModel = new DefaultListModel<String>();
@@ -77,10 +80,6 @@ public class GameView extends JPanel {
 		actionPanel.add(submitMove);
 		submitMove.addActionListener(new submitMoveActionListener());
 		
-		JButton endTurn = new JButton("End Turn");
-		actionPanel.add(endTurn);
-		endTurn.addActionListener(new endTurnActionListener());
-		
 		JButton attack = new JButton("Attack");
 		actionPanel.add(attack);
 		attack.addActionListener(new attackActionListener());
@@ -95,8 +94,12 @@ public class GameView extends JPanel {
 		JButton submitAttack = new JButton("Submit Attack");
 		actionPanel.add(submitAttack);
 		submitAttack.addActionListener(new submitAttackActionListener());
+		
+		JButton endTurn = new JButton("End Turn");
+		actionPanel.add(endTurn);
+		endTurn.addActionListener(new endTurnActionListener());
 
-		add(actionPanel, BorderLayout.CENTER);
+		add(actionPanel, BorderLayout.EAST);
 		
 		setupPlayerList(theGame.getPlayerTeam());
 		

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
@@ -12,17 +13,21 @@ import controller.GamePlay;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public class GameMap {
+public class GameMap extends Observable{
 	// private variables
 	private Terrain[][] map;
 	private Map<Unit, Terrain> unitLocations = new HashMap<Unit, Terrain>();
 	private List<Unit> playerTeam = new ArrayList<Unit>();
 	private List<Unit> aiTeam = new ArrayList<Unit>();
 	private GamePlay theGame;
+	private int rows;
+	private int columns;
 	
 	// constructor
-	public GameMap(String type, GamePlay theGame) {
-		map = new Terrain[25][25];
+	public GameMap(String type, GamePlay theGame, int rows, int columns) {
+		map = new Terrain[rows][columns];
+		this.rows = rows;
+		this.columns = columns;
 		layoutMap(type);
 	}
 	
@@ -33,6 +38,14 @@ public class GameMap {
 	
 	public void setMap(Terrain[][] newMap) {
 		this.map = newMap;
+	}
+	
+	public int getRows() {
+		return this.rows;
+	}
+	
+	public int getColumns() {
+		return this.columns;
 	}
 	
 	public Map<Unit, Terrain> getUnitLocations() {
@@ -59,16 +72,69 @@ public class GameMap {
 
 	// misc methods
 	private void layoutMap(String type) {
-		/*if (type == "something") {
-			// TODO do something
-		} else {
-			// TODO do something
-		}*/
 		
-		for (int i = 0; i < 25; i++) {
-			for (int j = 0; j < 25; j++) {
-				Terrain newTerrainPiece = new Grass(new int[]{i,j});
-				this.map[i][j] = newTerrainPiece;
+		int[][] mapLayout1 = {
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+		};
+		
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				if (mapLayout1[i][j] == 0) {
+					Terrain newTerrainPiece = new Grass(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 1) {
+					Terrain newTerrainPiece = new Dirt(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 2) {
+					Terrain newTerrainPiece = new Tree(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 3) {
+					Terrain newTerrainPiece = new Mountain(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 4) {
+					Terrain newTerrainPiece = new Water(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 5) {
+					Terrain newTerrainPiece = new Bridge(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				/*if (i < 6 && j > 6 && j < 12) {
+					Terrain newTerrainPiece = new Tree(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				} else if (i < 8 && j > 14 && j < 25) {
+					Terrain newTerrainPiece = new Mountain(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				} else if (i > 19 && j < 7) {
+					Terrain newTerrainPiece = new Water(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				} else {
+					Terrain newTerrainPiece = new Grass(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}*/
 			}
 		}
 	}
@@ -158,14 +224,14 @@ public class GameMap {
 		if (attackWidth[0] < 0) {
 			attackWidth[0] = 0;
 		}
-		if (attackWidth[1] > 24) {
-			attackWidth[1] = 24;
+		if (attackWidth[1] > rows-1) {
+			attackWidth[1] = rows-1;
 		}
 		if (attackHeight[0] < 0) {
 			attackHeight[0] = 0;
 		}
-		if (attackHeight[1] > 24) {
-			attackHeight[1] = 24;
+		if (attackHeight[1] > columns-1) {
+			attackHeight[1] = columns-1;
 		}
 		for (int i = attackWidth[0]; i < attackWidth[1]; i++) {
 			for (int j = attackHeight[0]; j < attackHeight[1]; j++) {
@@ -188,14 +254,14 @@ public class GameMap {
 		if (attackWidth[0] < 0) {
 			attackWidth[0] = 0;
 		}
-		if (attackWidth[1] > 24) {
-			attackWidth[1] = 25;
+		if (attackWidth[1] > rows-1) {
+			attackWidth[1] = rows-1;
 		}
 		if (attackHeight[0] < 0) {
 			attackHeight[0] = 0;
 		}
-		if (attackHeight[1] > 24) {
-			attackHeight[1] = 25;
+		if (attackHeight[1] > columns-1) {
+			attackHeight[1] = columns-1;
 		}
 		for (int i = attackWidth[0]; i < attackWidth[1]; i++) {
 			for (int j = attackHeight[0]; j < attackHeight[1]; j++) {
@@ -211,25 +277,9 @@ public class GameMap {
 	
 	// print the map, with Units, to the console
 	public void printMap() {
-		for (int i = 0; i < 25; i++) {
-			for (int j = 0; j < 25; j++) {
-				if (this.map[i][j].getClass().getSimpleName().equals("Grass")) {
-					if (this.map[i][j].getUnit() == null) {
-						System.out.print("[ ]");
-					} else {
-						if (this.map[i][j].getUnit() instanceof Hero) {
-							System.out.print("[H]");							
-						} else if (this.map[i][j].getUnit() instanceof Marksman) {
-							System.out.print("[R]");							
-						} else if (this.map[i][j].getUnit() instanceof Saint) {
-							System.out.print("[S]");							
-						} else if (this.map[i][j].getUnit() instanceof Sorcerer) {
-							System.out.print("[s]");							
-						} else if (this.map[i][j].getUnit() instanceof Axereaver) {
-							System.out.print("[A]");							
-						}
-					}
-				}
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				System.out.println(this.map[i][j]);
 			}
 			System.out.println();
 		}
@@ -239,25 +289,9 @@ public class GameMap {
 	// return the map as text
 	public String returnMap() {
 		String mapString = "";
-		for (int i = 0; i < 25; i++) {
-			for (int j = 0; j < 25; j++) {
-				if (this.map[i][j].getClass().getSimpleName().equals("Grass")) {
-					if (this.map[i][j].getUnit() == null) {
-						mapString += "[ ]";
-					} else {
-						if (this.map[i][j].getUnit() instanceof Hero) {
-							mapString += "[H]";
-						} else if (this.map[i][j].getUnit() instanceof Marksman) {
-							mapString += "[M]";
-						} else if (this.map[i][j].getUnit() instanceof Saint) {
-							mapString += "[S]";
-						} else if (this.map[i][j].getUnit() instanceof Sorcerer) {
-							mapString += "[s]";
-						} else if (this.map[i][j].getUnit() instanceof Axereaver) {
-							mapString += "[A]";
-						}
-					}
-				}
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				mapString += this.map[i][j];
 			}
 			mapString += "\n";
 		}

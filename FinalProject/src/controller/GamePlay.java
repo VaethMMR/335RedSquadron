@@ -58,7 +58,7 @@ public class GamePlay extends JFrame {
 		aiTeam.add(aiAxereaver);
 
 		// make map
-		this.map = new GameMap("GrassMap", this);
+		this.map = new GameMap("GrassMap", this, 20, 30);
 		map.setPlayerTeam(playerTeam);
 		map.setAiTeam(aiTeam);
 		
@@ -72,18 +72,18 @@ public class GamePlay extends JFrame {
 		map.placeUnit(playerTeam.get(4), new int[]{0,2});
 		map.placeUnit(playerTeam.get(5), new int[]{2,0});
 		
-		map.placeUnit(aiTeam.get(0), new int[]{24,24});
-		map.placeUnit(aiTeam.get(1), new int[]{23,24});
-		map.placeUnit(aiTeam.get(2), new int[]{24,23});
-		map.placeUnit(aiTeam.get(3), new int[]{23,23});
-		map.placeUnit(aiTeam.get(4), new int[]{24,22});
-		map.placeUnit(aiTeam.get(5), new int[]{22,24});
+		map.placeUnit(aiTeam.get(0), new int[]{19,29});
+		map.placeUnit(aiTeam.get(1), new int[]{18,29});
+		map.placeUnit(aiTeam.get(2), new int[]{19,28});
+		map.placeUnit(aiTeam.get(3), new int[]{18,28});
+		map.placeUnit(aiTeam.get(4), new int[]{19,27});
+		map.placeUnit(aiTeam.get(5), new int[]{17,29});
 		
 		this.model = new Model(this);
 		ai = new AI(aiTeam, model);
 
 		setLayout(new BorderLayout()); // set the layout manager
-		this.setPreferredSize(new Dimension(530, 625));
+		this.setPreferredSize(new Dimension(1250, 710));
 		JTabbedPane tabPane = new JTabbedPane();
 		
 		// Set up the Inventory
@@ -144,11 +144,11 @@ public class GamePlay extends JFrame {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
 				
-		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
 
-		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		
-		newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		}
 
 }
