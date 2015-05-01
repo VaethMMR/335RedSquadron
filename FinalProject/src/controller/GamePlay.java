@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ai.AI;
 import view.GameView;
@@ -23,6 +25,7 @@ public class GamePlay extends JFrame {
 	private Model model;
 	private AI ai;
 	private Inventory inventory;
+	private InventoryView inventoryView;
 	
 	// constructor
 	public GamePlay() {
@@ -83,18 +86,28 @@ public class GamePlay extends JFrame {
 		ai = new AI(aiTeam, model);
 
 		setLayout(new BorderLayout()); // set the layout manager
+
 		this.setPreferredSize(new Dimension(1250, 710));
-		JTabbedPane tabPane = new JTabbedPane();
+		final JTabbedPane tabPane = new JTabbedPane();
+
 		
 		// Set up the Inventory
 		inventory = new Inventory(25);
+		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
-		tabPane.add(new InventoryView(inventory, this), "Inventory");
+		tabPane.add(inventoryView, "Inventory");
 		add(tabPane, BorderLayout.CENTER);
 		
 		// Set up the shop
 		tabPane.add(new ShopView(this), "Shop");
 		add(tabPane, BorderLayout.CENTER);
+		
+		// Set up tab change listener
+		tabPane.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	        	inventoryView.setupInventoryList(getPlayerTeam());
+	        }
+	    });
 
 		// set up close operation
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,6 +139,10 @@ public class GamePlay extends JFrame {
 	
 	public Inventory getInventory(){
 		return this.inventory;
+	}
+	
+	public InventoryView getInventoryView(){
+		return inventoryView;
 	}
 	
 	// misc methods

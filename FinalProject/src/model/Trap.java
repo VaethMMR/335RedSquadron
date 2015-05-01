@@ -2,15 +2,15 @@ package model;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public abstract class Trap {
+public class Trap extends Item{
 	// private variables
-	private int cost;
+	private int level;
 	private String name;
 
 	// constructor
-	public Trap(int cost, String name) {
-		this.cost = cost;
-		this.name = name;
+	public Trap(String name, int level) {
+		super(name,level);
+		setName("Lvl " + level +" " + name);
 	}
 
 }

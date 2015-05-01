@@ -29,7 +29,6 @@ public class TestProject {
 		//newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
 		Runtime.getRuntime().exec("clear");
 		newGame.getMap().printMap();
-		newGame.getInventory().getItemInInventory();
 	}
 
 }

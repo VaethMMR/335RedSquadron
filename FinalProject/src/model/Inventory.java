@@ -26,32 +26,13 @@ public class Inventory {
 		return this.inventory;
 	}
 	
-	public String getItemInInventory(){
-		if(!this.inventory.isEmpty()){
-			for(Item i: this.inventory){
-				System.out.println(i.getName());
-				return i.getName();
-			}
-		}
-		return null;
-		
-	}
-	
 	public void setInventory(ArrayList<Item> newInventory) {
 		this.inventory = newInventory;
-	}
-	
-	public int getMaxSize() {
-		return this.maxSize;
-	}
-	
-	public void setMaxSize(int newMaxSize) {
-		this.maxSize = newMaxSize;
 	}
 
 	// misc methods
 	public boolean add(Item newItem) {
-		if (this.inventory.size() < this.maxSize) {
+		if (this.inventory.size() < maxSize) {
 			this.inventory.add(newItem);
 			return true;
 		} else {

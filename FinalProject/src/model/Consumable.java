@@ -2,26 +2,63 @@ package model;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public abstract class Consumable {
+public class Consumable extends Item{
 	// private variables
-	private int cost;
-	private String name;
 	private int remainingUses;
+	private int level;
+	private int cost;
+	private int health;
+	private int resistance;
+	private int defense;
 	
 	// constructor
-	public Consumable(int cost, String name, int remainingUses) {
-		this.cost = cost;
-		this.name = name;
-		this.remainingUses = remainingUses;
+	public Consumable(String name, int level) {
+		super(name,level);
+		setName("Lvl " + level +" " + name);
 	}
 	
-	// getters and setters
+	// getters 
 	public int getRemainingUses() {
 		return this.remainingUses;
 	}
    
-   public String getName(){
-      return name;
+   public int getLevel(){
+	   return this.level;
+   }
+   
+   public int getHealth(){
+	   return this.health;
+   }
+   public int getDefense(){
+	   return this.defense;
+   }
+   public int getResistance(){
+	   return this.resistance;
+   }
+   
+   // setters
+   public void setCost(int cost){
+	   this.cost = cost;
+   }
+   
+   public void setRemainingUses(int remainingUses){
+	   this.remainingUses = remainingUses;
+   }
+   
+   public void setHealth(int health){
+	   this.health = health;
+   }
+   
+   public void setLevel(int level){
+	   this.level = level;
+   }
+   
+   public void setResistance(int level){
+	   this.resistance = resistance;
+   }
+   
+   public void setDefense(int level){
+	   this.defense = defense;
    }
 	
 	// misc methods

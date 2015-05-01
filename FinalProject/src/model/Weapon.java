@@ -8,11 +8,12 @@ private int critical;
 private int accuracy;
 private int cost;
 private int range;
+private int level;
+private int magic;
 
-//Still did not see a weapon on github, so I have made a very simple one. I'm not sure how John wants to extend the classes
-//and make it all integrate so I just hardcoded one for the milestone. 
    public Weapon(String name, int level){
 	   super(name,level);
+	   setName("Lvl " + level +" " + name);
 
    }
 
@@ -34,6 +35,12 @@ private int range;
    public int getRange(){
 	   return range;
    }
+   public int getLevel(){
+	   return level;
+   }
+   public int getMagic(){
+	   return magic;
+   }
    
    // Set Methods
    public void setMight(int might){
@@ -50,6 +57,9 @@ private int range;
    }
    public void setCost(int cost){
 	   this.cost = cost;
+   }
+   public void setMagic(int magic){
+	   this.magic = magic;
    }
 
 }
