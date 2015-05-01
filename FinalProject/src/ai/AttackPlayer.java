@@ -13,14 +13,14 @@ public class AttackPlayer implements Offensive {
 		Weapon unitWeapon;
 		Weapon targetWeapon = null;
 		if(unit instanceof Melee)
-			unitWeapon = new Sword(0, "Sword");
+			unitWeapon = new Weapon("Sword",0);
 		else
-			unitWeapon = new Bow(0, "Bow");
+			unitWeapon = new Weapon("Bow",0);
 		
 		if(target instanceof Melee)
-			targetWeapon = new Sword(0, "Sword");
+			targetWeapon = new Weapon("Sword",0);
 		else
-			targetWeapon = new Bow(0, "Bow");
+			targetWeapon = new Weapon("Bow",0);
 		
 		unit.attack(target, unitWeapon, targetWeapon);
 		if(target.getCurrentHp() < 1){

@@ -26,9 +26,10 @@ public class TestProject {
 		newGame.getMap().printMap();
 		
 		ArrayList<Unit> unitsInGame = newGame.getMap().getUnitsOnMap();
-		newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
+		//newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
 		Runtime.getRuntime().exec("clear");
 		newGame.getMap().printMap();
+		newGame.getInventory().getItemInInventory();
 	}
 
 }

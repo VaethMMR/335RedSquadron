@@ -3,13 +3,10 @@ package model;
 // Authors: Alex Guyot and John Oney
 
 public abstract class Equipment extends Item {
-	// private variables
-	private int cost;
-	private String name;
 		
 	// constructor
-	public Equipment(int cost, String name) {
-		super(cost,name);
+	public Equipment(String name, int level) {
+		super(name,level);
 	}
 
 }

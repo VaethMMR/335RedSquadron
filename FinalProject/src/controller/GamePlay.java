@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 import ai.AI;
 import view.GameView;
+import view.InventoryView;
+import view.ShopView;
 import model.*;
 
 public class GamePlay extends JFrame {
@@ -19,6 +22,7 @@ public class GamePlay extends JFrame {
 	private GameView console;
 	private Model model;
 	private AI ai;
+	private Inventory inventory;
 	
 	// constructor
 	public GamePlay() {
@@ -58,7 +62,7 @@ public class GamePlay extends JFrame {
 		map.setPlayerTeam(playerTeam);
 		map.setAiTeam(aiTeam);
 		
-		this.console = new view.GameView(this);		
+		this.console = new view.GameView(this);
 		
 		// place units on map
 		map.placeUnit(playerTeam.get(0), new int[]{0,0});
@@ -80,8 +84,17 @@ public class GamePlay extends JFrame {
 
 		setLayout(new BorderLayout()); // set the layout manager
 		this.setPreferredSize(new Dimension(530, 625));
-		// add the ICritterView JPanel
-		this.add(console, BorderLayout.CENTER);
+		JTabbedPane tabPane = new JTabbedPane();
+		
+		// Set up the Inventory
+		inventory = new Inventory(25);
+		tabPane.add(this.console, "Map");
+		tabPane.add(new InventoryView(inventory, this), "Inventory");
+		add(tabPane, BorderLayout.CENTER);
+		
+		// Set up the shop
+		tabPane.add(new ShopView(this), "Shop");
+		add(tabPane, BorderLayout.CENTER);
 
 		// set up close operation
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,6 +122,10 @@ public class GamePlay extends JFrame {
 	
 	public List<Unit> getAiTeam() {
 		return this.aiTeam;
+	}
+	
+	public Inventory getInventory(){
+		return this.inventory;
 	}
 	
 	// misc methods

@@ -4,12 +4,16 @@ package model;
 
 public abstract class Item {
 	// private variables
-	private int cost;
+	private int level;
 	private String name;
 	
-	public Item(int cost, String name) {
-		this.cost = cost;
+	public Item(String name, int level) {
+		this.level = level;
 		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 }

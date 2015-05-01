@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
+
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -16,15 +18,15 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import ai.AI;
 import ai.AttackPlayer;
 import ai.Roam;
 import controller.GamePlay;
-import model.Bow;
+import model.Inventory;
 import model.Melee;
-import model.Sword;
 import model.Terrain;
 import model.Unit;
 import model.Weapon;
@@ -37,6 +39,7 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> inRangeUnitsModel;
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
+	//private Inventory theInventory;
 
 	// constructor
 	public GameView(GamePlay theGame) {
@@ -238,15 +241,15 @@ public class GameView extends JPanel {
 					// initiate attack
 					Weapon attackingWeapon;
 					if (attackingUnit instanceof Melee) {
-						attackingWeapon = new Sword(10, "Sword");
+						attackingWeapon = new Weapon("Sword",10);
 					} else {
-						attackingWeapon = new Bow(10, "Bow");
+						attackingWeapon = new Weapon("Bow",10);
 					}
 					Weapon defendingWeapon;
 					if (defendingUnit instanceof Melee) {
-						defendingWeapon = new Sword(10, "Sword");
+						defendingWeapon = new Weapon("Sword",10);
 					} else {
-						defendingWeapon = new Bow(10, "Bow");
+						defendingWeapon = new Weapon("Bow",10);
 					}
 					attackingUnit.attack(defendingUnit, attackingWeapon, defendingWeapon);
 					if (defendingUnit.getCurrentHp() < 1) {
