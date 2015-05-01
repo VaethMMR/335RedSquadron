@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ai.AI;
 import view.GameView;
@@ -85,7 +87,7 @@ public class GamePlay extends JFrame {
 
 		setLayout(new BorderLayout()); // set the layout manager
 		this.setPreferredSize(new Dimension(530, 625));
-		JTabbedPane tabPane = new JTabbedPane();
+		final JTabbedPane tabPane = new JTabbedPane();
 		
 		// Set up the Inventory
 		inventory = new Inventory(25);
@@ -97,6 +99,13 @@ public class GamePlay extends JFrame {
 		// Set up the shop
 		tabPane.add(new ShopView(this), "Shop");
 		add(tabPane, BorderLayout.CENTER);
+		
+		// Set up tab change listener
+		tabPane.addChangeListener(new ChangeListener() {
+	        public void stateChanged(ChangeEvent e) {
+	        	inventoryView.setupInventoryList(getPlayerTeam());
+	        }
+	    });
 
 		// set up close operation
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

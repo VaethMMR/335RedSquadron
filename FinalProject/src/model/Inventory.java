@@ -26,17 +26,6 @@ public class Inventory {
 		return this.inventory;
 	}
 	
-	public String getItemInInventory(){
-		if(!this.inventory.isEmpty()){
-			for(Item i: this.inventory){
-				System.out.println(i.getName());
-				return i.getName();
-			}
-		}
-		return null;
-		
-	}
-	
 	public void setInventory(ArrayList<Item> newInventory) {
 		this.inventory = newInventory;
 	}
