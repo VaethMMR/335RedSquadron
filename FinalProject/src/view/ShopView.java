@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.Inventory;
 import model.Weapon;
 import model.WeaponFactory;
 import controller.GamePlay;
@@ -65,6 +66,7 @@ public class ShopView extends JPanel {
 		
 		JButton buy = new JButton("Buy");
 		add(buy);
+		buy.addActionListener(new buttonListener());
 
 	}
 
@@ -98,8 +100,13 @@ public class ShopView extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			if(table.getSelectionModel() != null){
+				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
+				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
+				Weapon weapon = factory.makeWeapon(name, level);
+				theGame.getInventory().add(weapon);
+				theGame.getInventoryView().setUpTable(theGame.getInventory());
+			}
 		}
 		
 	}

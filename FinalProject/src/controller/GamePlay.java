@@ -23,6 +23,7 @@ public class GamePlay extends JFrame {
 	private Model model;
 	private AI ai;
 	private Inventory inventory;
+	private InventoryView inventoryView;
 	
 	// constructor
 	public GamePlay() {
@@ -88,8 +89,9 @@ public class GamePlay extends JFrame {
 		
 		// Set up the Inventory
 		inventory = new Inventory(25);
+		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
-		tabPane.add(new InventoryView(inventory, this), "Inventory");
+		tabPane.add(inventoryView, "Inventory");
 		add(tabPane, BorderLayout.CENTER);
 		
 		// Set up the shop
@@ -126,6 +128,10 @@ public class GamePlay extends JFrame {
 	
 	public Inventory getInventory(){
 		return this.inventory;
+	}
+	
+	public InventoryView getInventoryView(){
+		return inventoryView;
 	}
 	
 	// misc methods

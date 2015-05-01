@@ -2,7 +2,9 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,6 +15,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import model.Inventory;
+import model.Item;
 import controller.GamePlay;
 
 public class InventoryView extends JPanel {
@@ -48,18 +51,20 @@ public class InventoryView extends JPanel {
 
 	}
 
-	private void setUpTable(Inventory theInventory) {
+	public void setUpTable(Inventory theInventory) {
 		// Item[][] data = new Item[5][5];
 		// data.clear();
 		// String[][] data = new String[5][5];
 		data.setRowCount(5);
 		data.setColumnCount(5);
-		for (int row = 0; row < 5; row++) {
-			for (int col = 0; col < 5; col++) {
-				//data.setValueAt(theInventory.getItemInInventory(), row, col);
-				data.setValueAt("test",row,col);
+		for(Item i: (ArrayList<Item>) theInventory.getInventory()){
+			for (int row = 0; row < 5; row++) {
+				for (int col = 0; col < 5; col++) {
+						data.setValueAt(i,row,col);
+				}
 			}
 		}
+		
 		// return data;
 	}
 
