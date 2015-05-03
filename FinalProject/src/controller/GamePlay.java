@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class GamePlay extends JFrame {
 	private InventoryView inventoryView;
 	
 	// constructor
-	public GamePlay() {
+	public GamePlay() throws IOException {
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
@@ -68,12 +69,12 @@ public class GamePlay extends JFrame {
 		this.console = new view.GameView(this);
 		
 		// place units on map
-		map.placeUnit(playerTeam.get(0), new int[]{0,0});
-		map.placeUnit(playerTeam.get(1), new int[]{1,0});
-		map.placeUnit(playerTeam.get(2), new int[]{0,1});
-		map.placeUnit(playerTeam.get(3), new int[]{1,1});
-		map.placeUnit(playerTeam.get(4), new int[]{0,2});
-		map.placeUnit(playerTeam.get(5), new int[]{2,0});
+		map.placeUnit(playerTeam.get(0), new int[]{0,9});
+		map.placeUnit(playerTeam.get(1), new int[]{1,9});
+		map.placeUnit(playerTeam.get(2), new int[]{1,8});
+		map.placeUnit(playerTeam.get(3), new int[]{1,10});
+		map.placeUnit(playerTeam.get(4), new int[]{2,8});
+		map.placeUnit(playerTeam.get(5), new int[]{2,10});
 		
 		map.placeUnit(aiTeam.get(0), new int[]{19,29});
 		map.placeUnit(aiTeam.get(1), new int[]{18,29});
@@ -146,26 +147,11 @@ public class GamePlay extends JFrame {
 	}
 	
 	// misc methods
-	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
-		//int currentPosition = ;
-		return true;
-	}
-	
-	public boolean removeUnit(Unit toRemove) {
-		//return this.getPlayerTeam().remove(toRemove);
-		return true;
-	}
 	
 	// main method
-	public static void main(String[] arg) {
+	public static void main(String[] arg) throws IOException {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
-				
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
-
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
-		
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		}
 
 }

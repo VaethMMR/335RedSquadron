@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -8,6 +9,19 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
+import terrain.Bridge;
+import terrain.BridgeEntry;
+import terrain.Dirt;
+import terrain.Fort;
+import terrain.Gate;
+import terrain.Grass;
+import terrain.Mountain;
+import terrain.Shore;
+import terrain.Terrain;
+import terrain.Tree;
+import terrain.Water;
+import terrain.leftGate;
+import terrain.rightGate;
 import controller.GamePlay;
 
 // 335 Final Project - Red Squadron
@@ -24,7 +38,7 @@ public class GameMap extends Observable{
 	private int columns;
 	
 	// constructor
-	public GameMap(String type, GamePlay theGame, int rows, int columns) {
+	public GameMap(String type, GamePlay theGame, int rows, int columns) throws IOException {
 		map = new Terrain[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
@@ -71,70 +85,81 @@ public class GameMap extends Observable{
 	}
 
 	// misc methods
-	private void layoutMap(String type) {
+	private void layoutMap(String type) throws IOException {
 		
-		int[][] mapLayout1 = {
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-				{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+		char[][] mapLayout1 = {
+				{ 't', 't', 't', 't', 't', 't', 't', 't', 't', 'd', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'd', 'd', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'g', 'g', 'g', 'g', 'd', 'd', 'd', 'd', 't', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'g', 'g', 'g', 'g', 'd', 'g', 'g', 'd', 'd', 'd', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'g', 'g', 'g', 'g', 'd', 'g', 'g', 'g', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'g', 'g', 'g', 'g', 'e', 'g', 'g', 'g', 'e', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 't', 't', 't', 't', 't', 't', 't', 'l', 'a', 'r', 't', },
+				{ 's', 's', 's', 's', 's', 'b', 's', 's', 's', 'b', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'b', 's', 's', },
+				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', },
+				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', },
+				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', },
+				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', },
+				{ 'g', 'g', 'g', 'g', 'g', 'd', 'd', 'd', 'd', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'g', 'g', 'g', 't', 'g', 't', 'g', 'g', 'd', 't', 'g', 'g', 'g', 'g', 'g', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'd', 'g', 'g', 'g', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'g', 'm', 'd', 't', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'f', 'g', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
 		};
 		
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if (mapLayout1[i][j] == 0) {
+				if (mapLayout1[i][j] == 'g') {
 					Terrain newTerrainPiece = new Grass(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				if (mapLayout1[i][j] == 1) {
+				if (mapLayout1[i][j] == 'd') {
 					Terrain newTerrainPiece = new Dirt(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				if (mapLayout1[i][j] == 2) {
+				if (mapLayout1[i][j] == 't') {
 					Terrain newTerrainPiece = new Tree(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				if (mapLayout1[i][j] == 3) {
+				if (mapLayout1[i][j] == 'm') {
 					Terrain newTerrainPiece = new Mountain(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				if (mapLayout1[i][j] == 4) {
+				if (mapLayout1[i][j] == 'w') {
 					Terrain newTerrainPiece = new Water(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				if (mapLayout1[i][j] == 5) {
+				if (mapLayout1[i][j] == 'b') {
 					Terrain newTerrainPiece = new Bridge(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
 				}
-				/*if (i < 6 && j > 6 && j < 12) {
-					Terrain newTerrainPiece = new Tree(new int[]{i,j});
+				if (mapLayout1[i][j] == 'e') {
+					Terrain newTerrainPiece = new BridgeEntry(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
-				} else if (i < 8 && j > 14 && j < 25) {
-					Terrain newTerrainPiece = new Mountain(new int[]{i,j});
+				}
+				if (mapLayout1[i][j] == 's') {
+					Terrain newTerrainPiece = new Shore(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
-				} else if (i > 19 && j < 7) {
-					Terrain newTerrainPiece = new Water(new int[]{i,j});
+				}
+				if (mapLayout1[i][j] == 'f') {
+					Terrain newTerrainPiece = new Fort(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
-				} else {
-					Terrain newTerrainPiece = new Grass(new int[]{i,j});
+				}
+				if (mapLayout1[i][j] == 'l') {
+					Terrain newTerrainPiece = new leftGate(new int[]{i,j});
 					this.map[i][j] = newTerrainPiece;
-				}*/
+				}
+				if (mapLayout1[i][j] == 'a') {
+					Terrain newTerrainPiece = new Gate(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
+				if (mapLayout1[i][j] == 'r') {
+					Terrain newTerrainPiece = new rightGate(new int[]{i,j});
+					this.map[i][j] = newTerrainPiece;
+				}
 			}
 		}
 	}
@@ -177,7 +202,9 @@ public class GameMap extends Observable{
 					// TODO: Throw space full exception or something
 				}
 		int[] currentCoordinates = this.unitLocations.get(toMove).getLocation();
-		return moveUnit(currentCoordinates, newCoordinates);
+		boolean moved = moveUnit(currentCoordinates, newCoordinates);
+		notifyObs();
+		return moved;
 	}
 	
 	// move Unit by passing in the location
@@ -273,6 +300,11 @@ public class GameMap extends Observable{
 			}
 		}
 		return inRangeUnits;
+	}
+	
+	private void notifyObs() {
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	// print the map, with Units, to the console

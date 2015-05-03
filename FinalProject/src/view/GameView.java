@@ -19,13 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
+import terrain.Terrain;
 import ai.AI;
 import ai.AttackPlayer;
 import ai.Roam;
 import controller.GamePlay;
 import model.Inventory;
 import model.Melee;
-import model.Terrain;
 import model.Unit;
 import model.Weapon;
 
@@ -203,7 +203,7 @@ public class GameView extends JPanel {
 				int[] coordinates = new int[] {Integer.parseInt(coordinateText.substring(0,commaIndex)), Integer.parseInt(coordinateText.substring(commaIndex+1,coordinateText.length()))};
 				boolean moved = theGame.getMap().moveUnit(theUnit, coordinates);
 				if (moved) {
-					setConsole(theGame.getMap().returnMap());
+					//setConsole(theGame.getMap().returnMap());
 					units.remove(theUnit);
 					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
 				}

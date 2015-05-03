@@ -11,8 +11,9 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import terrain.Grass;
+import terrain.Terrain;
 import model.GameMap;
-import model.Terrain;
 
 /**
  * This is a class that makes up the graphic representation of the class Map. It
@@ -33,7 +34,7 @@ public class GraphicPanel extends JPanel implements Observer {
 	private GameMap theMap;
 	
 	//images of the character and the ground
-	private BufferedImage character, grass1, grass2;
+	private BufferedImage character, grass1, grass2, dirt, mountain, tree, water, fort, shore, bridge, bridgeEntry;
 
 	public GraphicPanel(GameMap theMap) {
 		this.theMap = theMap;
@@ -48,8 +49,6 @@ public class GraphicPanel extends JPanel implements Observer {
 	private void loadImages() {
 		try {
 			character = ImageIO.read(new File("images/TheHunter.png"));
-			grass1 = ImageIO.read(new File("images/grass1.png"));
-			grass2 = ImageIO.read(new File("images/grass2.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,13 +96,9 @@ public class GraphicPanel extends JPanel implements Observer {
 	 * @see java.awt.Graphics#drawImage(Image, int, int, Observer)
 	 */
 	public void drawTile(Graphics g, Terrain terrainPiece, int x, int y) {
-		g.drawImage(grass1, x, y, 16, 16, null);
-		g.drawImage(grass2, x+16, y, 16, 16, null);
-		g.drawImage(grass1, x, y+16, 16, 16, null);
-		g.drawImage(grass2, x+16, y+16, 16, 16, null);
+		g.drawImage(terrainPiece.getGraphic(), x, y, 32, 32, null);
 		if(terrainPiece.getUnit() != null) {
 			g.drawImage(character, x, y, 32, 32, null);
 		}
 	}
-
 }
