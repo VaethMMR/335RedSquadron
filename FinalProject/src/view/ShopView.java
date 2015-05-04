@@ -148,18 +148,24 @@ public class ShopView extends JPanel {
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Consumable consumable = cFactory.makeConsumable(name, level);
 				theGame.getInventory().add(consumable);
+				theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - consumable.getCost());
+				theGame.getInventoryView().setUpCoins();
 				theGame.getInventoryView().setUpTable(theGame.getInventory());
 			}else if(table.getSelectedRow() < 12){
 				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Weapon weapon = factory.makeWeapon(name, level);
 				theGame.getInventory().add(weapon);
+				theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - weapon.getCost());
+				theGame.getInventoryView().setUpCoins();
 				theGame.getInventoryView().setUpTable(theGame.getInventory());
 			}else{
 				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Trap trap = tFactory.makeTrap(name, level);
 				theGame.getInventory().add(trap);
+				theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - trap.getCost());
+				theGame.getInventoryView().setUpCoins();
 				theGame.getInventoryView().setUpTable(theGame.getInventory());
 			}
 		}

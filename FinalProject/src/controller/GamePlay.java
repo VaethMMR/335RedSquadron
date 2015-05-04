@@ -2,10 +2,15 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -92,7 +97,7 @@ public class GamePlay extends JFrame {
 
 		
 		// Set up the Inventory
-		inventory = new Inventory(25);
+		inventory = new Inventory(25, 50);
 		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
 		tabPane.add(inventoryView, "Inventory");
