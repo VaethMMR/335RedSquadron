@@ -10,17 +10,29 @@ import javax.imageio.ImageIO;
 public class Shore extends Terrain {
 	// private variables
 	private BufferedImage graphic;
+	private static BufferedImage shore1;
+	private static BufferedImage shore2;
+	private static BufferedImage shore3;
+	private static BufferedImage shore4;
+	private static BufferedImage water1;
+	private static BufferedImage water2;
+	static {
+		try {
+			shore1 = ImageIO.read(new File("images/shore1.png"));
+			shore2 = ImageIO.read(new File("images/shore2.png"));
+			shore3 = ImageIO.read(new File("images/shore3.png"));
+			shore4 = ImageIO.read(new File("images/shore4.png"));
+			water1 = ImageIO.read(new File("images/water1.png"));
+			water2 = ImageIO.read(new File("images/water2.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Shore.java");
+		}
+	}
 
 	// constructor
 	public Shore(int[] location) throws IOException {
-		super(true, location);
-		BufferedImage shore1 = ImageIO.read(new File("images/shore1.png"));
-		BufferedImage shore2 = ImageIO.read(new File("images/shore2.png"));
-		BufferedImage shore3 = ImageIO.read(new File("images/shore3.png"));
-		BufferedImage shore4 = ImageIO.read(new File("images/shore4.png"));
-		BufferedImage water1 = ImageIO.read(new File("images/water1.png"));
-		BufferedImage water2 = ImageIO.read(new File("images/water2.png"));
-		this.graphic = buildGraphic(shore1, shore2, shore3, shore4, water1, water2);
+		super(false, location);
+		this.graphic = buildGraphic();
 	}
 
 	// get methods
@@ -29,8 +41,7 @@ public class Shore extends Terrain {
 	}
 
 	// misc methods
-	private BufferedImage buildGraphic(BufferedImage shore1,
-			BufferedImage shore2, BufferedImage shore3, BufferedImage shore4, BufferedImage water1, BufferedImage water2) {
+	private BufferedImage buildGraphic() {
 		// combine the two types of mini Grass images in random order to create
 		// a randomized full size Grass tile graphic
 		Random randomizer = new Random();

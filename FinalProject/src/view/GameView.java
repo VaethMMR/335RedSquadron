@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,21 +15,19 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
-import terrain.Terrain;
 import ai.AI;
-import ai.AttackPlayer;
-import ai.Roam;
 import controller.GamePlay;
-import model.Inventory;
+import exceptions.TileNotStandableException;
+import exceptions.TileOccupiedException;
 import model.Melee;
 import model.Unit;
 import model.Weapon;
 
+@SuppressWarnings("serial") // TODO: It's warning that we need a serial ID here,
+							// but don't we only need that in Model?
 public class GameView extends JPanel {
-	private JTextArea consoleUI;
 	private GamePlay theGame;
 	private JList<String> playerUnits;
 	private JList<String> inRangeUnits;
@@ -42,13 +39,7 @@ public class GameView extends JPanel {
 	// constructor
 	public GameView(GamePlay theGame) {
 		this.theGame = theGame;
-		this.setLayout(new BorderLayout());//setup our layout manager
-		
-		// Set up the console
-		/*consoleUI = new JTextArea();
-		consoleUI.setEditable(false);
-		consoleUI.setFont(new Font("monospaced", Font.PLAIN, 12));
-		add(consoleUI, BorderLayout.NORTH);*/
+		this.setLayout(new BorderLayout());
 		
 		// Set up the GUI
 		graphics = new GraphicPanel(theGame.getMap());
@@ -106,19 +97,12 @@ public class GameView extends JPanel {
 	}
 	
 	// getters and setters
-	public JTextArea getConsole() {
-		return consoleUI;
-	}
-	
-	public void setConsole(String consoleOutput) {
-		consoleUI.setText(consoleOutput);
-	}
 	
 	// misc methods
 	private void setupPlayerList(List<Unit> units) {		
-		//first clear the list to make sure we don't duplicate Units
+		// first clear the list to make sure we don't duplicate Units
 		playerUnitsModel.clear();
-		//now add all the memories we want
+		// now add the Units from the units List back into the ListModel
 		for(Unit i : units){
 			String listItem= i.getName();
 			//now add the element
@@ -201,11 +185,16 @@ public class GameView extends JPanel {
 				String coordinateText = coordinateEntry.getText().substring(1,coordinateEntry.getText().length()-1);
 				int commaIndex = coordinateText.indexOf(",");
 				int[] coordinates = new int[] {Integer.parseInt(coordinateText.substring(0,commaIndex)), Integer.parseInt(coordinateText.substring(commaIndex+1,coordinateText.length()))};
-				boolean moved = theGame.getMap().moveUnit(theUnit, coordinates);
-				if (moved) {
-					//setConsole(theGame.getMap().returnMap());
-					units.remove(theUnit);
-					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
+				try {
+					boolean moved = theGame.getMap().moveUnit(theUnit, coordinates);
+					if (moved) {
+						units.remove(theUnit);
+						playerUnitsModel.removeElement(playerUnits.getSelectedValue());
+					}
+				} catch (TileOccupiedException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				} catch (TileNotStandableException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		}
@@ -262,7 +251,6 @@ public class GameView extends JPanel {
 								theGame.getPlayerTeam().remove(defendingUnit);
 						else
 							theGame.getAiTeam().remove(defendingUnit);
-						setConsole(theGame.getMap().returnMap());
 					}
 					if (attackingUnit.getCurrentHp() < 1) {
 						// figure out which team the dead Unit is on
@@ -271,7 +259,6 @@ public class GameView extends JPanel {
 							theGame.getPlayerTeam().remove(attackingUnit);
 					else
 						theGame.getAiTeam().remove(attackingUnit);
-						setConsole(theGame.getMap().returnMap());
 					}
 					units.remove(attackingUnit);
 					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
@@ -296,9 +283,7 @@ public class GameView extends JPanel {
 					JOptionPane.showMessageDialog(null, " Defeated!\nYour team has been destroyed.");
 					break;
 				}
-			setConsole(theGame.getMap().returnMap());
 			}
-			setConsole(theGame.getMap().returnMap());
 			setupPlayerList(theGame.getMap().getPlayerTeam());
 		}
 	}

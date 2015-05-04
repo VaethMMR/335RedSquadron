@@ -6,20 +6,26 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class rightGate extends Terrain {
+public class RightGate extends Terrain {
 
 	// private variables
-	private BufferedImage graphic;
+	private static BufferedImage graphic;
+	static {
+		try {
+			graphic = ImageIO.read(new File("images/rightGate.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in RightGate.java");
+		}
+	}
 
 	// constructor
-	public rightGate(int[] location) throws IOException {
+	public RightGate(int[] location) throws IOException {
 		super(true, location);
-		this.graphic = ImageIO.read(new File("images/rightGate.png"));
 	}
 
 	// get methods
 	public BufferedImage getGraphic() {
-		return this.graphic;
+		return graphic;
 	}
 
 }

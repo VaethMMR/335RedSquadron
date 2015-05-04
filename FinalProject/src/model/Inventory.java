@@ -1,6 +1,8 @@
 package model;
 import java.util.*;
 
+import exceptions.InventoryFullException;
+
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
@@ -31,13 +33,11 @@ public class Inventory {
 	}
 
 	// misc methods
-	public boolean add(Item newItem) {
+	public void add(Item newItem) {
 		if (this.inventory.size() < maxSize) {
 			this.inventory.add(newItem);
-			return true;
 		} else {
-			// TODO: Maybe throw some exception thing?
-			return false;
+			throw new InventoryFullException();
 		}
 	}
 	

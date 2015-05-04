@@ -12,12 +12,19 @@ import javax.imageio.ImageIO;
 public class Dirt extends Terrain {
 	// private variables
 	private BufferedImage graphic;
+	private static BufferedImage dirt;
+	static {
+		try {
+			dirt = ImageIO.read(new File("images/dirt.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Dirt.java");
+		}
+	}
 
 	// constructor
 	public Dirt(int[] location) throws IOException {
 		super(true, location);
-		BufferedImage dirt = ImageIO.read(new File("images/dirt.png"));
-		this.graphic = buildGraphic(dirt);
+		this.graphic = buildGraphic();
 	}
 
 	// get methods
@@ -26,7 +33,7 @@ public class Dirt extends Terrain {
 	}
 
 	// misc methods
-	private BufferedImage buildGraphic(BufferedImage dirt) {
+	private BufferedImage buildGraphic() {
 		// combine mini dirt images in random rotations to create
 		// a randomized full size Dirt tile graphic
 		// Drawing the rotated image at the required drawing locations

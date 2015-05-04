@@ -17,6 +17,8 @@ import view.InventoryView;
 import view.ShopView;
 import model.*;
 
+@SuppressWarnings("serial") // It's warning that we need a serial ID here,
+							// but don't we only need that in Model?
 public class GamePlay extends JFrame {
 	// private variables
 	private GameMap map;
@@ -69,19 +71,36 @@ public class GamePlay extends JFrame {
 		this.console = new view.GameView(this);
 		
 		// place units on map
-		map.placeUnit(playerTeam.get(0), new int[]{0,9});
-		map.placeUnit(playerTeam.get(1), new int[]{1,9});
-		map.placeUnit(playerTeam.get(2), new int[]{1,8});
-		map.placeUnit(playerTeam.get(3), new int[]{1,10});
-		map.placeUnit(playerTeam.get(4), new int[]{2,8});
-		map.placeUnit(playerTeam.get(5), new int[]{2,10});
-		
-		map.placeUnit(aiTeam.get(0), new int[]{19,29});
-		map.placeUnit(aiTeam.get(1), new int[]{18,29});
-		map.placeUnit(aiTeam.get(2), new int[]{19,28});
-		map.placeUnit(aiTeam.get(3), new int[]{18,28});
-		map.placeUnit(aiTeam.get(4), new int[]{19,27});
-		map.placeUnit(aiTeam.get(5), new int[]{17,29});
+		int playerCounter = 1;
+		int aiCounter = 1;
+		for (int i = 0; i < this.getMap().getRows(); i++) {
+			for (int j = 0; j < this.getMap().getColumns(); j++) {
+				if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+					break;
+				}
+				if (this.getMap().getMap()[i][j].getPlayerSpawnPoint()) {
+					if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+						break;
+					}
+					if (this.getMap().getMap()[i][j].getHeroSpawnPoint()) {
+						map.placeUnit(playerTeam.get(0), new int[]{i,j});
+					} else {
+						map.placeUnit(playerTeam.get(playerCounter), new int[]{i,j});
+						playerCounter++;
+					}
+				} else if (this.getMap().getMap()[i][j].getAiSpawnPoint()) {
+					if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+						break;
+					}
+					if (this.getMap().getMap()[i][j].getHeroSpawnPoint()) {
+						map.placeUnit(aiTeam.get(0), new int[]{i,j});
+					} else {
+						map.placeUnit(aiTeam.get(aiCounter), new int[]{i,j});
+						aiCounter++;
+					}
+				}
+			}
+		}
 		
 		this.model = new Model(this);
 		ai = new AI(aiTeam, model);

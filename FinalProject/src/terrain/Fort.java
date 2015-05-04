@@ -8,17 +8,23 @@ import javax.imageio.ImageIO;
 
 public class Fort extends Terrain {
 	// private variables
-	private BufferedImage graphic;
+	private static BufferedImage graphic;
+	static {
+		try {
+			graphic = ImageIO.read(new File("images/fort.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Fort.java");
+		}
+	}
 
 	// constructor
 	public Fort(int[] location) throws IOException {
 		super(false, location);
-		this.graphic = ImageIO.read(new File("images/fort.png"));
 	}
 
 	// get methods
 	public BufferedImage getGraphic() {
-		return this.graphic;
+		return graphic;
 	}
 
 }

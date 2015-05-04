@@ -8,17 +8,23 @@ import javax.imageio.ImageIO;
 
 public class Bridge extends Terrain {
 	// private variables
-	private BufferedImage graphic;
+	private static BufferedImage graphic;
+	static {
+		try {
+			graphic = ImageIO.read(new File("images/bridge.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Bridge.java");
+		}
+	}
 
 	// constructor
 	public Bridge(int[] location) throws IOException {
 		super(true, location);
-		this.graphic = ImageIO.read(new File("images/bridge.png"));
 	}
 
 	// get methods
 	public BufferedImage getGraphic() {
-		return this.graphic;
+		return graphic;
 	}
 
 }

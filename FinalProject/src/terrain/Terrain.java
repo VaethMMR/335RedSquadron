@@ -1,13 +1,9 @@
 package terrain;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-// 335 Final Project - Red Squadron
-// Authors: Alex Guyot and John Oney
-
+import exceptions.TileNotStandableException;
+import exceptions.TileOccupiedException;
 import model.Item;
 import model.Unit;
 
@@ -16,6 +12,10 @@ public abstract class Terrain {
 	private Unit unit;
 	private Item item;
 	private boolean standable;
+	private boolean playerSpawnPoint;
+	private boolean aiSpawnPoint;
+	private boolean heroSpawnPoint;
+	private boolean highlighted = false;
 	private int[] location;
 	
 	// constructor
@@ -31,13 +31,15 @@ public abstract class Terrain {
 		return this.unit;
 	}
 	
-	public boolean setUnit(Unit newUnit) {
+	public void setUnit(Unit newUnit) {
 		if (this.unit == null) {
-			this.unit = newUnit;
-			return true;
+			if (this.standable) {
+				this.unit = newUnit;
+			} else {
+				throw new TileNotStandableException();
+			}
 		} else {
-			// TODO: throw a space full exception
-			return false;
+			throw new TileOccupiedException();
 		}
 	}
 	
@@ -45,8 +47,40 @@ public abstract class Terrain {
 		return this.standable;
 	}
 	
+	public boolean getPlayerSpawnPoint() {
+		return this.playerSpawnPoint;
+	}
+	
+	public void setPlayerSpawnPoint(boolean spawnPoint) {
+		this.playerSpawnPoint = spawnPoint;
+	}
+	
+	public boolean getAiSpawnPoint() {
+		return this.aiSpawnPoint;
+	}
+	
+	public void setAiSpawnPoint(boolean spawnPoint) {
+		this.aiSpawnPoint = spawnPoint;
+	}
+	
+	public boolean getHeroSpawnPoint() {
+		return this.heroSpawnPoint;
+	}
+	
+	public void setHeroSpawnPoint(boolean spawnPoint) {
+		this.heroSpawnPoint = spawnPoint;
+	}
+	
 	public int[] getLocation() {
 		return this.location;
+	}
+	
+	public boolean getHighlighted() {
+		return this.highlighted;
+	}
+	
+	public void setHighLighted(boolean highlighted) {
+		this.highlighted = highlighted;
 	}
 	
 	public abstract BufferedImage getGraphic();
@@ -56,15 +90,6 @@ public abstract class Terrain {
 		Unit moveUnit = this.unit;
 		this.unit = null;
 		return moveUnit;
-	}
-	
-	private void buildImage() {
-		try {
-			BufferedImage piece1 = ImageIO.read(new File("images/grass1.png"));
-			BufferedImage piece2 = ImageIO.read(new File("images/grass2.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public String toString() {

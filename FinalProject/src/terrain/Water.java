@@ -10,13 +10,21 @@ import javax.imageio.ImageIO;
 public class Water extends Terrain {
 	// private variables
 	private BufferedImage graphic;
+	private static BufferedImage water1;
+	private static BufferedImage water2;
+	static {
+		try {
+			water1 = ImageIO.read(new File("images/water1.png"));
+			water2 = ImageIO.read(new File("images/water2.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Water.java");
+		}
+	}
 
 	// constructor
 		public Water(int[] location) throws IOException {
-			super(true, location);
-			BufferedImage water1 = ImageIO.read(new File("images/water1.png"));
-			BufferedImage water2 = ImageIO.read(new File("images/water2.png"));
-			this.graphic = buildGraphic(water1, water2);
+			super(false, location);
+			this.graphic = buildGraphic();
 		}
 
 		// get methods
@@ -25,8 +33,7 @@ public class Water extends Terrain {
 		}
 
 		// misc methods
-		private BufferedImage buildGraphic(BufferedImage water1,
-				BufferedImage water2) {
+		private BufferedImage buildGraphic() {
 			// combine the two types of mini Grass images in random order to create
 			// a randomized full size Grass tile graphic
 			Random randomizer = new Random();

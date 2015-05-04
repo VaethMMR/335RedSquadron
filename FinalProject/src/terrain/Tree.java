@@ -10,15 +10,25 @@ import javax.imageio.ImageIO;
 public class Tree extends Terrain {
 	// private variables
 	private BufferedImage graphic;
+	private static BufferedImage tree1;
+	private static BufferedImage tree2;
+	private static BufferedImage tree3;
+	private static BufferedImage tree4;
+	static {
+		try {
+			tree1 = ImageIO.read(new File("images/tree1.png"));
+			tree2 = ImageIO.read(new File("images/tree2.png"));
+			tree3 = ImageIO.read(new File("images/tree3.png"));
+			tree4 = ImageIO.read(new File("images/tree4.png"));
+		} catch (IOException e) {
+			System.out.println("Image file not found in Tree.java");
+		}
+	}
 
 	// constructor
 	public Tree(int[] location) throws IOException {
 		super(false, location);
-		BufferedImage tree1 = ImageIO.read(new File("images/tree1.png"));
-		BufferedImage tree2 = ImageIO.read(new File("images/tree2.png"));
-		BufferedImage tree3 = ImageIO.read(new File("images/tree3.png"));
-		BufferedImage tree4 = ImageIO.read(new File("images/tree4.png"));
-		this.graphic = buildGraphic(tree1, tree2, tree3, tree4);
+		this.graphic = buildGraphic();
 	}
 
 	// get methods
@@ -27,7 +37,7 @@ public class Tree extends Terrain {
 	}
 	
 	// misc methods
-		private BufferedImage buildGraphic(BufferedImage tree1, BufferedImage tree2, BufferedImage tree3, BufferedImage tree4) {
+		private BufferedImage buildGraphic() {
 			// combine the two types of mini Grass images in random order to create
 			// a randomized full size Grass tile graphic
 			Random randomizer = new Random();
