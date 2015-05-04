@@ -151,6 +151,8 @@ public class ShopView extends JPanel {
 				Consumable consumable = cFactory.makeConsumable(name, level);
 				try {
 					theGame.getInventory().add(consumable);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - consumable.getCost());
+					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());
@@ -161,6 +163,8 @@ public class ShopView extends JPanel {
 				Weapon weapon = factory.makeWeapon(name, level);
 				try {
 					theGame.getInventory().add(weapon);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - weapon.getCost());
+					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());
@@ -171,6 +175,8 @@ public class ShopView extends JPanel {
 				Trap trap = tFactory.makeTrap(name, level);
 				try {
 					theGame.getInventory().add(trap);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - trap.getCost());
+					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());

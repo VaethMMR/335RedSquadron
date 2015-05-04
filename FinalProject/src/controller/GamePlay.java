@@ -112,7 +112,7 @@ public class GamePlay extends JFrame {
 
 		
 		// Set up the Inventory
-		inventory = new Inventory(25);
+		inventory = new Inventory(25, 50);
 		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
 		tabPane.add(inventoryView, "Inventory");
