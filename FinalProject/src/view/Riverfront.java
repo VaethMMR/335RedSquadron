@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Graphics;
-
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import model.GameMap;
 import objects.*;
 import sprites.Sprite.State;
 
@@ -38,14 +38,14 @@ public class Riverfront {
 	private SpriteObject darkSage;
 	private SpriteObject saint;
 	private SpriteObject general;
-
+	private GraphicPanel riverfront;
 	private SpriteObject cursor;
 	private JFrame frame;
 	private JPanel panel;
 	private Timer animTimer;
 
 	public Riverfront() {
-
+		riverfront = (GraphicPanel) panel;
 		keySet = new TreeSet<Character>();
 		
 		hero = new MapHero(576, 512);
@@ -128,7 +128,8 @@ public class Riverfront {
 		cursor.start();
 
 		// creates the panel that actually draws the sprites
-		panel = new JPanel() {
+		//GameMap map = new GameMap();
+		panel = new GraphicPanel(null) {
 			/**
 			 * 
 			 */

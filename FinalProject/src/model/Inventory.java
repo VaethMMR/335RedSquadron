@@ -1,8 +1,6 @@
 package model;
 import java.util.*;
 
-import exceptions.InventoryFullException;
-
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
@@ -10,43 +8,36 @@ public class Inventory {
 	// private variables
 	private List<Item> inventory;
 	private int maxSize;
-	private int numCoins;
 
 	// constructors
 	// TODO: Default max size? Pass in Inventory?
-	public Inventory(int maxSize, int numCoins) {
+	public Inventory(int maxSize) {
 		this.inventory = new ArrayList<Item>();
 		this.maxSize = maxSize;
-		this. numCoins = numCoins;
 	}
 	
-	public Inventory(ArrayList<Item> inventory, int maxSize, int numCoins) {
+	public Inventory(ArrayList<Item> inventory, int maxSize) {
 		this.inventory = inventory;
 		this.maxSize = maxSize;
-		this.numCoins = numCoins;
 	}
 	
 	// getters and setters
 	public List<Item> getInventory() {
 		return this.inventory;
 	}
-	public int getNumCoins(){
-		return this.numCoins;
-	}
 	
 	public void setInventory(ArrayList<Item> newInventory) {
 		this.inventory = newInventory;
 	}
-	public void setNumCoins(int numCoins){
-		this.numCoins = numCoins;
-	}
 
 	// misc methods
-	public void add(Item newItem) {
+	public boolean add(Item newItem) {
 		if (this.inventory.size() < maxSize) {
 			this.inventory.add(newItem);
+			return true;
 		} else {
-			throw new InventoryFullException();
+			// TODO: Maybe throw some exception thing?
+			return false;
 		}
 	}
 	

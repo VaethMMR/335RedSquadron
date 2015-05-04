@@ -4,7 +4,7 @@ import sprites.AxereaverSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapAxereaver extends SpriteObject{
 	public MapAxereaver(int x, int y){
-		super(new AxereaverSprite(), x, y, 100);
+		super(new AxereaverSprite(), null, x, y, 100);
 	}
 	
 	@Override
