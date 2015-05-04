@@ -4,7 +4,7 @@ import sprites.DruidSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapDruid extends SpriteObject{
 	public MapDruid(int x, int y){
-		super(new DruidSprite(), null, x, y, 100);
+		super(new DruidSprite(), x, y, 100);
 	}
 	
 	@Override

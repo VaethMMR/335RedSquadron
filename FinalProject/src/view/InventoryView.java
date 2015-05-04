@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 
 import model.Inventory;
@@ -32,6 +35,7 @@ public class InventoryView extends JPanel {
 	private JList<String> playerUnits;
 	private DefaultListModel<String> playerUnitsModel;
 	private Weapon weapon;
+	private JToggleButton numCoins;
 
 	public InventoryView(Inventory theInventory, GamePlay theGame) {
 		this.theGame = theGame;
@@ -48,7 +52,7 @@ public class InventoryView extends JPanel {
 		table.setOpaque(true);
 		table.setFillsViewportHeight(true);
 		table.setBackground(ivory);
-		table.setRowHeight(55);
+		table.setRowHeight(45);
 		add(table);
 		table.setCellSelectionEnabled(true);
 		table.addMouseListener(new MouseAdapter());
@@ -71,7 +75,7 @@ public class InventoryView extends JPanel {
 		JButton equip = new JButton("Use");
 		JPanel bottomPanel = new JPanel();
 		add(bottomPanel);
-		bottomPanel.setLayout(new GridLayout(1,2));
+		bottomPanel.setLayout(new GridLayout(1,3));
 		
 		playerUnitsModel = new DefaultListModel<String>();
 		playerUnits = new JList<String>(playerUnitsModel);
@@ -81,6 +85,9 @@ public class InventoryView extends JPanel {
 		
 		bottomPanel.add(equip);
 		equip.addActionListener(new ButtonListener());
+		numCoins = new JToggleButton("Coins: " + theInventory.getNumCoins());
+		numCoins.setEnabled(false);
+		bottomPanel.add(numCoins);
 		
 		setupInventoryList(theGame.getPlayerTeam());
 
@@ -101,6 +108,10 @@ public class InventoryView extends JPanel {
 		}
 	}
 	
+	public void setUpCoins(){
+		numCoins.setText("Coins: " + theInventory.getNumCoins());
+	}
+	
 	public void setupInventoryList(List<Unit> units) {		
 		//first clear the list to make sure we don't duplicate Units
 		playerUnitsModel.clear();
@@ -119,12 +130,12 @@ public class InventoryView extends JPanel {
 			if ((table.getValueAt(table.getSelectedRow(),
 					table.getSelectedColumn()) != null)) {
 				weapon = null;
-				String weaponName = (String) table.getValueAt(
+				String name = (String) table.getValueAt(
 						table.getSelectedRow(), table.getSelectedColumn());
 
 				List<Item> inventoryList = theInventory.getInventory();
 				for (Item i : inventoryList) {
-					if (i.getName() == weaponName) {
+					if (i.getName() == name) {
 						weapon = (Weapon) i;
 					}
 				}

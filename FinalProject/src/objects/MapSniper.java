@@ -4,7 +4,7 @@ import sprites.SniperSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapSniper extends SpriteObject{
 	public MapSniper(int x, int y){
-		super(new SniperSprite(), null, x, y, 100);
+		super(new SniperSprite(), x, y, 100);
 	}
 	
 	@Override
