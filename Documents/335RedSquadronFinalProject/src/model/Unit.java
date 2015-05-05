@@ -133,8 +133,8 @@ public class Unit {
    }
    
    public void die(){
-      //remove unit from the map
-		JOptionPane.showMessageDialog(null, this.getName() + " is dead");
+	   //remove unit from the map
+	   JOptionPane.showMessageDialog(null, this.getName() + " is dead");
    }
    //level up will take growth rates, then use random number generator and adjust stats as needed. will return 1 always. 
    public int levelup(int hp1, int str, int mag, int sk, int spd, int luk, int def, int res){

@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import view.InventoryView;
 import view.ShopView;
 import model.*;
 
+@SuppressWarnings("serial") // It's warning that we need a serial ID here,
+							// but don't we only need that in Model?
 public class GamePlay extends JFrame {
 	// private variables
 	private GameMap map;
@@ -28,13 +31,13 @@ public class GamePlay extends JFrame {
 	private InventoryView inventoryView;
 	
 	// constructor
-	public GamePlay() {
+	public GamePlay() throws IOException {
 		
 		// make player team
 		playerTeam = new ArrayList<Unit>();
 		Unit playerHero = new Hero("PlayerHero", null, 20, 15, 15, 10, 15, 15, 15, 15, 15, 1);
-		Unit playerMelee = new Axereaver("PlayerMelee", null, 1, 1, 50, 1, 1, 1, 1, 1, 0, 1);
-		Unit playerRanged = new Marksman("PlayerRanged", null, 1, 1, 50, 1, 1, 1, 1, 1, 1, 5);
+		Unit playerMelee = new Axereaver("PlayerMelee", null, 1, 1, 10, 1, 1, 1, 1, 1, 0, 1);
+		Unit playerRanged = new Marksman("PlayerRanged", null, 1, 1, 10, 1, 1, 1, 1, 1, 1, 5);
 		Unit playerSaint = new Saint("PlayerSaint", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 2);
 		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3);
 		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);
@@ -68,19 +71,36 @@ public class GamePlay extends JFrame {
 		this.console = new view.GameView(this);
 		
 		// place units on map
-		map.placeUnit(playerTeam.get(0), new int[]{0,0});
-		map.placeUnit(playerTeam.get(1), new int[]{1,0});
-		map.placeUnit(playerTeam.get(2), new int[]{0,1});
-		map.placeUnit(playerTeam.get(3), new int[]{1,1});
-		map.placeUnit(playerTeam.get(4), new int[]{0,2});
-		map.placeUnit(playerTeam.get(5), new int[]{2,0});
-		
-		map.placeUnit(aiTeam.get(0), new int[]{19,29});
-		map.placeUnit(aiTeam.get(1), new int[]{18,29});
-		map.placeUnit(aiTeam.get(2), new int[]{19,28});
-		map.placeUnit(aiTeam.get(3), new int[]{18,28});
-		map.placeUnit(aiTeam.get(4), new int[]{19,27});
-		map.placeUnit(aiTeam.get(5), new int[]{17,29});
+		int playerCounter = 1;
+		int aiCounter = 1;
+		for (int i = 0; i < this.getMap().getRows(); i++) {
+			for (int j = 0; j < this.getMap().getColumns(); j++) {
+				if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+					break;
+				}
+				if (this.getMap().getMap()[i][j].getPlayerSpawnPoint()) {
+					if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+						break;
+					}
+					if (this.getMap().getMap()[i][j].getHeroSpawnPoint()) {
+						map.placeUnit(playerTeam.get(0), new int[]{i,j});
+					} else {
+						map.placeUnit(playerTeam.get(playerCounter), new int[]{i,j});
+						playerCounter++;
+					}
+				} else if (this.getMap().getMap()[i][j].getAiSpawnPoint()) {
+					if (playerCounter > playerTeam.size() && aiCounter > aiTeam.size()) {
+						break;
+					}
+					if (this.getMap().getMap()[i][j].getHeroSpawnPoint()) {
+						map.placeUnit(aiTeam.get(0), new int[]{i,j});
+					} else {
+						map.placeUnit(aiTeam.get(aiCounter), new int[]{i,j});
+						aiCounter++;
+					}
+				}
+			}
+		}
 		
 		this.model = new Model(this);
 		ai = new AI(aiTeam, model);
@@ -92,7 +112,7 @@ public class GamePlay extends JFrame {
 
 		
 		// Set up the Inventory
-		inventory = new Inventory(25);
+		inventory = new Inventory(25, 50);
 		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
 		tabPane.add(inventoryView, "Inventory");
@@ -146,26 +166,11 @@ public class GamePlay extends JFrame {
 	}
 	
 	// misc methods
-	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
-		//int currentPosition = ;
-		return true;
-	}
-	
-	public boolean removeUnit(Unit toRemove) {
-		//return this.getPlayerTeam().remove(toRemove);
-		return true;
-	}
 	
 	// main method
-	public static void main(String[] arg) {
+	public static void main(String[] arg) throws IOException {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
-				
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
-
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
-		
-		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
 		}
 
 }
