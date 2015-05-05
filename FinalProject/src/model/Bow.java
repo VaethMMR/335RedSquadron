@@ -4,7 +4,7 @@ package model;
 
 public class Bow extends Weapon {
 
-	public Bow(int level, String name) {
-		super(name, level);
+	public Bow(int cost, String name) {
+		super(name, cost);
 	}
 }

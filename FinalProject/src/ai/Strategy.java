@@ -1,10 +1,9 @@
 package ai;
 
-import java.util.List;
-
-import model.*;
+import model.Model;
+import model.Unit;
 
 public interface Strategy {
 
-	public void strategy(Unit u, GameMap map, List<GridNode> path);
+	public void strategy(Unit u, Model m);
 }

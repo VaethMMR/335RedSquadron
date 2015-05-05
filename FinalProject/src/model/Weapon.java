@@ -10,12 +10,11 @@ private int cost;
 private int range;
 private int level;
 private int magic;
-private int weight;
-private String name;
 
    public Weapon(String name, int level){
 	   super(name,level);
-	   setName("Lvl " + level +" " + name);	
+	   setName("Lvl " + level +" " + name);
+
    }
 
    // get Methods         
@@ -43,19 +42,7 @@ private String name;
 	   return magic;
    }
    
-   public int getWeight(){
-	  return weight; 
-   }
-   
-   public String getName(){
-	   return name;
-   }
-   
    // Set Methods
-   
-   public void setLevel(int level){
-   		this.level = level;
-   }
    public void setMight(int might){
 	   this.might = might;
    }
@@ -75,7 +62,4 @@ private String name;
 	   this.magic = magic;
    }
 
-   public void setWeight(int weight){
-   this.weight = weight;
-   }
 }

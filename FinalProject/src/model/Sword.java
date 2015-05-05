@@ -4,8 +4,8 @@ package model;
 
 public class Sword extends Weapon{
 
-	public Sword(int level, String name) {
-		super(name, level);
+	public Sword(int cost, String name) {
+		super(name, cost);
 	}
 
 }
