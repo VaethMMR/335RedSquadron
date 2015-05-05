@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +21,7 @@ import model.TrapFactory;
 import model.Weapon;
 import model.WeaponFactory;
 import controller.GamePlay;
+import exceptions.InventoryFullException;
 
 public class ShopView extends JPanel {
 	private GamePlay theGame;
@@ -34,7 +36,7 @@ public class ShopView extends JPanel {
 
 	public ShopView(GamePlay theGame) {
 		this.theGame = theGame;
-		this.factory = new WeaponFactory(null);
+		this.factory = new WeaponFactory();
 		this.cFactory = new ConsumableFactory();
 		this.tFactory = new TrapFactory();
 		this.setLayout(new GridLayout(3,1));
@@ -147,20 +149,38 @@ public class ShopView extends JPanel {
 				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Consumable consumable = cFactory.makeConsumable(name, level);
-				theGame.getInventory().add(consumable);
-				theGame.getInventoryView().setUpTable(theGame.getInventory());
+				try {
+					theGame.getInventory().add(consumable);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - consumable.getCost());
+					theGame.getInventoryView().setUpCoins();
+					theGame.getInventoryView().setUpTable(theGame.getInventory());
+				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				}
 			}else if(table.getSelectedRow() < 12){
 				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Weapon weapon = factory.makeWeapon(name, level);
-				theGame.getInventory().add(weapon);
-				theGame.getInventoryView().setUpTable(theGame.getInventory());
+				try {
+					theGame.getInventory().add(weapon);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - weapon.getCost());
+					theGame.getInventoryView().setUpCoins();
+					theGame.getInventoryView().setUpTable(theGame.getInventory());
+				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				}
 			}else{
 				String name = (String) table.getValueAt(table.getSelectedRow(), 0);
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Trap trap = tFactory.makeTrap(name, level);
-				theGame.getInventory().add(trap);
-				theGame.getInventoryView().setUpTable(theGame.getInventory());
+				try {
+					theGame.getInventory().add(trap);
+					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - trap.getCost());
+					theGame.getInventoryView().setUpCoins();
+					theGame.getInventoryView().setUpTable(theGame.getInventory());
+				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				}
 			}
 		}
 		
