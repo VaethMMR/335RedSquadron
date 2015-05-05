@@ -1,10 +1,10 @@
 package model;
 
-public abstract class SpellCaster extends Ranged {
+public class SpellCaster extends Ranged {
 
 
-   public SpellCaster(String myName, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
-      super(myName, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
+   public SpellCaster(String myName, String myType, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
+      super(myName, myType, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
    }
 
    public boolean heal(Unit other){
@@ -17,7 +17,5 @@ public abstract class SpellCaster extends Ranged {
       return true;
    }
 
-   protected abstract void setWeapon();
-   public abstract Weapon getWeapon();
 
 }

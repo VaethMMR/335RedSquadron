@@ -38,14 +38,14 @@ public class Riverfront {
 	private SpriteObject darkSage;
 	private SpriteObject saint;
 	private SpriteObject general;
-	private GraphicPanel riverfront;
+
 	private SpriteObject cursor;
 	private JFrame frame;
 	private JPanel panel;
 	private Timer animTimer;
 
-	public Riverfront(GraphicPanel graphic) {
-		riverfront = graphic;
+	public Riverfront() {
+
 		keySet = new TreeSet<Character>();
 		
 		hero = new MapHero(576, 512);
@@ -241,6 +241,6 @@ public class Riverfront {
 		animTimer.start();
 	}
 	public static void main(String[] args) {
-		//new Riverfront();	
+		new Riverfront();	
 	}
 }

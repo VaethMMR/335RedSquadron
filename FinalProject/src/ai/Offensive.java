@@ -1,9 +1,8 @@
 package ai;
 
-import java.util.List;
-
-import model.*;
+import model.Model;
+import model.Unit;
 
 public interface Offensive extends Strategy {
-	public void strategy(Unit unit, GameMap map, List<GridNode> path);
+	public void strategy(Unit unit, Model model);
 }

@@ -35,6 +35,9 @@ public class Consumable extends Item{
    public int getResistance(){
 	   return this.resistance;
    }
+   public int getCost(){
+	   return this.cost;
+   }
    
    // setters
    public void setCost(int cost){
