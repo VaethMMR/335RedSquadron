@@ -15,7 +15,8 @@ public abstract class Terrain {
 	private boolean playerSpawnPoint;
 	private boolean aiSpawnPoint;
 	private boolean heroSpawnPoint;
-	private boolean highlighted = false;
+	private boolean moveHighlight = false;
+	private boolean attackHighlight = false;
 	private int[] location;
 	
 	// constructor
@@ -75,12 +76,28 @@ public abstract class Terrain {
 		return this.location;
 	}
 	
-	public boolean getHighlighted() {
-		return this.highlighted;
+	public boolean hasMoveHighlight() {
+		return this.moveHighlight;
 	}
 	
-	public void setHighLighted(boolean highlighted) {
-		this.highlighted = highlighted;
+	public void setMoveHighlighted(boolean highlighted) {
+		this.moveHighlight = highlighted;
+	}
+	
+	public boolean hasAttackHighlight() {
+		return this.attackHighlight;
+	}
+	
+	public void setAttackHighlighted(boolean highlighted) {
+		this.attackHighlight = highlighted;
+	}
+	
+	public Item getItem() {
+		return this.item;
+	}
+	
+	public void setItem(Item theItem) {
+		this.item = theItem;
 	}
 	
 	public abstract BufferedImage getGraphic();

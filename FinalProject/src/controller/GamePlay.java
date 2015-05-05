@@ -36,8 +36,8 @@ public class GamePlay extends JFrame {
 		// make player team
 		playerTeam = new ArrayList<Unit>();
 		Unit playerHero = new Hero("PlayerHero", null, 20, 15, 15, 10, 15, 15, 15, 15, 15, 1);
-		Unit playerMelee = new Axereaver("PlayerMelee", null, 1, 1, 50, 1, 1, 1, 1, 1, 0, 1);
-		Unit playerRanged = new Marksman("PlayerRanged", null, 1, 1, 50, 1, 1, 1, 1, 1, 1, 5);
+		Unit playerMelee = new Axereaver("PlayerMelee", null, 1, 1, 10, 1, 1, 1, 1, 1, 0, 1);
+		Unit playerRanged = new Marksman("PlayerRanged", null, 1, 1, 10, 1, 1, 1, 1, 1, 1, 5);
 		Unit playerSaint = new Saint("PlayerSaint", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 2);
 		Unit playerSorcerer = new Sorcerer("PlayerSorcerer", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 3);
 		Unit playerAxereaver = new Axereaver("PlayerAxereaver", null, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1);

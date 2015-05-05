@@ -19,7 +19,7 @@ public class BridgeEntry extends Terrain {
 
 	// constructor
 	public BridgeEntry(int[] location) throws IOException {
-		super(false, location);
+		super(true, location);
 	}
 
 	// get methods

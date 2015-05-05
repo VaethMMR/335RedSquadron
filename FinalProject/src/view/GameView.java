@@ -48,7 +48,7 @@ public class GameView extends JPanel {
 		// Set up the actionPanel
 		JPanel actionPanel = new JPanel();
 		actionPanel.setPreferredSize(new Dimension(260,710));
-		actionPanel.setLayout(new GridLayout(4, 2));
+		actionPanel.setLayout(new GridLayout(4, 1));
 		
 		// create JList
 		playerUnitsModel = new DefaultListModel<String>();

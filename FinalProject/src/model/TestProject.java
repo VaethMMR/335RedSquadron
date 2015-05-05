@@ -25,7 +25,7 @@ public class TestProject {
 		//newGame.getMap().moveUnit(new int[]{0,0}, new int[]{5,5});
 		newGame.getMap().printMap();
 		
-		ArrayList<Unit> unitsInGame = newGame.getMap().getUnitsOnMap();
+		ArrayList<Unit> unitsInGame = (ArrayList<Unit>) newGame.getMap().getUnitsOnMap();
 		newGame.getMap().moveUnit(unitsInGame.get(2), new int[]{4,5});
 		Runtime.getRuntime().exec("clear");
 		newGame.getMap().printMap();

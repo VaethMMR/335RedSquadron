@@ -6,10 +6,12 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import terrain.Terrain;
@@ -20,7 +22,10 @@ public class GraphicPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 321562980917862556L;
 	private GameMap theMap;
+	private Unit selectedUnit = null;
 	private BufferedImage character;
+	private BufferedImage moveHighlighter;
+	private BufferedImage attackHighlighter;
 	
 	public GraphicPanel(GameMap theMap) {
 		this.theMap = theMap;
@@ -33,6 +38,8 @@ public class GraphicPanel extends JPanel implements Observer {
 	private void loadImages() {
 		try {
 			character = ImageIO.read(new File("images/TheHunter.png"));
+			moveHighlighter = ImageIO.read(new File("images/highlight.png"));
+			attackHighlighter = ImageIO.read(new File("images/attackHighlight.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,22 +64,71 @@ public class GraphicPanel extends JPanel implements Observer {
 	}
 
 	public void drawTile(Graphics g, Terrain terrainPiece, int x, int y) {
-		if (!terrainPiece.getHighlighted()) {
+		if (!terrainPiece.hasMoveHighlight() && !terrainPiece.hasAttackHighlight() ) {
+			// if the terrain piece is not flagged for highlighting, draw it regularly
 			g.drawImage(terrainPiece.getGraphic(), x, y, 32, 32, null);
 		} else {
-			System.out.println("Highlighted");
+			// if the terrain piece is flagged for highlighting
+			if (terrainPiece.hasMoveHighlight()) {
+				// add a move highlight (blue)
+				g.drawImage(highlightTile(terrainPiece.getGraphic(), moveHighlighter), x, y, 32, 32, null);
+			} else {
+				// add an attack highlight (red)
+				g.drawImage(highlightTile(terrainPiece.getGraphic(), attackHighlighter), x, y, 32, 32, null);
+			}
 		}
 		if(terrainPiece.getUnit() != null) {
+			// if the terrain piece has a Unit on it, draw the Unit
 			g.drawImage(character, x, y, 32, 32, null);
 		}
 	}
 	
-	private void highlightMoves(Unit theUnit) {
-		int[] unitLocation = theMap.getUnitLocations().get(theUnit).getLocation();
-		theMap.getMap()[unitLocation[0]+1][unitLocation[1]].setHighLighted(true);
-		theMap.getMap()[unitLocation[0]][unitLocation[1]+1].setHighLighted(true);
-		//theMap.getMap()[unitLocation[0]-1][unitLocation[1]].setHighLighted(true);
-		//theMap.getMap()[unitLocation[0]][unitLocation[1]-1].setHighLighted(true);
+	public BufferedImage highlightTile(BufferedImage tileGraphic, BufferedImage highlighter)
+	{
+		// create a new 32x32 image to apply the highlight on
+		BufferedImage highlighted = new BufferedImage(tileGraphic.getWidth(), tileGraphic.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+		// combine the moveHighlighter image with the tileGraphic
+		Graphics g = highlighted.getGraphics();
+		g.drawImage(tileGraphic, 0, 0, this);
+		g.drawImage(highlighter, 0, 0, this);
+
+		return highlighted;
+	}
+	
+	private void removeHighlights() {
+		ArrayList<Terrain> tiles = (ArrayList<Terrain>) theMap.getHighlightedTiles();
+		for (Terrain tile: tiles) {
+			tile.setMoveHighlighted(false);
+			tile.setAttackHighlighted(false);
+		}
+	}
+	
+	private void addHighlights(Unit theUnit) {
+		removeHighlights();
+		ArrayList<Terrain> moveTiles = (ArrayList<Terrain>) theMap.getPossibleMoves(theUnit);
+		for (Terrain tile: moveTiles) {
+			tile.setMoveHighlighted(true);
+		}
+		ArrayList<Terrain> attackTiles = (ArrayList<Terrain>) theMap.getPossibleAttacks(theUnit);
+		for (Terrain tile: attackTiles) {
+			tile.setAttackHighlighted(true);
+		}
+		repaint();
+	}
+	
+	private void selectUnit(Unit theUnit) {
+		selectedUnit = theUnit;
+		addHighlights(theUnit);
+	}
+	
+	private void selectEnemyUnit(Unit theUnit) {
+		selectedUnit = theUnit;
+	}
+	
+	private void deselectUnit() {
+		selectedUnit = null;
+		removeHighlights();
 		repaint();
 	}
 	
@@ -82,7 +138,50 @@ public class GraphicPanel extends JPanel implements Observer {
 		public void mouseClicked(java.awt.event.MouseEvent e) {
 			Terrain clickedTile = theMap.getMap()[e.getY()/32][e.getX()/32];
 			if (clickedTile.getUnit() != null) {
-				highlightMoves(clickedTile.getUnit());
+				// there is a Unit on the clicked tile
+				if (theMap.getPlayerTeam().contains(clickedTile.getUnit())) {
+					// the clicked Unit is on the player's team
+					if (selectedUnit == clickedTile.getUnit()) {
+						// if the clicked Unit is the selected Unit, deselect
+						deselectUnit();
+					} else {
+						// if the clicked Unit is not already selected, select it
+						selectUnit(clickedTile.getUnit());
+					}
+				} else {
+					// the clicked Unit is on the AI's team
+					if (selectedUnit != null) {
+						// a player Unit is currently selected
+						if (clickedTile.hasMoveHighlight() || clickedTile.hasAttackHighlight()) {
+							// the enemy Unit is within the selected Unit's attack range
+							// TODO: Attack options
+						} else {
+							deselectUnit();
+							selectEnemyUnit(clickedTile.getUnit());
+						}
+					}
+				}
+			} else {
+				// there is no Unit on the clicked tile
+				if (selectedUnit != null && clickedTile.hasMoveHighlight()) {
+					// if a Unit is currently selected and the clicked tile is in its movement range
+					if (clickedTile.getItem() != null) {
+						// if an item is on the clicked tile
+						int choice = JOptionPane.showConfirmDialog(null, "Choose 'Yes' to move here and add this " + clickedTile.getItem().getName() + "to your inventory.", "Move and add Item to Inventory?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (choice == JOptionPane.YES_OPTION) {
+							// move unit here and add the item to the inventory and remove it from the map
+						}
+					} else {
+						// the clicked tile is in movement range and empty of items
+						// move the Unit to the tile
+						theMap.moveUnit(selectedUnit, clickedTile.getLocation());
+						deselectUnit();
+					}
+				} else {
+					// if no Unit is currently selected and/or the clicked tile is out of the
+					// selected Unit's movement range
+					deselectUnit();
+				}
 			}
 		}
 

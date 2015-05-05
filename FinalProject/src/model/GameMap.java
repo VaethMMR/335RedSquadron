@@ -69,7 +69,7 @@ public class GameMap extends Observable {
 		return this.unitLocations;
 	}
 
-	public ArrayList<Unit> getUnitsOnMap() {
+	public List<Unit> getUnitsOnMap() {
 		List<Unit> unitsOnMap = new ArrayList<Unit>();
 		unitsOnMap.addAll(this.unitLocations.keySet());
 		return (ArrayList<Unit>) unitsOnMap;
@@ -85,6 +85,18 @@ public class GameMap extends Observable {
 
 	public void setAiTeam(List<Unit> aiTeam) {
 		this.aiTeam = aiTeam;
+	}
+	
+	public List<Terrain> getHighlightedTiles() {
+		ArrayList<Terrain> highlightedTiles = new ArrayList<Terrain>();
+		for (int i = 0; i < this.rows; i++) {
+			for (int j = 0; j < this.columns; j++) {
+				if (this.map[i][j].hasMoveHighlight() || this.map[i][j].hasAttackHighlight()) {
+					highlightedTiles.add(this.map[i][j]);
+				}
+			}
+		}
+		return highlightedTiles;
 	}
 
 	// misc methods
@@ -350,6 +362,107 @@ public class GameMap extends Observable {
 			}
 		}
 		return inRangeUnits;
+	}
+	
+	public List<Terrain> getPossibleMoves(Unit theUnit) {
+		ArrayList<Terrain> possibleMoves = new ArrayList<Terrain>();
+		int[] location = this.getUnitLocations().get(theUnit).getLocation();
+		int movement = theUnit.getMovement();
+		int negYBound, negXBound, posYBound, posXBound;
+		if ((location[0] - movement) < 0) {
+			negYBound = 0;
+		} else {
+			negYBound = location[0] - movement;
+		}
+		if ((location[1] - movement) < 0) {
+			negXBound = 0;
+		} else {
+			negXBound = location[1] - movement;
+		}
+		if ((location[0] + movement) > this.rows) {
+			posYBound = this.rows;
+		} else {
+			posYBound = location[0] + movement;
+		}
+		if ((location[1] + movement) > this.columns) {
+			posXBound = this.columns;
+		} else {
+			posXBound = location[1] + movement;
+		}
+		
+		for (int i = negYBound; i < posYBound; i++) {
+			for (int j = negXBound; j < posXBound; j++) {
+				
+				// make sure the new location is within toMove's movement range
+				int horizontal = (location[0] - i);
+				if (horizontal < 0) {
+					horizontal *= -1;
+				}
+				int vertical = (location[1] - j);
+				if (vertical < 0) {
+					vertical *= -1;
+				}
+				int spacesToMove = horizontal + vertical - 1;
+				if (spacesToMove <= movement) {
+					if (this.map[i][j].getUnit() == null && this.map[i][j].getStandable()) {
+						possibleMoves.add(this.map[i][j]);
+					}
+				}
+			}
+		}
+		return possibleMoves;
+	}
+	
+	public List<Terrain> getPossibleAttacks(Unit theUnit) {
+		ArrayList<Terrain> possibleAttacks = new ArrayList<Terrain>();
+		int[] location = this.getUnitLocations().get(theUnit).getLocation();
+		int movement = theUnit.getMovement();
+		int range = theUnit.getResistance();
+		int negYBound, negXBound, posYBound, posXBound;
+		if ((location[0] - movement - range) < 0) {
+			negYBound = 0;
+		} else {
+			negYBound = location[0] - movement - range;
+		}
+		if ((location[1] - movement - range) < 0) {
+			negXBound = 0;
+		} else {
+			negXBound = location[1] - movement - range;
+		}
+		if ((location[0] + movement + range) > this.rows) {
+			posYBound = this.rows;
+		} else {
+			posYBound = location[0] + movement + range;
+		}
+		if ((location[1] + movement + range) > this.columns) {
+			posXBound = this.columns;
+		} else {
+			posXBound = location[1] + movement + range;
+		}
+		
+		for (int i = negYBound; i < posYBound; i++) {
+			for (int j = negXBound; j < posXBound; j++) {
+				
+				// make sure the new location is within toMove's movement range
+				int horizontal = (location[0] - i);
+				if (horizontal < 0) {
+					horizontal *= -1;
+				}
+				int vertical = (location[1] - j);
+				if (vertical < 0) {
+					vertical *= -1;
+				}
+				int spacesToAttack = horizontal + vertical - 1;
+				if (spacesToAttack <= movement + range) {
+					if (this.map[i][j].getStandable() && !this.map[i][j].hasMoveHighlight()) {
+						if (!this.playerTeam.contains(this.map[i][j].getUnit())) {
+							possibleAttacks.add(this.map[i][j]);
+						}
+					}
+				}
+			}
+		}
+		return possibleAttacks;
 	}
 
 	private void notifyObs() {
