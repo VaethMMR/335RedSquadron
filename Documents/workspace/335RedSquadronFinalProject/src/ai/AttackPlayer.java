@@ -17,13 +17,14 @@ public class AttackPlayer implements Offensive {
 		GridNode destination = path.get(0);
 		Unit enemy = target.getKey().getUnit();
 		for (int i = 0; i < path.size() - 1; i++) {
-			// if our range + distance is out of the bounds of the path, we are
-			// obviously in attack range
-			if (i + attackRange >= path.size() - 1) {
+			// Given the nature of obstacles and collision avoidance, we may find
+			// a closer enemy, but we are guaranteed to have at least 1.
+			if (i + attackRange < path.size() && map.getPlayerTeam().contains(path.get(i + attackRange).getKey().getUnit())) {
 				if (!(path.get(i).isOccupied())) {
 					destination = path.get(i);
 					break;
 				}
+			}
 				// If the space is occupied, look for another in range the we
 				// can attack from
 				else if (count > 1 && attackRange > 1) {
@@ -32,7 +33,7 @@ public class AttackPlayer implements Offensive {
 				}
 				count--;
 			}
-		}
+		
 		while (destination.isOccupied() && destination.getParent() != null) {
 			destination = destination.getParent();
 			if (destination.getParent() == null)
@@ -62,6 +63,7 @@ public class AttackPlayer implements Offensive {
 
 	private void recalibrate(Unit unit, GridNode destination,
 			List<GridNode> path, int i, int count) {
+		while(count > 0){
 		if (path.get(i).getLeft() != null && !(path.get(i).getLeft().isOccupied())) {
 			destination = path.get(i).getLeft();
 		} else if (path.get(i).getLeft() != null && !(path.get(i).getRight().isOccupied())) {
@@ -72,5 +74,6 @@ public class AttackPlayer implements Offensive {
 			destination = path.get(i).getDown();
 		}
 		count--;
+	}
 	}
 }

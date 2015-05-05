@@ -54,6 +54,7 @@ public class AI {
 		grid = new Grid(model.getGame().getMap(), target, u);
 		start = grid.getStart();
 		targetNode = grid.getTarget();
+
 		p = new AStar4WayPathfinder(grid, targetNode, this);
 		if (u.getWeapon() != null && targetDistance > 0
 				&& targetDistance < u.getMovement() + u.getWeapon().getRange())
