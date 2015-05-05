@@ -1,13 +1,42 @@
 package model;
+
+import objects.MapMarksman;
+import objects.MapSniper;
+import objects.SpriteObject;
+import controller.GamePlay.Team;
+import sprites.SniperSprite;
+import sprites.Sprite;
+
 //for all of these, not sure what unique things we going to add for each class so they are just extensions for now.
 public class Marksman extends Ranged {
-
-
-   public Marksman(String myName, String myType, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
-      super(myName, myType, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
+	private Weapon weapon;
+	private SpriteObject sprite;
+	private Team team;
+	
+   public Marksman(Team team){
+	   super(team);
+	   this.team = team;
    }
+   
+   protected void setWeapon(){
+		weapon = WeaponFactory.makeWeapon(this);
+	}
+	
+	public Weapon getWeapon(){
+		return weapon;
+	}
 
+	@Override
+	protected void setSpriteObject() {
+		if(team == Team.PLAYER)
+			sprite = new MapMarksman(500, 500);
+		else
+			sprite = new MapSniper(500, 500);
+	}
 
-
-
+	@Override
+	public SpriteObject getSpriteObject() {
+		// TODO Auto-generated method stub
+		return sprite;
+	}
 }

@@ -1,12 +1,42 @@
 package model;
-public class Sorcerer extends Ranged {
 
+import objects.MapDarkSage;
+import objects.MapSage;
+import objects.SpriteObject;
+import controller.GamePlay.Team;
+import sprites.DarkSageSprite;
+import sprites.SageSprite;
+import sprites.Sprite;
 
-   public Sorcerer(String myName, String myType, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
-      super(myName, myType, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
-   }
+public class Sorcerer extends SpellCaster {
+	private Weapon weapon;
+	private SpriteObject sprite;
+	private Team team;
 
+   public Sorcerer(Team team){
+	   super(team);
+     
+   }	   
 
+   		protected void setWeapon(){
+			weapon = WeaponFactory.makeWeapon(this);
+		}
+		
+		public Weapon getWeapon(){
+			return weapon;
+		}
+
+		protected void setSpriteObject() {
+			if(team == Team.PLAYER)
+				sprite = new MapSage(500, 500);
+			else
+				sprite = new MapDarkSage(500, 500);
+		}
+
+		@Override
+		public SpriteObject getSpriteObject() {
+			return sprite;
+		}
 
 
 }

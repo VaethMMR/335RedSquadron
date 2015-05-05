@@ -9,6 +9,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import controller.GamePlay;
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
 import model.Melee;
+import model.Model;
 import model.Unit;
 import model.Weapon;
 
@@ -35,10 +37,12 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
 	private GraphicPanel graphics;
+	private Model m;
 
 	// constructor
-	public GameView(GamePlay theGame) {
+	public GameView(Model m, GamePlay theGame) {
 		this.theGame = theGame;
+		this.m = m;
 		this.setLayout(new BorderLayout());
 		
 		// Set up the GUI
@@ -88,7 +92,7 @@ public class GameView extends JPanel {
 		
 		JButton endTurn = new JButton("End Turn");
 		actionPanel.add(endTurn);
-		endTurn.addActionListener(new endTurnActionListener());
+		endTurn.addActionListener(new endTurnActionListener(m));
 
 		add(actionPanel, BorderLayout.EAST);
 		
@@ -97,7 +101,7 @@ public class GameView extends JPanel {
 	}
 	
 	// getters and setters
-	
+
 	// misc methods
 	private void setupPlayerList(List<Unit> units) {		
 		// first clear the list to make sure we don't duplicate Units
@@ -200,17 +204,21 @@ public class GameView extends JPanel {
 		}
 	}
 	
-	private class submitAttackActionListener implements ActionListener{
+
+	private class submitAttackActionListener implements ActionListener
+			{
+		public submitAttackActionListener(){
+		}
 		public void actionPerformed(ActionEvent arg0) {
 			// find the attacking Unit
 			Unit attackingUnit = null;
 			String unitName = playerUnits.getSelectedValue();
 			List<Unit> playerTeam = theGame.getPlayerTeam();
 			List<Unit> units = new ArrayList<Unit>();
-			for(Unit i : playerTeam) {
+			for (Unit i : playerTeam) {
 				units.add(i);
 			}
-			for(Unit i : units){
+			for (Unit i : units) {
 				if (i.getName() == unitName) {
 					attackingUnit = i;
 				}
@@ -221,53 +229,64 @@ public class GameView extends JPanel {
 				String defenderName = inRangeUnits.getSelectedValue();
 				List<Unit> aiTeam = theGame.getAiTeam();
 				List<Unit> aiUnits = new ArrayList<Unit>();
-				for(Unit i : aiTeam) {
+				for (Unit i : aiTeam) {
 					aiUnits.add(i);
 				}
-				for(Unit i : aiUnits){
+				for (Unit i : aiUnits) {
 					if (i.getName() == defenderName) {
 						defendingUnit = i;
 					}
 				}
 				if (defendingUnit != null) {
 					// initiate attack
-					Weapon attackingWeapon;
-					if (attackingUnit instanceof Melee) {
-						attackingWeapon = new Weapon("Sword",10);
-					} else {
-						attackingWeapon = new Weapon("Bow",10);
-					}
-					Weapon defendingWeapon;
-					if (defendingUnit instanceof Melee) {
-						defendingWeapon = new Weapon("Sword",10);
-					} else {
-						defendingWeapon = new Weapon("Bow",10);
-					}
-					attackingUnit.attack(defendingUnit, attackingWeapon, defendingWeapon);
+					// Get a heuristic from the attackingUnit to the
+					// defendingUnit
+					// to pass in a distance
+					// Manhattan formula
+					int aX = theGame.getMap().getUnitLocations()
+							.get(attackingUnit).getLocation()[0];
+					int aY = theGame.getMap().getUnitLocations()
+							.get(attackingUnit).getLocation()[1];
+					int dX = theGame.getMap().getUnitLocations()
+							.get(defendingUnit).getLocation()[0];
+					int dY = theGame.getMap().getUnitLocations()
+							.get(defendingUnit).getLocation()[1];
+					int range = Math.abs(aX - dX) + Math.abs(aY - dY);
+					attackingUnit.attack(defendingUnit, range);
 					if (defendingUnit.getCurrentHp() < 1) {
 						// figure out which team the dead Unit is on
 						theGame.getMap().removeUnit(defendingUnit);
-						if(theGame.getPlayerTeam().contains(defendingUnit))
-								theGame.getPlayerTeam().remove(defendingUnit);
+						if (theGame.getPlayerTeam().contains(defendingUnit))
+							theGame.getPlayerTeam().remove(defendingUnit);
 						else
 							theGame.getAiTeam().remove(defendingUnit);
+						// setConsole(theGame.getMap().returnMap());
 					}
 					if (attackingUnit.getCurrentHp() < 1) {
 						// figure out which team the dead Unit is on
 						theGame.getMap().removeUnit(attackingUnit);
-						if(theGame.getPlayerTeam().contains(attackingUnit))
+						if (theGame.getPlayerTeam().contains(attackingUnit))
 							theGame.getPlayerTeam().remove(attackingUnit);
-					else
-						theGame.getAiTeam().remove(attackingUnit);
+						else
+							theGame.getAiTeam().remove(attackingUnit);
+						// setConsole(theGame.getMap().returnMap());
 					}
 					units.remove(attackingUnit);
-					playerUnitsModel.removeElement(playerUnits.getSelectedValue());
+					playerUnitsModel.removeElement(playerUnits
+							.getSelectedValue());
 				}
 			}
+			if (playerUnitsModel.isEmpty()
+					&& theGame.getPlayerTeam().size() > 0)
+				new endTurnActionListener(m).actionPerformed(arg0);
 		}
 	}
 	
 	private class endTurnActionListener implements ActionListener{
+		Model m;
+		public endTurnActionListener(Model m){
+			this.m = m;
+		}
 		public void actionPerformed(ActionEvent arg0) {
 			//Restore the JList of all living units
 			setupPlayerList(theGame.getPlayerTeam());

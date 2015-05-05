@@ -9,6 +9,7 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
+import ai.GridNode;
 import terrain.Bridge;
 import terrain.BridgeEntry;
 import terrain.Dirt;
@@ -491,5 +492,15 @@ public class GameMap extends Observable {
 			mapString += "\n";
 		}
 		return mapString;
+	}
+
+	public Terrain getTerrain(int y, int x) {
+		// TODO Auto-generated method stub
+		return map[x][y];
+	}
+
+	public List<Unit> getAITeam() {
+		// TODO Auto-generated method stub
+		return aiTeam;
 	}
 }

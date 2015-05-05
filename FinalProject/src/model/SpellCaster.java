@@ -1,10 +1,14 @@
 package model;
 
-public class SpellCaster extends Ranged {
+import objects.SpriteObject;
+import sprites.Sprite;
+import controller.GamePlay.Team;
+
+public abstract class SpellCaster extends Ranged {
 
 
-   public SpellCaster(String myName, String myType, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
-      super(myName, myType, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
+   public SpellCaster(Team team){
+	   super(team);
    }
 
    public boolean heal(Unit other){
@@ -17,5 +21,10 @@ public class SpellCaster extends Ranged {
       return true;
    }
 
+   protected abstract void setWeapon();
+   public abstract Weapon getWeapon();
 
+protected abstract void setSpriteObject();
+public abstract SpriteObject getSpriteObject();
+	
 }

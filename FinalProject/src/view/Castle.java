@@ -49,7 +49,7 @@ public class Castle {
 		
 		hero = new MapHero(480, 192);
 		axereaver = new MapAxereaver(416, 192);
-		ranger = new MapRanger(416, 160);
+		ranger = new MapMarksman(416, 160);
 		bishop = new MapBishop(448, 128);
 		thief = new MapThief(448, 224);
 		trueblade = new MapTrueblade(512, 224);

@@ -37,6 +37,10 @@ public class GraphicPanel extends JPanel implements Observer {
 	
 	private void loadImages() {
 		try {
+//			for(Unit u : theMap.getPlayerTeam())
+//				sprites.add(ImageIO.read(new File(u.getSprite())));
+//			for(Unit u : theMap.getAITeam())
+//					sprites.add(ImageIO.read(new File("images/" + u.getSprite() + "WalkingAlpha.png")));
 			character = ImageIO.read(new File("images/TheHunter.png"));
 			moveHighlighter = ImageIO.read(new File("images/highlight.png"));
 			attackHighlighter = ImageIO.read(new File("images/attackHighlight.png"));

@@ -1,22 +1,40 @@
 package model;
 
-public class Saint extends Ranged {
+import objects.MapBishop;
+import objects.MapSaint;
+import objects.SpriteObject;
+import sprites.Sprite;
+import controller.GamePlay.Team;
 
+public class Saint extends SpellCaster {
+	private Weapon weapon;
+	private SpriteObject spriteObject;
+	private Team team;
+	
+	public Saint(Team team){
+		super(team);
+		this.team = team;
+	}
 
-   public Saint(String myName, String myType, int myLevel, int myHP, int myMovement, int myStrength, int myMagic, int mySkill, int mySpeed, int myLuck, int myDefense, int myResistance){
-      super(myName, myType, myLevel, myHP, myMovement, myStrength,myMagic,mySkill,mySpeed,myLuck,myDefense,myResistance);
-   }
+	protected void setWeapon() {
+		weapon = WeaponFactory.makeWeapon(this);
+	}
 
-   public boolean heal(Unit other){
-      
-      other.setHp(other.getCurrentHp() + 5 + getMagic() / 2);
-      if(other.getCurrentHp() > other.getHp()){//if it heals more than max hp reset current hp to max. 
-         other.setHp(other.getHp());
-      }
-      
-      return true;
-   }
+	public Weapon getWeapon() {
+		return weapon;
+	}
 
+	@Override
+	protected void setSpriteObject() {
+		if(team == Team.PLAYER)
+			spriteObject = new MapBishop(500, 500);
+		else
+			spriteObject = new MapSaint(500, 500);
+	}
 
+	@Override
+	public SpriteObject getSpriteObject() {
+		return spriteObject;
+	}
 
 }

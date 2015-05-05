@@ -50,7 +50,7 @@ public class Riverfront {
 		
 		hero = new MapHero(576, 512);
 		axereaver = new MapAxereaver(512, 512);
-		ranger = new MapRanger(448, 512);
+		ranger = new MapMarksman(448, 512);
 		bishop = new MapBishop(544, 480);
 		thief = new MapThief(480, 480);
 		trueblade = new MapTrueblade(416, 480);
