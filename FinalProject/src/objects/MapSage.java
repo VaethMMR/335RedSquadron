@@ -4,7 +4,7 @@ import sprites.SageSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapSage extends SpriteObject{
 	public MapSage(int x, int y){
-		super(new SageSprite(), null, x, y, 100);
+		super(new SageSprite(), x, y, 100);
 	}
 	
 	@Override
