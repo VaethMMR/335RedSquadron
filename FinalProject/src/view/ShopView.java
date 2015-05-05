@@ -22,6 +22,7 @@ import model.Weapon;
 import model.WeaponFactory;
 import controller.GamePlay;
 import exceptions.InventoryFullException;
+import exceptions.NotEnoughCoinsException;
 
 public class ShopView extends JPanel {
 	private GamePlay theGame;
@@ -150,11 +151,16 @@ public class ShopView extends JPanel {
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Consumable consumable = cFactory.makeConsumable(name, level);
 				try {
+					if(consumable.getCost() > theGame.getInventory().getNumCoins()){
+						throw new NotEnoughCoinsException();
+					}
 					theGame.getInventory().add(consumable);
 					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - consumable.getCost());
 					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				} catch(NotEnoughCoinsException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());
 				}
 			}else if(table.getSelectedRow() < 12){
@@ -162,11 +168,16 @@ public class ShopView extends JPanel {
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Weapon weapon = factory.makeWeapon(name, level);
 				try {
+					if(weapon.getCost() > theGame.getInventory().getNumCoins()){
+						throw new NotEnoughCoinsException();
+					}
 					theGame.getInventory().add(weapon);
 					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - weapon.getCost());
 					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				} catch(NotEnoughCoinsException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());
 				}
 			}else{
@@ -174,11 +185,16 @@ public class ShopView extends JPanel {
 				int level = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1));
 				Trap trap = tFactory.makeTrap(name, level);
 				try {
+					if(trap.getCost() > theGame.getInventory().getNumCoins()){
+						throw new NotEnoughCoinsException();
+					}
 					theGame.getInventory().add(trap);
 					theGame.getInventory().setNumCoins(theGame.getInventory().getNumCoins() - trap.getCost());
 					theGame.getInventoryView().setUpCoins();
 					theGame.getInventoryView().setUpTable(theGame.getInventory());
 				} catch(InventoryFullException x) {
+					JOptionPane.showMessageDialog(null, x.getMessage());
+				} catch(NotEnoughCoinsException x) {
 					JOptionPane.showMessageDialog(null, x.getMessage());
 				}
 			}
