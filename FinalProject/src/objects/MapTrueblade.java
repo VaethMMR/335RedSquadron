@@ -4,7 +4,7 @@ import sprites.TruebladeSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapTrueblade extends SpriteObject{
 	public MapTrueblade(int x, int y){
-		super(new TruebladeSprite(), x, y, 100);
+		super(new TruebladeSprite(), null, x, y, 100);
 	}
 	
 	@Override
