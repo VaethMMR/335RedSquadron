@@ -27,11 +27,11 @@ public class Marksman extends Ranged {
 	}
 
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapMarksman(500, 500);
+			sprite = new MapMarksman(x, y);
 		else
-			sprite = new MapSniper(500, 500);
+			sprite = new MapSniper(x, y);
 	}
 
 	@Override

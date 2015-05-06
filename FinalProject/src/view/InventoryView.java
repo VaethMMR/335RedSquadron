@@ -188,21 +188,6 @@ public class InventoryView extends JPanel {
 				stats.setValueAt(weapon.getMagic() + "", 0, 5);
 			}
 
-			/*
-			 * if ((table.getValueAt(table.getSelectedRow(),
-			 * table.getSelectedColumn()) != null)) { weapon = null; String name
-			 * = (String) table.getValueAt( table.getSelectedRow(),
-			 * table.getSelectedColumn());
-			 * 
-			 * List<Item> inventoryList = theInventory.getInventory(); for (Item
-			 * i : inventoryList) { if (i.getName() == name) { weapon = (Weapon)
-			 * i; } } stats.setValueAt(weapon.getName(), 0, 0);
-			 * stats.setValueAt(weapon.getRange() + "", 0, 1);
-			 * stats.setValueAt(weapon.getMight() + "", 0, 2);
-			 * stats.setValueAt(weapon.getAccuracy() + "", 0, 3);
-			 * stats.setValueAt(weapon.getCritical() + "", 0, 4);
-			 * stats.setValueAt(weapon.getMagic() + "", 0, 5); }
-			 */
 		}
 
 		@Override

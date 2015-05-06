@@ -24,7 +24,7 @@ public abstract class SpellCaster extends Ranged {
    public abstract void setWeapon(Weapon weapon);
    public abstract Weapon getWeapon();
 
-protected abstract void setSpriteObject();
+public abstract void setSpriteObject(int x, int y);
 public abstract SpriteObject getSpriteObject();
 	
 }

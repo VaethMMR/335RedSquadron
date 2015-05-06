@@ -17,7 +17,19 @@ public class WeaponFactory {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
 			weapon.setMight(2 + level);
-			weapon.setAccuracy(2 + level);
+			weapon.setAccuracy(80 + level);
+			weapon.setCritical(2 + level);
+			weapon.setCost(5 * level);
+			weapon.setMagic(0);
+			weapon.setWeight(2);
+			return weapon;
+		}
+
+		if (name == "Axe") {
+			weapon = new Weapon(name, level);
+			weapon.setRange(1);
+			weapon.setMight(2 + level);
+			weapon.setAccuracy(80 + level);
 			weapon.setCritical(2 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
@@ -53,8 +65,8 @@ public class WeaponFactory {
 			weapon = new Weapon(name, level);
 			weapon.setRange(2);
 			weapon.setMight(0);
-			weapon.setAccuracy(2 + level);
-			weapon.setCritical(3 + level);
+			weapon.setAccuracy(90 + level);
+			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(3 + level);
 			weapon.setWeight(0);
@@ -65,10 +77,10 @@ public class WeaponFactory {
 			weapon = new Weapon(name, level);
 			weapon.setRange(2);
 			weapon.setMight(0);
-			weapon.setAccuracy(2 + level);
-			weapon.setCritical(3 + level);
+			weapon.setAccuracy(80 + level);
+			weapon.setCritical(5);
 			weapon.setCost(5 * level);
-			weapon.setMagic(3 + level);
+			weapon.setMagic(5 + level);
 			weapon.setWeight(0);
 			return weapon;
 		}
@@ -77,36 +89,24 @@ public class WeaponFactory {
 			weapon = new Weapon(name, level);
 			weapon.setRange(2);
 			weapon.setMight(0);
-			weapon.setAccuracy(2 + level);
-			weapon.setCritical(3 + level);
+			weapon.setAccuracy(80 + level);
+			weapon.setCritical(15 + level);
 			weapon.setCost(5 * level);
-			weapon.setMagic(3 + level);
-			weapon.setWeight(0);
+			weapon.setMagic(10 + level);
+			weapon.setWeight(5);
 			return weapon;
 		}
-		if (name == "Axe"){
-			weapon = new Weapon(name, level);
-			weapon.setRange(1);
-			weapon.setMight(3 + level);
-			weapon.setAccuracy(1 + level);
-			weapon.setCritical(2 + level);
-			weapon.setCost(5 * level);
-			weapon.setMagic(0);
-			return weapon;
-		}
-
 		if (name == "Lance") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(3 + level);
-			weapon.setAccuracy(1 + level);
-			weapon.setCritical(2 + level);
+			weapon.setMight(5 + level);
+			weapon.setAccuracy(85 + level);
+			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(5);
 			return weapon;
 		}
-		
 		if (name == "Knife") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);

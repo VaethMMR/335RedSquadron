@@ -25,17 +25,17 @@ public class AttackPlayer implements Offensive {
 					break;
 				}
 			}
-				// If the space is occupied, look for another in range the we
-				// can attack from
-				else if (count > 1 && attackRange > 1) {
-					recalibrate(unit, destination, path, i, count);
-					break;
-				}
+//				// If the space is occupied, look for another in range the we
+//				// can attack from
+//				else if (count > 1 && attackRange > 1) {
+//					recalibrate(unit, destination, path, i, count, map);
+//					break;
+//				}
 				count--;
 			}
 		
 		while (destination.isOccupied() && destination.getParent() != null) {
-			destination = destination.getParent();
+			destination = recalibrate(enemy, destination, path, path.indexOf(destination), count, map);
 			if (destination.getParent() == null)
 				// We are back at start, there was no path to traverse
 				return;
@@ -61,9 +61,9 @@ public class AttackPlayer implements Offensive {
 		}
 	}
 
-	private void recalibrate(Unit unit, GridNode destination,
-			List<GridNode> path, int i, int count) {
-		while(count > 0){
+	private GridNode recalibrate(Unit unit, GridNode destination,
+			List<GridNode> path, int i, int count, GameMap map) {
+		while(destination != path.get(0) || destination.isOccupied() == true){
 		if (path.get(i).getLeft() != null && !(path.get(i).getLeft().isOccupied())) {
 			destination = path.get(i).getLeft();
 		} else if (path.get(i).getLeft() != null && !(path.get(i).getRight().isOccupied())) {
@@ -73,7 +73,12 @@ public class AttackPlayer implements Offensive {
 		} else if (path.get(i).getLeft() != null && !(path.get(i).getDown().isOccupied())) {
 			destination = path.get(i).getDown();
 		}
-		count--;
+		else
+			destination = destination.getParent();
+		map.moveUnit(unit, destination.getKey().getLocation());
+		if(i > -1 && path.get(i - 1).equals(destination))
+			count++;
 	}
+		return destination;
 	}
 }

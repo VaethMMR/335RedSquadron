@@ -4,7 +4,7 @@ import sprites.SaintSprite;
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapSaint extends SpriteObject{
 	public MapSaint(int x, int y){
-		super(new SaintSprite(), x, y, 100);
+		super(new SaintSprite(), null, x, y, 100);
 	}
 	
 	@Override

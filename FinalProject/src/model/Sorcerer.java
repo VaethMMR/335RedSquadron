@@ -15,7 +15,7 @@ public class Sorcerer extends SpellCaster {
 
    public Sorcerer(Team team){
 	   super(team);
-     
+     this.team = team;
    }	   
 
    public void setWeapon(Weapon weapon) {
@@ -26,11 +26,11 @@ public class Sorcerer extends SpellCaster {
 			return weapon;
 		}
 
-		protected void setSpriteObject() {
+		public void setSpriteObject(int x, int y) {
 			if(team == Team.PLAYER)
-				sprite = new MapSage(500, 500);
+				sprite = new MapSage(x, y);
 			else
-				sprite = new MapDarkSage(500, 500);
+				sprite = new MapDarkSage(x, y);
 		}
 
 		@Override

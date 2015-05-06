@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 
 
 public class SoldierSprite extends Sprite {
-	private static final int leftBorder = 2, vertBorder = 6; // magic numbers for the sheet
+	private static final int leftBorder = 3, vertBorder = 6; // magic numbers for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
-	private static final int width = 32, height = 27; // width and height of a single frame
+	private static final int width = 36, height = 30; // width and height of a single frame
 	
 	private static BufferedImage sheet; // the sprite sheet
 	private State previousState; // the last state of the frog
