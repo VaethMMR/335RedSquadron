@@ -53,15 +53,16 @@ public abstract class Unit {
 	public boolean attack(Unit other, int distance) {
 		Weapon uWeapon = this.getWeapon();
 		Weapon enemyWeapon = other.getWeapon();
+		int bonusHit = weaponsTri(uWeapon, other.getWeapon())[0];
+		int bonusDmg = weaponsTri(uWeapon, other.getWeapon())[1];
 		int range = this.getWeapon().getRange();
-		int damage = getDamage(this, other);
+		int damage = getDamage(this, other) + bonusDmg;
+		int def = getDef(this, other);
 		int critical = damage * 3;
 		int critChance = 0;
 		int nextrandomInt = 0;
 		int hitchance = ((skill * 2) + luck + uWeapon.getAccuracy())
-				- ((other.speed * 2) + other.luck);// weapon triangle would come
-													// into affect here as well
-
+				- ((other.speed * 2) + other.luck) + bonusHit;
 		// Units that are out of range can not be attacked
 		// SpellCasters have at least 2 ranges
 		// All other units are strictly limited to 1 range
@@ -74,13 +75,29 @@ public abstract class Unit {
 			if (distance != range)
 				return false;
 		}
+		if(damage < 0)
+			damage = 0;
+		if(damage > 100)
+			damage = 100;
+		if(currentHp < 0)
+			currentHp = 0;
+		if(currentHp > 100)
+			currentHp = 100;
+		if(critical < 0)
+			critical = 0;
+		if(critical > 100)
+			critical = 100;
+		if(hitchance < 0)
+			hitchance = 0;
+		if(hitchance > 100)
+			hitchance = 100;
 		JOptionPane.showMessageDialog(null, this.name + " attacks "
 				+ other.name + "\nAcc: " + hitchance + "\nDmg: " + damage
 				+ "\nCrit: " + critical, "Attack Phase",
 				JOptionPane.INFORMATION_MESSAGE);
 
 		Random randomGenerator = new Random();
-		int randomInt = randomGenerator.nextInt();
+		int randomInt = randomGenerator.nextInt(hitchance);
 		if (randomInt > 100 - hitchance) {// hit confirmed
 			critChance = ((skill / 2) + uWeapon.getCritical()) - other.luck;
 			nextrandomInt = randomGenerator.nextInt();
@@ -213,6 +230,72 @@ public abstract class Unit {
 		else
 			return u.getWeapon().getMight() + u.getStrength()
 					- other.getDefense();
+	}
+	
+	private int getDef(Unit u, Unit other){
+		if(u instanceof SpellCaster)
+			return other.getResistance();
+		else
+			return other.getDefense();
+	}
+	
+	private int[] weaponsTri(Weapon uWeapon, Weapon otherWeapon){
+		int[] bonus = {0, 0};
+		if(uWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife"))
+			if(otherWeapon.getName().contains("Lance")){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon.getName().contains("Axe")){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+		if(uWeapon.getName().contains("Lance"))
+			if(otherWeapon.getName().contains("Axe")){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife")){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+		if(uWeapon.getName().contains("Axe"))
+			if(otherWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife")){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon.getName().contains("Lance")){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+			if(uWeapon.getName().contains("Anima Magic"))
+				if(otherWeapon.getName().contains("Dark Magic")){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon.getName().contains("Light Magic")){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			if(uWeapon.getName().contains("Light Magic"))
+				if(otherWeapon.getName().contains("Anima Magic")){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon.getName().contains("Dark Magic")){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			if(uWeapon.getName().contains("Dark Magic"))
+				if(otherWeapon.getName().contains("Light Magic")){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon.getName().contains("Anima Magic")){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			return bonus;
 	}
 
 	public String toString() {
@@ -401,6 +484,6 @@ public abstract class Unit {
 		return movement + this.getWeapon().getRange();
 	}
 	
-	protected abstract void setSpriteObject();
+	public abstract void setSpriteObject(int coordinates, int coordinates2);
 	public abstract SpriteObject getSpriteObject();
 }

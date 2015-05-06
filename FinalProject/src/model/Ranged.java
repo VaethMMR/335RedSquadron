@@ -14,8 +14,6 @@ public abstract class Ranged extends Unit {
    public abstract void setWeapon(Weapon weapon);
    public abstract Weapon getWeapon();
    
-   protected abstract void setSpriteObject();
+   public abstract void setSpriteObject(int x, int y);
    public abstract SpriteObject getSpriteObject();
-
-
 }

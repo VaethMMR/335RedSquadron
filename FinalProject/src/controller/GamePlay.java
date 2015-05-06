@@ -2,13 +2,19 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -32,34 +38,59 @@ public class GamePlay extends JFrame { // implements Observer{
 	private Inventory inventory;
 	private InventoryView inventoryView;
 	private int choice = 2;
+	private JMenu menu;
+	private JMenuItem loader;
+	private JMenuItem saver;
 	private Model m;
-
+	private Random rand;
+	
 	// constructor
 	public GamePlay() {
 		// make player team
 		playerTeam = new ArrayList<Unit>();
-		playerTeam.add(UnitBuilder.makeUnit(new Hero(Team.PLAYER)));
+		playerTeam.add(UnitBuilder.makeUnit(Hero.getHero()));
 		playerTeam.add(UnitBuilder.makeUnit(new Swordmaster(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Lancecaster(Team.PLAYER)));
-		playerTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.PLAYER)));
+		//playerTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Marksman(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Saint(Team.PLAYER)));
-		playerTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.PLAYER)));
-		playerTeam.add(UnitBuilder.makeUnit(new Druid(Team.PLAYER)));
+		//playerTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.PLAYER)));
+		//playerTeam.add(UnitBuilder.makeUnit(new Druid(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Thief(Team.PLAYER)));
 
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
-		aiTeam.add(UnitBuilder.makeUnit(new Hero(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Swordmaster(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Lancecaster(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Marksman(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Saint(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Druid(Team.COMPUTER)));
-		aiTeam.add(UnitBuilder.makeUnit(new Thief(Team.COMPUTER)));
-
+		Random rand = new Random();
+		aiTeam.add(UnitBuilder.makeUnit(General.getGeneral()));
+		for(int i = 0; i < 5; i++){
+			switch(rand.nextInt() % 7){
+			case 0:
+				aiTeam.add(UnitBuilder.makeUnit(new Swordmaster(Team.COMPUTER)));
+				break;
+			case 1:
+				aiTeam.add(UnitBuilder.makeUnit(new Lancecaster(Team.COMPUTER)));
+				break;
+			case 2:
+				aiTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.COMPUTER)));
+				break;
+			case 3:
+				aiTeam.add(UnitBuilder.makeUnit(new Marksman(Team.COMPUTER)));
+				break;
+			case 4:
+				aiTeam.add(UnitBuilder.makeUnit(new Saint(Team.COMPUTER)));
+				break;
+			case 5:
+				aiTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.COMPUTER)));
+				break;
+			case 6:
+				aiTeam.add(UnitBuilder.makeUnit(new Druid(Team.COMPUTER)));
+				break;
+			default:
+				aiTeam.add(UnitBuilder.makeUnit(new Thief(Team.COMPUTER)));
+				break;
+			}
+		}
+		
 		// make map
 		try {
 			this.map = new GameMap("GrassMap", this, 20, 30);
@@ -167,9 +198,25 @@ public class GamePlay extends JFrame { // implements Observer{
 		// Set up tab change listener
 		tabPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				inventoryView.setupInventoryList(getPlayerTeam());
-			}
-		});
+	    		inventoryView.setupInventoryList(getPlayerTeam());
+	    	}
+	    });
+		
+		// set up menu bar
+		JMenuBar menu = new JMenuBar();
+		ActionListener listener = new MenuListener(this.getMap(), m);
+		JMenu file = new JMenu("File");
+		JMenuItem saver = new JMenuItem("Save");
+		saver.addActionListener(listener);
+		JMenuItem quit = new JMenuItem("Quit");
+		quit.addActionListener(listener);
+		JMenuItem loader = new JMenuItem("Load");
+		loader.addActionListener(listener);
+		file.add(saver);
+		file.add(loader);
+		file.add(quit);
+		menu.add(file);
+		this.setJMenuBar(menu);
 
 		// set up close operation
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -215,6 +262,26 @@ public class GamePlay extends JFrame { // implements Observer{
 		PLAYER, COMPUTER;
 	}
 
+	private class MenuListener implements ActionListener {
+		private GameMap map;
+		private Model model;
+		private MenuListener(GameMap map, Model m){
+			this.map = map;
+			this.model = m;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			map.notifyObservers();
+			if(e.getSource().equals(saver))
+				model.save(model);
+			if(e.getSource().equals(loader)){
+				model.load(model);
+				map.notifyObservers();
+			}
+		}
+}
+		
 	// main method
 	public static void main(String[] arg) {
 		GamePlay newGame = new GamePlay();

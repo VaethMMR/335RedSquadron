@@ -27,11 +27,11 @@ public class Swordmaster extends Melee {
 	}
 
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapTrueblade(500, 500);
+			sprite = new MapTrueblade(x, y);
 		else
-			sprite = new MapSwordmaster(500, 500);
+			sprite = new MapSwordmaster(x, y);
 	}
 
 	@Override

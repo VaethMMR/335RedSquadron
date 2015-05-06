@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import model.Unit;
 import sprites.Sprite;
 
 //TODO 8: Look at and discuss SpriteObject.
@@ -26,7 +27,7 @@ public abstract class SpriteObject {
 	 * @param y	y position of the object
 	 * @param delay	delay in switching animation frames
 	 */
-	protected SpriteObject(Sprite sprite, int x, int y, int delay){
+	protected SpriteObject(Sprite sprite, Unit unit, int x, int y, int delay){
 		this.sprite = sprite;
 		this.position = new Point(x, y);
 		frame = sprite.getImage();

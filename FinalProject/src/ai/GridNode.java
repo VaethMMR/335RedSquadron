@@ -37,6 +37,10 @@ public class GridNode {
 	protected void setUp(GridNode newGridNode) {
 		up = newGridNode;
 	}
+	
+	protected void setHasH(boolean b){
+		hasH = b;
+	}
 
 	protected void setDown(GridNode newGridNode) {
 		down = newGridNode;

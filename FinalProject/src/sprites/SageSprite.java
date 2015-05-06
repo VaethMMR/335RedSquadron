@@ -18,7 +18,7 @@ public class SageSprite extends Sprite {
 	public SageSprite(){
 		if (sheet == null) // load the sprite sheet into memory
 			try{
-				sheet = ImageIO.read(new File("images/SageWalkingAlpha.png"));
+				sheet = ImageIO.read(new File("images/SorcererWalkingAlpha.png"));
 			}catch(Exception e){};
 		previousState = State.IDLE; // what is this for?
 	}

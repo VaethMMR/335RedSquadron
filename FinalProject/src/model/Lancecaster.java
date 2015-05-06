@@ -1,7 +1,7 @@
 package model;
 
 import objects.MapLanceCaster;
-import objects.MapSoldier;
+import objects.MapMarksman;
 import objects.SpriteObject;
 import controller.GamePlay.Team;
 import sprites.LanceCasterSprite;
@@ -27,11 +27,11 @@ public class Lancecaster extends Melee {
 	}
 
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapLanceCaster(500, 500);
+			sprite = new MapLanceCaster(x, y);
 		else
-			sprite = new MapSoldier(500, 500);
+			sprite = new MapMarksman(x, y);
 	}
 
 	@Override

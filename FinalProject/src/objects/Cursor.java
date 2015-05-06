@@ -4,8 +4,8 @@ import sprites.CursorSprite;
 
 public class Cursor extends SpriteObject {
 	private SpriteObject select;
-	public Cursor(int x, int y, SpriteObject sprite){
-		super(new CursorSprite(), x, y, 100);
+	public Cursor(int x, int y){
+		super(new CursorSprite(), null, x, y, 100);
 		select = null;
 	}
 	

@@ -7,9 +7,9 @@ import javax.imageio.ImageIO;
 
 
 public class WarriorSprite extends Sprite {
-	private static final int leftBorder = 1, vertBorder = 6; // magic numbers for the sheet
+	private static final int leftBorder = 4, vertBorder = 6; // magic numbers for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
-	private static final int width = 32, height = 27; // width and height of a single frame
+	private static final int width = 36, height = 40; // width and height of a single frame
 	
 	private static BufferedImage sheet; // the sprite sheet
 	private State previousState; // the last state of the frog

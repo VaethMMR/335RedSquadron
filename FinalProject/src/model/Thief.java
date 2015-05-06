@@ -3,6 +3,7 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 
+import objects.MapAssassin;
 import objects.MapThief;
 import objects.SpriteObject;
 import controller.GamePlay.Team;
@@ -57,11 +58,11 @@ public class Thief extends Melee {
 			}
 	}
 
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapThief(500, 500);
+			sprite = new MapThief(x, y);
 		else
-			sprite = new MapAssassin(500, 500);
+			sprite = new MapAssassin(x, y);
 	}
 
 	public SpriteObject getSpriteObject() {

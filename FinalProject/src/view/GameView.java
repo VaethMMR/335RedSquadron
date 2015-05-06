@@ -22,6 +22,7 @@ import ai.AI;
 import controller.GamePlay;
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
+import model.Hero;
 import model.Melee;
 import model.Model;
 import model.Unit;
@@ -302,12 +303,13 @@ public class GameView extends JPanel {
 			AI ai = theGame.getAI();
 			for(int i = 0; i < ai.getTeam().size(); i++){
 				ai.useStrategy(ai.getTeam().get(i));
+//					if(theGame.getMap);
 				if(theGame.getAiTeam().isEmpty() == true){
-					JOptionPane.showMessageDialog(null, " Victory!\nThe enemy team is destroyed.");
+					JOptionPane.showMessageDialog(null, " Victory.");
 					break;
 				}
-				if(theGame.getPlayerTeam().isEmpty() == true){
-					JOptionPane.showMessageDialog(null, " Defeated!\nYour team has been destroyed.");
+				if(!theGame.getPlayerTeam().contains(Hero.getHero())){
+					JOptionPane.showMessageDialog(null, " Defeat.");
 					break;
 				}
 			}

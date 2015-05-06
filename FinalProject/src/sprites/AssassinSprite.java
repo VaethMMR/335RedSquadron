@@ -1,4 +1,4 @@
-package model;
+package sprites;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -6,14 +6,11 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import sprites.Sprite;
-import sprites.Sprite.State;
-
 public class AssassinSprite extends Sprite {
-	private static final int leftBorder = 2, vertBorder = 6; // magic numbers
+	private static final int leftBorder = 6, vertBorder = 10; // magic numbers
 																// for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
-	private static final int width = 32, height = 27; // width and height of a
+	private static final int width = 32, height = 35; // width and height of a
 														// single frame
 
 	private static BufferedImage sheet; // the sprite sheet
