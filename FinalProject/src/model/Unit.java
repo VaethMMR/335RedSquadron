@@ -53,14 +53,16 @@ public abstract class Unit {
 	public boolean attack(Unit other, int distance) {
 		Weapon uWeapon = this.getWeapon();
 		Weapon enemyWeapon = other.getWeapon();
+		int bonusHit = weaponsTri(uWeapon, other.getWeapon())[0];
+		int bonusDmg = weaponsTri(uWeapon, other.getWeapon())[1];
 		int range = this.getWeapon().getRange();
-		int damage = getDamage(this, other);
+		int damage = getDamage(this, other) + bonusDmg;
+		int def = getDef(this, other);
 		int critical = damage * 3;
 		int critChance = 0;
 		int nextrandomInt = 0;
 		int hitchance = ((skill * 2) + luck + uWeapon.getAccuracy())
-				- ((other.speed * 2) + other.luck);// weapon triangle would come
-													// into affect here as well
+				- ((other.speed * 2) + other.luck) + bonusHit;
 
 		// Units that are out of range can not be attacked
 		// SpellCasters have at least 2 ranges
@@ -80,7 +82,7 @@ public abstract class Unit {
 				JOptionPane.INFORMATION_MESSAGE);
 
 		Random randomGenerator = new Random();
-		int randomInt = randomGenerator.nextInt();
+		int randomInt = randomGenerator.nextInt(hitchance);
 		if (randomInt > 100 - hitchance) {// hit confirmed
 			critChance = ((skill / 2) + uWeapon.getCritical()) - other.luck;
 			nextrandomInt = randomGenerator.nextInt();
@@ -213,6 +215,72 @@ public abstract class Unit {
 		else
 			return u.getWeapon().getMight() + u.getStrength()
 					- other.getDefense();
+	}
+	
+	private int getDef(Unit u, Unit other){
+		if(u instanceof SpellCaster)
+			return other.getResistance();
+		else
+			return other.getDefense();
+	}
+	
+	private int[] weaponsTri(Weapon uWeapon, Weapon otherWeapon){
+		int[] bonus = {0, 0};
+		if(uWeapon instanceof Sword)
+			if(otherWeapon instanceof Lance){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon instanceof Axe){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+		if(uWeapon instanceof Lance)
+			if(otherWeapon instanceof Axe){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon instanceof Sword){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+		if(uWeapon instanceof Axe)
+			if(otherWeapon instanceof Sword){
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+			if(otherWeapon instanceof Lance){
+				bonus[0] = 10;
+				bonus[1] = 5;
+			}
+			if(uWeapon instanceof Elemental)
+				if(otherWeapon instanceof Dark){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon instanceof Light){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			if(uWeapon instanceof Light)
+				if(otherWeapon instanceof Elemental){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon instanceof Dark){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			if(uWeapon instanceof Dark)
+				if(otherWeapon instanceof Light){
+					bonus[0] = -10;
+					bonus[1] = -5;
+				}
+				if(otherWeapon instanceof Elemental){
+					bonus[0] = 10;
+					bonus[1] = 5;
+				}
+			return bonus;
 	}
 
 	public String toString() {
@@ -401,6 +469,6 @@ public abstract class Unit {
 		return movement + this.getWeapon().getRange();
 	}
 	
-	protected abstract void setSpriteObject();
+	public abstract void setSpriteObject(int coordinates, int coordinates2);
 	public abstract SpriteObject getSpriteObject();
 }

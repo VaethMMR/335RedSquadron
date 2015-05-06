@@ -25,11 +25,11 @@ public class Saint extends SpellCaster {
 	}
 
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			spriteObject = new MapBishop(500, 500);
+			spriteObject = new MapBishop(x, y);
 		else
-			spriteObject = new MapSaint(500, 500);
+			spriteObject = new MapSaint(x, y);
 	}
 
 	@Override

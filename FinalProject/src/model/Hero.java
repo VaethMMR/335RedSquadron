@@ -1,22 +1,32 @@
 package model;
 
-import objects.MapGeneral;
 import objects.MapHero;
 import objects.SpriteObject;
 import controller.GamePlay.Team;
-import sprites.GeneralSprite;
-import sprites.HeroSprite;
-import sprites.Sprite;
+import terrain.*;
 
 //for all of these, not sure what unique things we going to add for each class so they are just extensions for now.
-public class Hero extends Melee {
+public final class Hero extends Commander {
 	private Weapon weapon;
 	private SpriteObject sprite;
-	private Team team;
+	private static Hero hero;
 
-   public Hero(Team team){
+   private Hero(Team team){
 	   super(team);
-	   this.team = team;
+   }
+   
+   public static synchronized Hero getHero(){
+		
+		if(hero == null)
+			hero = new Hero(Team.PLAYER);
+		
+		return hero;
+	}
+   
+   public boolean seize(Terrain piece){
+	   if(piece == Throne.getThrone())
+		   return true;
+	   return false;
    }
    
    protected void setWeapon(){
@@ -28,13 +38,10 @@ public class Hero extends Melee {
 	}
 
 	@Override
-	protected void setSpriteObject() {
-		if(team == Team.PLAYER)
-			sprite = new MapHero(500, 500);		
-		else
-			sprite = new MapGeneral(500, 500);
+	public void setSpriteObject(int x, int y) {
+			sprite = new MapHero(x, y);		
 	}
-
+			
 	@Override
 	public SpriteObject getSpriteObject() {
 		return sprite;

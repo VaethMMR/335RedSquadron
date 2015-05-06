@@ -29,11 +29,11 @@ public class Axereaver extends Melee {
 	}
 
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapAxereaver(500, 500);
+			sprite = new MapAxereaver(x, y);
 		else
-			sprite = new MapWarrior(500, 500);
+			sprite = new MapWarrior(x, y);
 	}
 
 	@Override

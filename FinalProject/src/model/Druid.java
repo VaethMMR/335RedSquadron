@@ -25,13 +25,13 @@ public class Druid extends SpellCaster{
 		return weapon;
 	}
 	@Override
-	protected void setSpriteObject() {
+	public void setSpriteObject(int x, int y) {
 		if(team == Team.PLAYER)
-			sprite = new MapDruid(500, 500);
+			sprite = new MapDruid(x, y);
 		else
-			sprite = new MapDarkDruid(500, 500);
-	
+			sprite = new MapDarkDruid(x, y);
 }
+	
 	public SpriteObject getSpriteObject(){
 		return sprite;
 	}
