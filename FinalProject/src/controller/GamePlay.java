@@ -162,7 +162,7 @@ public class GamePlay extends JFrame { // implements Observer{
 		final JTabbedPane tabPane = new JTabbedPane();
 		
 		// Set up the Inventory
-		inventory = new Inventory(25, 50);
+		inventory = new Inventory(25, 100);
 		inventoryView = new InventoryView(inventory, this);
 		tabPane.add(this.console, "Map");
 		tabPane.add(inventoryView, "Inventory");

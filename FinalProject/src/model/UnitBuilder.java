@@ -13,7 +13,7 @@ public class UnitBuilder {
 		if (build instanceof Hero) {
 			switch (build.getTeam()) {
 			case PLAYER:
-				build.setName(null);
+				build.setName("playerHero");
 				build.setLevel(5);
 				build.setMagic(0);
 				build.setHp(30);
@@ -25,7 +25,7 @@ public class UnitBuilder {
 				build.setDefense(10);
 				build.setResistance(5);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
 				build.setMovement(6);
 				((Hero) build).setSpriteObject();
 				break;
@@ -42,7 +42,7 @@ public class UnitBuilder {
 				build.setDefense(15);
 				build.setResistance(8);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
 				build.setMovement(5);
 				((Hero) build).setSpriteObject();
 				break;
@@ -51,7 +51,7 @@ public class UnitBuilder {
 		if (build instanceof Lancecaster) {
 			switch (build.getTeam()) {
 			case PLAYER:
-				build.setName(null);
+				build.setName("playerLancecaster");
 				build.setLevel(5);
 				build.setMagic(0);
 				build.setCurrentHp(30);
@@ -63,7 +63,7 @@ public class UnitBuilder {
 				build.setDefense(10);
 				build.setResistance(5);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Lance", -1));
 				build.setMovement(6);
 				((Lancecaster) build).setSpriteObject();
 				break;
@@ -80,7 +80,7 @@ public class UnitBuilder {
 				build.setDefense(15);
 				build.setResistance(8);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Lance", -1));
 				build.setMovement(5);
 				((Lancecaster) build).setSpriteObject();
 				break;
@@ -89,7 +89,7 @@ public class UnitBuilder {
 		if (build instanceof Swordmaster) {
 			switch (build.getTeam()) {
 			case PLAYER:
-				build.setName(null);
+				build.setName("playerSwordmaster");
 				build.setLevel(5);
 				build.setMagic(0);
 				build.setHp(30);
@@ -101,7 +101,7 @@ public class UnitBuilder {
 				build.setDefense(10);
 				build.setResistance(5);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", -1));
 				build.setMovement(6);
 				((Swordmaster) build).setSpriteObject();
 				break;
@@ -118,7 +118,7 @@ public class UnitBuilder {
 				build.setDefense(15);
 				build.setResistance(8);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", -1));
 				build.setMovement(5);
 				((Swordmaster) build).setSpriteObject();
 				break;
@@ -127,7 +127,7 @@ public class UnitBuilder {
 		if (build instanceof Axereaver) {
 			switch (build.getTeam()) {
 			case PLAYER:
-				build.setName(null);
+				build.setName("playerAxereaver");
 				build.setLevel(5);
 				build.setMagic(0);
 				build.setHp(30);
@@ -139,7 +139,7 @@ public class UnitBuilder {
 				build.setDefense(10);
 				build.setResistance(5);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Axe", -1));
 				build.setMovement(6);
 				((Axereaver) build).setSpriteObject();
 				break;
@@ -156,7 +156,7 @@ public class UnitBuilder {
 				build.setDefense(15);
 				build.setResistance(8);
 				build.setMoved(false);
-				build.setWeapon();
+				build.setWeapon(new WeaponFactory().makeWeapon("Axe", -1));
 				build.setMovement(5);
 				((Axereaver) build).setSpriteObject();
 				break;
@@ -165,7 +165,7 @@ public class UnitBuilder {
 			if (build instanceof Thief) {
 				switch (build.getTeam()) {
 				case PLAYER:
-					build.setName(null);
+					build.setName("playerThief");
 					build.setLevel(5);
 					build.setMagic(0);
 					build.setHp(30);
@@ -177,7 +177,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Knife", -1));
 					build.setMovement(6);
 					((Thief) build).setSpriteObject();
 					break;
@@ -194,7 +194,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(8);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Knife", -1));
 					build.setMovement(5);
 					((Thief) build).setSpriteObject();
 					break;
@@ -203,7 +203,7 @@ public class UnitBuilder {
 			if (build instanceof Marksman) {
 				switch (build.getTeam()) {
 				case PLAYER:
-					build.setName(null);
+					build.setName("playerMarksman");
 					build.setLevel(5);
 					build.setMagic(0);
 					build.setHp(30);
@@ -215,7 +215,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Bow", -1));
 					build.setMovement(6);
 					((Marksman) build).setSpriteObject();
 					break;
@@ -232,7 +232,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(8);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Bow", -1));
 					build.setMovement(5);
 					((Marksman) build).setSpriteObject();
 					break;
@@ -241,7 +241,7 @@ public class UnitBuilder {
 			if (build instanceof Druid) {
 				switch (build.getTeam()) {
 				case PLAYER:
-					build.setName(null);
+					build.setName("playerDruid");
 					build.setLevel(5);
 					build.setMagic(0);
 					build.setHp(30);
@@ -253,7 +253,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", -1));
 					build.setMovement(6);
 					((Druid) build).setSpriteObject();
 					break;
@@ -270,7 +270,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(8);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", -1));
 					build.setMovement(5);
 					((Druid) build).setSpriteObject();
 					break;
@@ -279,7 +279,7 @@ public class UnitBuilder {
 			if (build instanceof Saint) {
 				switch (build.getTeam()) {
 				case PLAYER:
-					build.setName(null);
+					build.setName("playerSaint");
 					build.setLevel(5);
 					build.setMagic(0);
 					build.setHp(30);
@@ -291,7 +291,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", -1));
 					build.setMovement(6);
 					((Saint) build).setSpriteObject();
 					break;
@@ -308,7 +308,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(8);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", -1));
 					build.setMovement(5);
 					((Saint) build).setSpriteObject();
 					break;
@@ -317,7 +317,7 @@ public class UnitBuilder {
 			if (build instanceof Sorcerer) {
 				switch (build.getTeam()) {
 				case PLAYER:
-					build.setName(null);
+					build.setName("playerSorcerer");
 					build.setLevel(5);
 					build.setMagic(0);
 					build.setHp(30);
@@ -329,7 +329,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", -1));
 					build.setMovement(6);
 					((Sorcerer) build).setSpriteObject();
 					break;
@@ -346,7 +346,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(8);
 					build.setMoved(false);
-					build.setWeapon();
+					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", -1));
 					build.setMovement(5);
 					((Sorcerer) build).setSpriteObject();
 					break;

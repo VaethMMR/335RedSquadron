@@ -2,7 +2,7 @@ package model;
 // 335 Final Project - Red Squadron
 // Authors: Connor Broderick
 
-public abstract class Weapon extends Item {
+public class Weapon extends Item {
 private int might;
 private int critical;
 private int accuracy;
@@ -11,7 +11,6 @@ private int range;
 private int level;
 private int magic;
 private int weight;
-private String name;
 
    public Weapon(String name, int level){
 	   super(name,level);
@@ -45,10 +44,6 @@ private String name;
    
    public int getWeight(){
 	  return weight; 
-   }
-   
-   public String getName(){
-	   return name;
    }
    
    // Set Methods

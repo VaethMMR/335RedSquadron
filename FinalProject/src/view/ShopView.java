@@ -42,11 +42,13 @@ public class ShopView extends JPanel {
 		this.tFactory = new TrapFactory();
 		this.setLayout(new GridLayout(3,1));
 		this.setBackground(Color.WHITE);
+		
+		// set up the shops inventory
 		String[] names = {"Sword","Sword","Sword", "Bow","Bow","Bow","Staff","Staff","Staff"
 				,"Axe","Axe","Axe","Health Potion", "Defense Potion", "Resistance Potion",
 				"Mine", "Barrier"};
-		int[] levels = {1,2,3,1,2,3,1,2,3,1,2,3,1,1,1,1,1};
-		int[] costs = {5,10,15,5,10,15,5,10,15,5,10,15,5,5,5,10,10};
+		int[] levels = {3,5,8,3,5,8,3,5,8,3,5,8,1,1,1,1,1};
+		int[] costs = {15,25,40,15,25,40,15,25,40,15,25,40,5,5,5,10,10};
 		String[] columnNames = {"Item", "level", "cost"};
 		data = new String[17][3];
 		table = new JTable(data, columnNames) {
@@ -61,7 +63,7 @@ public class ShopView extends JPanel {
 		scroll.setViewportView(table);
 		add(scroll);
 		
-		// set up consumable stat table
+		// set up consumable stats table
 		String [] consumableCols = {"Item", "Level", "Health", "Defense", "Resistance", "Uses"};
 		String [][] consData = new String[1][6];
 		conStats = new JTable(consData, consumableCols){
@@ -71,7 +73,7 @@ public class ShopView extends JPanel {
 		};
 		conStats.setRowHeight(55);
 		
-		// Set up Weapon stat table
+		// Set up Weapon stats table
 		String[][] test = new String[1][6];
 		String [] columnNames2 = {"Item","Range","Might","Accuracy","Critical", "Magic"};
 		stats = new JTable(test, columnNames2){
@@ -88,7 +90,7 @@ public class ShopView extends JPanel {
 		table.getSelectionModel().addListSelectionListener(new cellListener());
 
 		setUpTable(names,levels,costs);
-		
+		 
 		JButton buy = new JButton("Buy");
 		add(buy);
 		buy.addActionListener(new buttonListener());
@@ -105,6 +107,8 @@ public class ShopView extends JPanel {
 			
 	}
 
+	// when an item is clicked in the shop's inventory, it's stats are displayed
+	// in the table below
 	private class cellListener implements ListSelectionListener {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
@@ -142,6 +146,9 @@ public class ShopView extends JPanel {
 		}
 	}
 	
+	// this button adds purchased items to the player inventory
+	// and subtracts the cost. Throws exceptions for inventory full
+	// and not enough coins
 	private class buttonListener implements ActionListener{
 
 		@Override
