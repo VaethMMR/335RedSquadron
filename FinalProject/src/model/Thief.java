@@ -22,8 +22,8 @@ public class Thief extends Melee {
 		this.team = team;
 	}
 
-	protected void setWeapon() {
-		weapon = WeaponFactory.makeWeapon(this);
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 
 	public Weapon getWeapon() {

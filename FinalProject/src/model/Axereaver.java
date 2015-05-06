@@ -17,11 +17,10 @@ public class Axereaver extends Melee {
    public Axereaver(Team team){
      super(team);
      this.team = team;
-  	setWeapon();
    }
    
-   protected void setWeapon(){
-		weapon = WeaponFactory.makeWeapon(this);
+   public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
 	}
 	
 	public Weapon getWeapon(){

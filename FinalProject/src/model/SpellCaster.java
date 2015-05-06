@@ -21,7 +21,7 @@ public abstract class SpellCaster extends Ranged {
       return true;
    }
 
-   protected abstract void setWeapon();
+   public abstract void setWeapon(Weapon weapon);
    public abstract Weapon getWeapon();
 
 protected abstract void setSpriteObject();

@@ -11,7 +11,7 @@ public abstract class Melee extends Unit {
 	   super(team);
    }
    
-   protected abstract void setWeapon();
+   public abstract void setWeapon(Weapon weapon);
    public abstract Weapon getWeapon();
 
 

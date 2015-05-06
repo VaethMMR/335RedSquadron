@@ -104,23 +104,23 @@ public class GameMap extends Observable {
 	private void layoutMap(String type) throws IOException {
 
 		char[][] mapLayout1 = {
-				{ 't', 't', 't', 't', 't', 't', 't', 't', 't', 'H', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
-				{ 't', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'U', 'U', 'U', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
-				{ 't', 'G', 'G', 'G', 'G', 'd', 'd', 'd', 'U', 't', 'U', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
-				{ 't', 'G', 'G', 'G', 'G', 'd', 'G', 'G', 'd', 'd', 'd', 'G', 't', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 't', 't', 't', 't', 't', 't', 't', 't', 'h', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'u', 'u', 'u', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'G', 'G', 'G', 'G', 'd', 'd', 'd', 'u', 't', 'u', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
+				{ 't', 'G', 'G', 'G', 'G', 'd', 'G', 'G', 'u', 'u', 'u', 'G', 't', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
 				{ 't', 'G', 'G', 'G', 'G', 'd', 'G', 'G', 'G', 'd', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 't', 't', 't', 't', 't', },
 				{ 't', 'G', 'G', 'G', 'G', 'e', 'G', 'G', 'G', 'e', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 't', 't', 'l', 'c', 'r', 't', 't', },
 				{ 's', 's', 's', 's', 's', 'b', 's', 's', 's', 'b', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 's', 'b', 's', 's', 's', },
 				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', },
 				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', },
-				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w',	'w', 'w', 'w', 'b', 'w', 'w', 'w', },
+				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', },
 				{ 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'b', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'b', 'w', 'w', 'w', },
 				{ 'G', 'G', 'G', 'G', 'G', 'd', 'd', 'd', 'd', 'd', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', },
 				{ 'g', 'g', 'g', 't', 'g', 't', 'g', 'g', 'd', 't', 'g', 'g', 'g', 'g', 'g', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
 				{ 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'd', 'g', 'g', 'g', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
-				{ 'm', 'm', 'm', 'm', 'm', 'm', 'g', 'm', 'd', 't', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'u', 'u', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
-				{ 'm', 'm', 'm', 'm', 'm', 'f', 'g', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'u', 'h', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
-				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'u', 'u', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'g', 'm', 'd', 't', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'U', 'U', 'U', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'f', 'g', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'U', 'H', 'U', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
+				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'U', 'U', 'U', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
 				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
 				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 't', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', },
 				{ 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'd', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', }, };
@@ -142,25 +142,23 @@ public class GameMap extends Observable {
 					this.map[i][j] = newTerrainPiece;
 				}
 				if (mapLayout1[i][j] == 'U') {
-					Terrain newTerrainPiece = new Dirt(new int[] { i, j });
+					Terrain newTerrainPiece = new Grass(new int[] { i, j }, true);
 					newTerrainPiece.setPlayerSpawnPoint(true);
 					this.map[i][j] = newTerrainPiece;
 				}
 				if (mapLayout1[i][j] == 'H') {
-					Terrain newTerrainPiece = new Dirt(new int[] { i, j });
+					Terrain newTerrainPiece = new Grass(new int[] { i, j }, true);
 					newTerrainPiece.setPlayerSpawnPoint(true);
 					newTerrainPiece.setHeroSpawnPoint(true);
 					this.map[i][j] = newTerrainPiece;
 				}
 				if (mapLayout1[i][j] == 'u') {
-					Terrain newTerrainPiece = new Grass(new int[] { i, j },
-							true);
+					Terrain newTerrainPiece = new Dirt(new int[] { i, j });
 					newTerrainPiece.setAiSpawnPoint(true);
 					this.map[i][j] = newTerrainPiece;
 				}
 				if (mapLayout1[i][j] == 'h') {
-					Terrain newTerrainPiece = new Grass(new int[] { i, j },
-							true);
+					Terrain newTerrainPiece = new Dirt(new int[] { i, j });
 					newTerrainPiece.setAiSpawnPoint(true);
 					newTerrainPiece.setHeroSpawnPoint(true);
 					this.map[i][j] = newTerrainPiece;

@@ -36,6 +36,7 @@ public class GameView extends JPanel {
 	private DefaultListModel<String> inRangeUnitsModel;
 	private DefaultListModel<String> playerUnitsModel;
 	private JTextArea coordinateEntry;
+	private JTextArea winCondition;
 	private GraphicPanel graphics;
 	private Model m;
 
@@ -49,13 +50,31 @@ public class GameView extends JPanel {
 		graphics = new GraphicPanel(theGame.getMap());
 		add(graphics, BorderLayout.CENTER);
 		
-		// Set up the actionPanel
-		JPanel actionPanel = new JPanel();
-		actionPanel.setPreferredSize(new Dimension(260,710));
-		actionPanel.setLayout(new GridLayout(4, 1));
+		// Set up the HUD
+		JPanel hud = new JPanel();
+		hud.setPreferredSize(new Dimension(260,710));
+		hud.setLayout(new GridLayout(4, 1));
+		
+		// display the current win condition
+		//if (theGame.getMap().get)
+		String goal = "Destroy all enemy units.";
+		winCondition = new JTextArea(goal);
+		winCondition.setEditable(false);
+		winCondition.setPreferredSize(new Dimension(260,50));
+		hud.add(winCondition);
+		
+		
+		
+		// set up end turn button
+		JButton endTurn = new JButton("End Turn");
+		hud.add(endTurn);
+		endTurn.addActionListener(new endTurnActionListener(m));
+
+		// add the HUD to the GameView
+		add(hud, BorderLayout.EAST);
 		
 		// create JList
-		playerUnitsModel = new DefaultListModel<String>();
+		/*playerUnitsModel = new DefaultListModel<String>();
 		playerUnits = new JList<String>(playerUnitsModel);
 		playerUnits.setPreferredSize(new Dimension(150,200));
 		// add the JList to the panel
@@ -64,14 +83,11 @@ public class GameView extends JPanel {
 		// add buttons
 		JButton move = new JButton("Move");
 		actionPanel.add(move);
-		move.addActionListener(new moveActionListener());
+		move.addActionListener(new moveActionListener());*/
 		
-		coordinateEntry = new JTextArea();
-		coordinateEntry.setEditable(false);
-		actionPanel.add(coordinateEntry);
-		coordinateEntry.addFocusListener(new coordinateFocusListener());
+		//winCondition.addFocusListener(new coordinateFocusListener());
 		
-		JButton submitMove = new JButton("Submit Move");
+		/*JButton submitMove = new JButton("Submit Move");
 		actionPanel.add(submitMove);
 		submitMove.addActionListener(new submitMoveActionListener());
 		
@@ -88,20 +104,12 @@ public class GameView extends JPanel {
 		
 		JButton submitAttack = new JButton("Submit Attack");
 		actionPanel.add(submitAttack);
-		submitAttack.addActionListener(new submitAttackActionListener());
+		submitAttack.addActionListener(new submitAttackActionListener());*/
 		
-		JButton endTurn = new JButton("End Turn");
-		actionPanel.add(endTurn);
-		endTurn.addActionListener(new endTurnActionListener(m));
-
-		add(actionPanel, BorderLayout.EAST);
-		
-		setupPlayerList(theGame.getPlayerTeam());
+		//setupPlayerList(theGame.getPlayerTeam());
 		
 	}
 	
-	// getters and setters
-
 	// misc methods
 	private void setupPlayerList(List<Unit> units) {		
 		// first clear the list to make sure we don't duplicate Units

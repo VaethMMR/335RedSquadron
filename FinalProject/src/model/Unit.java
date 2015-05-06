@@ -297,7 +297,7 @@ public abstract class Unit {
 		return name;
 	}
 
-	protected abstract void setWeapon();
+	public abstract void setWeapon(Weapon weapon);
 
 	public abstract Weapon getWeapon();
 
