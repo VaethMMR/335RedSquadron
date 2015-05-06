@@ -10,9 +10,11 @@ public final class Hero extends Commander {
 	private Weapon weapon;
 	private SpriteObject sprite;
 	private static Hero hero;
+	private Team team;
 
    private Hero(Team team){
 	   super(team);
+	   team = Team.PLAYER;
    }
    
    public static synchronized Hero getHero(){

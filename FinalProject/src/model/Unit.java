@@ -63,7 +63,6 @@ public abstract class Unit {
 		int nextrandomInt = 0;
 		int hitchance = ((skill * 2) + luck + uWeapon.getAccuracy())
 				- ((other.speed * 2) + other.luck) + bonusHit;
-
 		// Units that are out of range can not be attacked
 		// SpellCasters have at least 2 ranges
 		// All other units are strictly limited to 1 range
@@ -76,6 +75,22 @@ public abstract class Unit {
 			if (distance != range)
 				return false;
 		}
+		if(damage < 0)
+			damage = 0;
+		if(damage > 100)
+			damage = 100;
+		if(currentHp < 0)
+			currentHp = 0;
+		if(currentHp > 100)
+			currentHp = 100;
+		if(critical < 0)
+			critical = 0;
+		if(critical > 100)
+			critical = 100;
+		if(hitchance < 0)
+			hitchance = 0;
+		if(hitchance > 100)
+			hitchance = 100;
 		JOptionPane.showMessageDialog(null, this.name + " attacks "
 				+ other.name + "\nAcc: " + hitchance + "\nDmg: " + damage
 				+ "\nCrit: " + critical, "Attack Phase",

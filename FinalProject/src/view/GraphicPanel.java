@@ -101,8 +101,8 @@ public class GraphicPanel extends JPanel implements Observer {
 			terrainPiece.getUnit().setSpriteObject(x + 16, y + 16);
 			if (terrainPiece.getUnit() == Hero.getHero()) {
 				heroLocale = terrainPiece.getLocation();
-				cursor.setPosition(heroLocale[0] + 16, heroLocale[1] + 16);
-				cursor.draw(g);
+//				cursor.setPosition(heroLocale[0] + 16, heroLocale[1] + 16);
+//				cursor.draw(g);
 			}
 			terrainPiece.getUnit().getSpriteObject().draw(g);
 		}

@@ -12,6 +12,7 @@ public final class General extends Commander {
 	private static General general;
 	private General(Team team) {
 		super(team);
+		team = team.COMPUTER;
 	}
 	
 	public static synchronized General getGeneral(){
