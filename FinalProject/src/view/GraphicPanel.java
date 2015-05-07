@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import controller.GamePlay;
+import controller.GamePlay.Team;
 import terrain.Terrain;
 import model.GameMap;
 import model.Unit;
@@ -150,16 +151,14 @@ public class GraphicPanel extends JPanel implements Observer {
 			tile.setMoveHighlighted(false);
 			tile.setAttackHighlighted(true);
 		}
-		repaint();
 	}
 
 	private void selectUnit(Unit theUnit) {
 		selectedUnit = theUnit;
-		addHighlights(theUnit);
-	}
-
-	private void selectEnemyUnit(Unit theUnit) {
-		selectedUnit = theUnit;
+		if (selectedUnit.getTeam() == Team.PLAYER) {
+			addHighlights(theUnit);
+		}
+		repaint();
 	}
 
 	private void deselectUnit() {
@@ -192,42 +191,38 @@ public class GraphicPanel extends JPanel implements Observer {
 				} else {
 					// the clicked Unit is on the AI's team
 					if (selectedUnit != null) {
-						// a player Unit is currently selected
-						if (clickedTile.hasAttackHighlight()) {
-							// the enemy Unit is within the selected Unit's
+						// a Unit is currently selected
+						if (selectedUnit.getTeam() == Team.COMPUTER) {
+							// if the selected unit is an ai Unit, switch the selection
+							// to the new ai Unit
+							selectUnit(clickedTile.getUnit());
+						} else if (clickedTile.hasAttackHighlight()) {
+							// the selected Unit is a player Unit and the clicked Unit is ai
+							// the ai Unit is within the selected Unit's
 							// attack range
-							int choice = JOptionPane.showConfirmDialog(null,
-									"Do you wish to attack "
-											+ clickedTile.getUnit().getName()
-											+ "?",
-									"Choose yes to to move and attack "
-											+ clickedTile.getUnit().getName(),
-									JOptionPane.YES_NO_CANCEL_OPTION,
-									JOptionPane.QUESTION_MESSAGE);
-							if (choice == JOptionPane.YES_OPTION) {
-								// move selected unit to be in range of enemy
-								// unit and attack
+							if (!selectedUnit.hasAttacked()) {
+								// if the Unit has not already attacked this
+								// turn
+								int choice = JOptionPane.showConfirmDialog(
+										null, "Do you wish to attack "
+												+ clickedTile.getUnit()
+														.getName() + "?",
+										"Choose yes to to move and attack "
+												+ clickedTile.getUnit()
+														.getName(),
+										JOptionPane.YES_NO_CANCEL_OPTION,
+										JOptionPane.QUESTION_MESSAGE);
+								if (choice == JOptionPane.YES_OPTION) {
+									// move selected unit to be in range of
+									// enemy
+									// unit and attack
 									// attack the enemy unit
-
-									// Get a heuristic from the attackingUnit to the
-									// defendingUnit
-									// to pass in a distance
-									// Manhattan formula
-									int aX = theGame.getMap().getUnitLocations()
-											.get(selectedUnit).getLocation()[0];
-									int aY = theGame.getMap().getUnitLocations()
-											.get(selectedUnit).getLocation()[1];
-									int dX = theGame.getMap().getUnitLocations()
-											.get(selectedUnit).getLocation()[0];
-									int dY = theGame.getMap().getUnitLocations()
-											.get(clickedTile.getUnit())
-											.getLocation()[1];
-									int range = Math.abs(aX - dX)
-											+ Math.abs(aY - dY);
 									selectedUnit.attack(clickedTile.getUnit(),
-											range);
+											0);
+									selectedUnit.setAttacked(true);
 									if (clickedTile.getUnit().getCurrentHp() < 1) {
-										// figure out which team the dead Unit is on
+										// figure out which team the dead Unit
+										// is on
 										theGame.getMap().removeUnit(
 												clickedTile.getUnit());
 										if (theGame.getPlayerTeam().contains(
@@ -239,43 +234,76 @@ public class GraphicPanel extends JPanel implements Observer {
 													clickedTile.getUnit());
 									}
 									if (selectedUnit.getCurrentHp() < 1) {
-										// figure out which team the dead Unit is on
-										theGame.getMap().removeUnit(selectedUnit);
-										theGame.getPlayerTeam()
-												.remove(selectedUnit);
+										// figure out which team the dead Unit
+										// is on
+										theGame.getMap().removeUnit(
+												selectedUnit);
+										theGame.getPlayerTeam().remove(
+												selectedUnit);
 										deselectUnit();
 									}
 								}
 							}
-						} else {
+						} else if (!clickedTile.hasAttackHighlight()) {
+							// the clicked Unit is out of range of the selected Unit
+							// so switch the selection to the clicked Unit
 							deselectUnit();
-							selectEnemyUnit(clickedTile.getUnit());
-						}
-					}
-			} else {
-				// there is no Unit on the clicked tile
-				if (selectedUnit != null && (clickedTile.hasMoveHighlight() || clickedTile.hasAttackHighlight())) {
-					// if a Unit is currently selected and the clicked tile is
-					// in its movement range
-					if (clickedTile.getItem() != null) {
-						// if an item is on the clicked tile
-						int choice = JOptionPane.showConfirmDialog(null,
-								"Choose 'Yes' to move here and add this "
-										+ clickedTile.getItem().getName()
-										+ "to your inventory.",
-								"Move and add Item to Inventory?",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
-						if (choice == JOptionPane.YES_OPTION) {
-							// move unit here and add the item to the inventory
-							// and remove it from the map
+							selectUnit(clickedTile.getUnit());
+						} else {
+							// if the Unit has already attacked this turn
+							JOptionPane
+									.showMessageDialog(
+											null, selectedUnit.getName()
+											+ " cannot attack again until next turn.",
+											"Unit has already attacked",
+													JOptionPane.ERROR_MESSAGE);
 						}
 					} else {
-						// the clicked tile is in movement range and empty of
-						// items
-						// move the Unit to the tile
-						theMap.moveUnit(selectedUnit, clickedTile.getLocation());
+						// a unit is not currently selected
 						deselectUnit();
+						selectUnit(clickedTile.getUnit());
+					}
+				}
+			} else {
+				// there is no Unit on the clicked tile
+				if (selectedUnit != null
+						&& (clickedTile.hasMoveHighlight() || clickedTile
+								.hasAttackHighlight())) {
+					// if a Unit is currently selected and the clicked tile is
+					// in its movement range
+					if (!selectedUnit.hasMoved()) {
+						if (clickedTile.getItem() != null) {
+							// if an item is on the clicked tile
+							int choice = JOptionPane.showConfirmDialog(null,
+									"Choose 'Yes' to move here and add this "
+											+ clickedTile.getItem().getName()
+											+ "to your inventory.",
+									"Move and add Item to Inventory?",
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE);
+							if (choice == JOptionPane.YES_OPTION) {
+								// move unit here and add the item to the
+								// inventory
+								// and remove it from the map
+							}
+						} else {
+							// the clicked tile is in movement range and empty
+							// of
+							// items
+							// move the Unit to the tile
+							theMap.moveUnit(selectedUnit,
+									clickedTile.getLocation());
+							selectedUnit.setMoved(true);
+							deselectUnit();
+						}
+					} else {
+						// the unit has already moved this turn
+						JOptionPane
+								.showMessageDialog(
+										null, selectedUnit.getName()
+										+ " cannot move again until next turn.",
+										"Unit has already moved.",
+												JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					// if no Unit is currently selected and/or the clicked tile
@@ -301,6 +329,6 @@ public class GraphicPanel extends JPanel implements Observer {
 		@Override
 		public void mouseExited(java.awt.event.MouseEvent e) {
 		}
-	        	
+
 	}
 }

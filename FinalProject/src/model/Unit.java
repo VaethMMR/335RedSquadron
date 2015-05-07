@@ -27,6 +27,7 @@ public abstract class Unit {
 	private int defense;
 	private int resistance;
 	private boolean hasMoved;
+	private boolean hasAttacked;
 	private Team team;
 
 	// this constructor will take a lot of arguments, that is because unit is in
@@ -68,28 +69,23 @@ public abstract class Unit {
 		// All other units are strictly limited to 1 range
 		// i.e Melee can only attack from 1 distance and have a range of 1
 		// but Marksmen can onlt attack from 2 away but have a range of 2
-		if (this instanceof SpellCaster) {
-			if (distance > range)
-				return false;
-		} else {
-			if (distance != range)
-				return false;
-		}
-		if(damage < 0)
+		if (distance > range)
+			return false;
+		if (damage < 0)
 			damage = 0;
-		if(damage > 100)
+		if (damage > 100)
 			damage = 100;
-		if(currentHp < 0)
+		if (currentHp < 0)
 			currentHp = 0;
-		if(currentHp > 100)
+		if (currentHp > 100)
 			currentHp = 100;
-		if(critical < 0)
+		if (critical < 0)
 			critical = 0;
-		if(critical > 100)
+		if (critical > 100)
 			critical = 100;
-		if(hitchance < 0)
+		if (hitchance < 0)
 			hitchance = 0;
-		if(hitchance > 100)
+		if (hitchance > 100)
 			hitchance = 100;
 		JOptionPane.showMessageDialog(null, this.name + " attacks "
 				+ other.name + "\nAcc: " + hitchance + "\nDmg: " + damage
@@ -231,71 +227,74 @@ public abstract class Unit {
 			return u.getWeapon().getMight() + u.getStrength()
 					- other.getDefense();
 	}
-	
-	private int getDef(Unit u, Unit other){
-		if(u instanceof SpellCaster)
+
+	private int getDef(Unit u, Unit other) {
+		if (u instanceof SpellCaster)
 			return other.getResistance();
 		else
 			return other.getDefense();
 	}
-	
-	private int[] weaponsTri(Weapon uWeapon, Weapon otherWeapon){
-		int[] bonus = {0, 0};
-		if(uWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife"))
-			if(otherWeapon.getName().contains("Lance")){
+
+	private int[] weaponsTri(Weapon uWeapon, Weapon otherWeapon) {
+		int[] bonus = { 0, 0 };
+		if (uWeapon.getName().contains("Sword")
+				|| otherWeapon.getName().contains("Knife"))
+			if (otherWeapon.getName().contains("Lance")) {
 				bonus[0] = -10;
 				bonus[1] = -5;
 			}
-			if(otherWeapon.getName().contains("Axe")){
-				bonus[0] = 10;
-				bonus[1] = 5;
-			}
-		if(uWeapon.getName().contains("Lance"))
-			if(otherWeapon.getName().contains("Axe")){
+		if (otherWeapon.getName().contains("Axe")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		if (uWeapon.getName().contains("Lance"))
+			if (otherWeapon.getName().contains("Axe")) {
 				bonus[0] = -10;
 				bonus[1] = -5;
 			}
-			if(otherWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife")){
-				bonus[0] = 10;
-				bonus[1] = 5;
-			}
-		if(uWeapon.getName().contains("Axe"))
-			if(otherWeapon.getName().contains("Sword") || otherWeapon.getName().contains("Knife")){
+		if (otherWeapon.getName().contains("Sword")
+				|| otherWeapon.getName().contains("Knife")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		if (uWeapon.getName().contains("Axe"))
+			if (otherWeapon.getName().contains("Sword")
+					|| otherWeapon.getName().contains("Knife")) {
 				bonus[0] = -10;
 				bonus[1] = -5;
 			}
-			if(otherWeapon.getName().contains("Lance")){
-				bonus[0] = 10;
-				bonus[1] = 5;
+		if (otherWeapon.getName().contains("Lance")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		if (uWeapon.getName().contains("Anima Magic"))
+			if (otherWeapon.getName().contains("Dark Magic")) {
+				bonus[0] = -10;
+				bonus[1] = -5;
 			}
-			if(uWeapon.getName().contains("Anima Magic"))
-				if(otherWeapon.getName().contains("Dark Magic")){
-					bonus[0] = -10;
-					bonus[1] = -5;
-				}
-				if(otherWeapon.getName().contains("Light Magic")){
-					bonus[0] = 10;
-					bonus[1] = 5;
-				}
-			if(uWeapon.getName().contains("Light Magic"))
-				if(otherWeapon.getName().contains("Anima Magic")){
-					bonus[0] = -10;
-					bonus[1] = -5;
-				}
-				if(otherWeapon.getName().contains("Dark Magic")){
-					bonus[0] = 10;
-					bonus[1] = 5;
-				}
-			if(uWeapon.getName().contains("Dark Magic"))
-				if(otherWeapon.getName().contains("Light Magic")){
-					bonus[0] = -10;
-					bonus[1] = -5;
-				}
-				if(otherWeapon.getName().contains("Anima Magic")){
-					bonus[0] = 10;
-					bonus[1] = 5;
-				}
-			return bonus;
+		if (otherWeapon.getName().contains("Light Magic")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		if (uWeapon.getName().contains("Light Magic"))
+			if (otherWeapon.getName().contains("Anima Magic")) {
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+		if (otherWeapon.getName().contains("Dark Magic")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		if (uWeapon.getName().contains("Dark Magic"))
+			if (otherWeapon.getName().contains("Light Magic")) {
+				bonus[0] = -10;
+				bonus[1] = -5;
+			}
+		if (otherWeapon.getName().contains("Anima Magic")) {
+			bonus[0] = 10;
+			bonus[1] = 5;
+		}
+		return bonus;
 	}
 
 	public String toString() {
@@ -374,6 +373,14 @@ public abstract class Unit {
 
 	public boolean hasMoved() {
 		return hasMoved;
+	}
+	
+	public void setAttacked(boolean attacked) {
+		hasAttacked = attacked;
+	}
+	
+	public boolean hasAttacked() {
+		return hasAttacked;
 	}
 
 	public String getName() {
@@ -475,15 +482,16 @@ public abstract class Unit {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setCurrentHp(int n){
+
+	public void setCurrentHp(int n) {
 		this.currentHp = n;
 	}
 
 	public int getAttackRange() {
 		return movement + this.getWeapon().getRange();
 	}
-	
+
 	public abstract void setSpriteObject(int coordinates, int coordinates2);
+
 	public abstract SpriteObject getSpriteObject();
 }

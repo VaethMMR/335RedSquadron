@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-
 import javax.swing.JOptionPane;
 
 import terrain.Terrain;
@@ -344,10 +343,8 @@ public class GameMap extends Observable {
 		} else {
 			posXBound = location[1] + movement;
 		}
-		
 		for (int i = negYBound; i < posYBound; i++) {
 			for (int j = negXBound; j < posXBound; j++) {
-				
 				// make sure the new location is within toMove's movement range
 				int horizontal = (location[0] - i);
 				if (horizontal < 0) {
@@ -418,7 +415,9 @@ public class GameMap extends Observable {
 				int spacesToAttack = horizontal + vertical - 1;
 				if (spacesToAttack <= range) {
 					if (this.map[i][j].getStandable()) {
+						if (!this.playerTeam.contains(this.getMap()[i][j].getUnit())) {
 							possibleAttacks.add(this.map[i][j]);
+						}
 					}
 				}
 			}
