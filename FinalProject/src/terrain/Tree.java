@@ -9,11 +9,11 @@ import javax.imageio.ImageIO;
 
 public class Tree extends Terrain {
 	// private variables
-	private transient BufferedImage graphic;
-	private static transient BufferedImage tree1;
-	private static transient BufferedImage tree2;
-	private static transient BufferedImage tree3;
-	private static transient BufferedImage tree4;
+	private BufferedImage graphic;
+	private static BufferedImage tree1;
+	private static BufferedImage tree2;
+	private static BufferedImage tree3;
+	private static BufferedImage tree4;
 	static {
 		try {
 			tree1 = ImageIO.read(new File("images/tree1.png"));

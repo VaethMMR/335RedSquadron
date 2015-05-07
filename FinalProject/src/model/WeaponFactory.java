@@ -1,18 +1,13 @@
 package model;
 
 import java.util.Random;
-import java.io.Serializable;
 
-public class WeaponFactory implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5255085810997770068L;
+public class WeaponFactory {
 	private Weapon weapon;
 
 	public WeaponFactory() {
 	}
+
 	public Weapon makeWeapon(String name, int level) {
 		if (level == -1) {
 			Random generator = new Random();
@@ -21,9 +16,9 @@ public class WeaponFactory implements Serializable {
 		if (name == "Sword") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(8 + level);
-			weapon.setAccuracy(90 + level);
-			weapon.setCritical(10 + level);
+			weapon.setMight(2 + level);
+			weapon.setAccuracy(80 + level);
+			weapon.setCritical(2 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(2);
@@ -33,9 +28,9 @@ public class WeaponFactory implements Serializable {
 		if (name == "Axe") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(10 + level);
-			weapon.setAccuracy(75 + level);
-			weapon.setCritical(5 + level);
+			weapon.setMight(2 + level);
+			weapon.setAccuracy(80 + level);
+			weapon.setCritical(2 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(2);
@@ -44,10 +39,10 @@ public class WeaponFactory implements Serializable {
 
 		if (name == "Bow") {
 			weapon = new Weapon(name, level);
-			weapon.setRange(2);
+			weapon.setRange(4);
 			weapon.setMight(1 + level);
-			weapon.setAccuracy(95 + level);
-			weapon.setCritical(20 + level);
+			weapon.setAccuracy(3 + level);
+			weapon.setCritical(1 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(0);
@@ -58,10 +53,10 @@ public class WeaponFactory implements Serializable {
 			weapon = new Weapon(name, level);
 			weapon.setRange(2);
 			weapon.setMight(0);
-			weapon.setAccuracy(100 + level);
-			weapon.setCritical(0 + level);
+			weapon.setAccuracy(2 + level);
+			weapon.setCritical(3 + level);
 			weapon.setCost(5 * level);
-			weapon.setMagic(10 + level);
+			weapon.setMagic(3 + level);
 			weapon.setWeight(0);
 			return weapon;
 		}
@@ -73,7 +68,7 @@ public class WeaponFactory implements Serializable {
 			weapon.setAccuracy(90 + level);
 			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
-			weapon.setMagic(2 + level);
+			weapon.setMagic(3 + level);
 			weapon.setWeight(0);
 			return weapon;
 		}
@@ -104,7 +99,7 @@ public class WeaponFactory implements Serializable {
 		if (name == "Lance") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(9 + level);
+			weapon.setMight(5 + level);
 			weapon.setAccuracy(85 + level);
 			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
@@ -115,9 +110,9 @@ public class WeaponFactory implements Serializable {
 		if (name == "Knife") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(2 + level);
-			weapon.setAccuracy(100 + level);
-			weapon.setCritical(15 + level);
+			weapon.setMight(1 + level);
+			weapon.setAccuracy(1 + level);
+			weapon.setCritical(2 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(1);

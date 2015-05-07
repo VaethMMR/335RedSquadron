@@ -9,9 +9,9 @@ import javax.imageio.ImageIO;
 
 public class Water extends Terrain {
 	// private variables
-	private transient BufferedImage graphic;
-	private static transient BufferedImage water1;
-	private static transient BufferedImage water2;
+	private BufferedImage graphic;
+	private static BufferedImage water1;
+	private static BufferedImage water2;
 	static {
 		try {
 			water1 = ImageIO.read(new File("images/water1.png"));

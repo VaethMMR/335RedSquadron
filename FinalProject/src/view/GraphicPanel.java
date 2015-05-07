@@ -6,7 +6,6 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,24 +14,27 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import objects.Cursor;
-import objects.SpriteObject;
+import controller.GamePlay;
 import terrain.Terrain;
 import model.GameMap;
-import model.Model;
 import model.Unit;
 
-public class GraphicPanel extends JPanel implements Observer, Serializable {
+public class GraphicPanel extends JPanel implements Observer {
 
 	private static final long serialVersionUID = 321562980917862556L;
+	private GamePlay theGame;
 	private GameMap theMap;
 	private Unit selectedUnit = null;
-	private transient BufferedImage moveHighlighter;
-	private transient BufferedImage attackHighlighter;
-	private SpriteObject cursor;
+	private BufferedImage moveHighlighter;
+	private BufferedImage attackHighlighter;
+	private BufferedImage cursor;
+	private BufferedImage barrier;
+	private BufferedImage mine;
+	private int[] selectedTile = new int[] { 0, 0 };
 
-	public GraphicPanel(GameMap theMap) {
-		this.theMap = theMap;
+	public GraphicPanel(GamePlay theGame) {
+		this.theGame = theGame;
+		this.theMap = theGame.getMap();
 		theMap.addObserver(this);
 		this.setPreferredSize(new Dimension(850, 710));
 		loadImages();
@@ -41,21 +43,19 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 
 	private void loadImages() {
 		try {
-			cursor = new Cursor(16,16);
-			ImageIO.read(new File("images/TheHunter.png"));
+			cursor = ImageIO.read(new File("images/Gamecursor.png"));
 			moveHighlighter = ImageIO.read(new File("images/highlight.png"));
 			attackHighlighter = ImageIO.read(new File(
 					"images/attackHighlight.png"));
+			barrier = ImageIO.read(new File("images/barrier.png"));
+			mine = ImageIO.read(new File("images/mine.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void update(Observable o, Object arg) {
-		if(o instanceof GameMap)
-			theMap = (GameMap) o;
-		else
-			theMap = ((Model) o).getMap();
+		theMap = (GameMap) o;
 		repaint();
 
 	}
@@ -74,9 +74,10 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 
 	public void drawTile(Graphics g, Terrain terrainPiece, int x, int y) {
 		if (!terrainPiece.hasMoveHighlight()
-				&& !terrainPiece.hasAttackHighlight()) {
+				&& !terrainPiece.hasAttackHighlight()
+				&& !terrainPiece.getSelected()) {
 			// if the terrain piece is not flagged for highlighting, draw it
-			// regularly
+			// normally
 			g.drawImage(terrainPiece.getGraphic(), x, y, 32, 32, null);
 		} else {
 			// if the terrain piece is flagged for highlighting
@@ -85,6 +86,9 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 				g.drawImage(
 						highlightTile(terrainPiece.getGraphic(),
 								moveHighlighter), x, y, 32, 32, null);
+			} else if (terrainPiece.getSelected()) {
+				g.drawImage(highlightTile(terrainPiece.getGraphic(), cursor),
+						x, y, 32, 32, null);
 			} else {
 				// add an attack highlight (red)
 				g.drawImage(
@@ -95,12 +99,15 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 		if (terrainPiece.getUnit() != null) {
 			// if the terrain piece has a Unit on it, draw the Unit
 			terrainPiece.getUnit().setSpriteObject(x + 16, y + 16);
-//			if (terrainPiece.getUnit() == Hero.getHero()) {
-//				heroLocale = terrainPiece.getLocation();
-//				cursor.setPosition(heroLocale[0] + 16, heroLocale[1] + 16);
-//				cursor.draw(g);
-			
 			terrainPiece.getUnit().getSpriteObject().draw(g);
+		}
+		if (terrainPiece.getItem() != null) {
+			// if there is an item on the tile
+			if (terrainPiece.getItem().getName().equals("Mine")) {
+				g.drawImage(mine, x, y, 32, 32, null);
+			} else if (terrainPiece.getItem().getName().equals("Barrier")) {
+				g.drawImage(barrier, x, y, 32, 32, null);
+			}
 		}
 	}
 
@@ -137,6 +144,7 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 		ArrayList<Terrain> attackTiles = (ArrayList<Terrain>) theMap
 				.getPossibleAttacks(theUnit);
 		for (Terrain tile : attackTiles) {
+			tile.setMoveHighlighted(false);
 			tile.setAttackHighlighted(true);
 		}
 		repaint();
@@ -162,13 +170,14 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 		@Override
 		public void mouseClicked(java.awt.event.MouseEvent e) {
 			Terrain clickedTile = theMap.getMap()[e.getY() / 32][e.getX() / 32];
-			cursor.setPosition(clickedTile.getLocation()[0],
-					clickedTile.getLocation()[1]);
+			theMap.getMap()[selectedTile[0]][selectedTile[1]]
+					.setSelected(false);
+			clickedTile.setSelected(true);
+			selectedTile = clickedTile.getLocation();
 			if (clickedTile.getUnit() != null) {
-				// there is a Unit on the clicked tile
-
+				// if there is a Unit on the clicked tile
 				if (theMap.getPlayerTeam().contains(clickedTile.getUnit())) {
-					// the clicked Unit is on the player's team
+					// if the clicked Unit is on the player's team
 					if (selectedUnit == clickedTile.getUnit()) {
 						// if the clicked Unit is the selected Unit, deselect
 						deselectUnit();
@@ -181,20 +190,68 @@ public class GraphicPanel extends JPanel implements Observer, Serializable {
 					// the clicked Unit is on the AI's team
 					if (selectedUnit != null) {
 						// a player Unit is currently selected
-						if (clickedTile.hasMoveHighlight()
-								|| clickedTile.hasAttackHighlight()) {
+						if (clickedTile.hasAttackHighlight()) {
 							// the enemy Unit is within the selected Unit's
 							// attack range
-							// TODO: Attack options
+							int choice = JOptionPane.showConfirmDialog(null,
+									"Do you wish to attack "
+											+ clickedTile.getUnit().getName()
+											+ "?",
+									"Choose yes to to move and attack "
+											+ clickedTile.getUnit().getName(),
+									JOptionPane.YES_NO_CANCEL_OPTION,
+									JOptionPane.QUESTION_MESSAGE);
+							if (choice == JOptionPane.YES_OPTION) {
+								// move selected unit to be in range of enemy
+								// unit and attack
+									// attack the enemy unit
+
+									// Get a heuristic from the attackingUnit to the
+									// defendingUnit
+									// to pass in a distance
+									// Manhattan formula
+									int aX = theGame.getMap().getUnitLocations()
+											.get(selectedUnit).getLocation()[0];
+									int aY = theGame.getMap().getUnitLocations()
+											.get(selectedUnit).getLocation()[1];
+									int dX = theGame.getMap().getUnitLocations()
+											.get(selectedUnit).getLocation()[0];
+									int dY = theGame.getMap().getUnitLocations()
+											.get(clickedTile.getUnit())
+											.getLocation()[1];
+									int range = Math.abs(aX - dX)
+											+ Math.abs(aY - dY);
+									selectedUnit.attack(clickedTile.getUnit(),
+											range);
+									if (clickedTile.getUnit().getCurrentHp() < 1) {
+										// figure out which team the dead Unit is on
+										theGame.getMap().removeUnit(
+												clickedTile.getUnit());
+										if (theGame.getPlayerTeam().contains(
+												clickedTile.getUnit()))
+											theGame.getPlayerTeam().remove(
+													clickedTile.getUnit());
+										else
+											theGame.getAiTeam().remove(
+													clickedTile.getUnit());
+									}
+									if (selectedUnit.getCurrentHp() < 1) {
+										// figure out which team the dead Unit is on
+										theGame.getMap().removeUnit(selectedUnit);
+										theGame.getPlayerTeam()
+												.remove(selectedUnit);
+										deselectUnit();
+									}
+								}
+							}
 						} else {
 							deselectUnit();
 							selectEnemyUnit(clickedTile.getUnit());
 						}
 					}
-				}
 			} else {
 				// there is no Unit on the clicked tile
-				if (selectedUnit != null && clickedTile.hasMoveHighlight()) {
+				if (selectedUnit != null && (clickedTile.hasMoveHighlight() || clickedTile.hasAttackHighlight())) {
 					// if a Unit is currently selected and the clicked tile is
 					// in its movement range
 					if (clickedTile.getItem() != null) {

@@ -9,13 +9,13 @@ import javax.imageio.ImageIO;
 
 public class Shore extends Terrain {
 	// private variables
-	private transient BufferedImage graphic;
-	private static transient BufferedImage shore1;
-	private static transient BufferedImage shore2;
-	private static transient BufferedImage shore3;
-	private static transient BufferedImage shore4;
-	private static transient BufferedImage water1;
-	private static transient BufferedImage water2;
+	private BufferedImage graphic;
+	private static BufferedImage shore1;
+	private static BufferedImage shore2;
+	private static BufferedImage shore3;
+	private static BufferedImage shore4;
+	private static BufferedImage water1;
+	private static BufferedImage water2;
 	static {
 		try {
 			shore1 = ImageIO.read(new File("images/shore1.png"));

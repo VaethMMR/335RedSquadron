@@ -1,11 +1,10 @@
 package ai;
 
-import java.io.Serializable;
-
 import model.*;
+
 import terrain.*;
 
-public class Grid implements Serializable {
+public class Grid {
 	
 	private GridNode head, corner, target, start;
 	private int x, y;

@@ -37,7 +37,6 @@ public class Axereaver extends Melee {
 
 	@Override
 	public SpriteObject getSpriteObject() {
-		// TODO Auto-generated method stub
 		return sprite;
 	}
 

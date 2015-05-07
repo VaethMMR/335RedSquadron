@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class LeftGate extends Terrain {
 
 	// private variables
-	private static transient BufferedImage graphic;
+	private static BufferedImage graphic;
 	static {
 		try {
 			graphic = ImageIO.read(new File("images/leftGate.png"));
@@ -20,7 +20,7 @@ public class LeftGate extends Terrain {
 	
 	// constructor
 	public LeftGate(int[] location) throws IOException {
-		super(false, location);
+		super(true, location);
 	}
 
 	// get methods

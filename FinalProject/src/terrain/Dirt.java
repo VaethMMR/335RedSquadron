@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 
 public class Dirt extends Terrain {
 	// private variables
-	private transient BufferedImage graphic;
-	private static transient BufferedImage dirt;
+	private BufferedImage graphic;
+	private static BufferedImage dirt;
 	static {
 		try {
 			dirt = ImageIO.read(new File("images/dirt.png"));

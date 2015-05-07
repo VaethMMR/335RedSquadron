@@ -11,12 +11,12 @@ import javax.imageio.ImageIO;
 
 public class Grass extends Terrain {
 	// private variables
-	private transient BufferedImage graphic;
+	private BufferedImage graphic;
 	private boolean shortGrass;
-	private static transient BufferedImage grass1;
-	private static transient BufferedImage grass2;
-	private static transient BufferedImage shortGrass1;
-	private static transient BufferedImage shortGrass2;
+	private static BufferedImage grass1;
+	private static BufferedImage grass2;
+	private static BufferedImage shortGrass1;
+	private static BufferedImage shortGrass2;
 	static {
 		try {
 			grass1 = ImageIO.read(new File("images/grass1.png"));

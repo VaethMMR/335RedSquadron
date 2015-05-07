@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 public class Throne extends Terrain {
 
-	private static transient Throne throne;
-	private static transient int[] location;
+	private static Throne throne;
+	private static int[] location;
 	private boolean seized = false;
 	
 	private Throne(boolean standable, int[] location){

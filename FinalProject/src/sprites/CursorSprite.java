@@ -8,11 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class CursorSprite extends Sprite {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3111358609210591265L;
-	private transient BufferedImage cursor;
+	private BufferedImage cursor;
 	
 	public CursorSprite() {
 		try {

@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Bridge extends Terrain {
 	// private variables
-	private static transient BufferedImage graphic;
+	private static BufferedImage graphic;
 	static {
 		try {
 			graphic = ImageIO.read(new File("images/bridge.png"));

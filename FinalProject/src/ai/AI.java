@@ -1,6 +1,5 @@
 package ai;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import model.*;
 //AI team of units. Also tracks the AI's team by adding
 //and removing units
 
-public class AI implements Serializable {
+public class AI {
 	private List<Unit> team;
 	private Strategy s;
 	private Model model;
@@ -28,10 +27,6 @@ public class AI implements Serializable {
 	public void setStrategy(Strategy s) {
 		this.s = s;
 	}
-	
-	public void setModel(Model model){
-		this.model = model;
-	}
 
 	public Strategy getStrategy() {
 		return s;
@@ -48,15 +43,15 @@ public class AI implements Serializable {
 	public boolean remove(Unit unit) {
 		if (!team.contains(unit))
 			return false;
-		model.getMap();
+		model.getGame().getMap();
 		team.remove(unit);
 		return true;
 	}
 
 	public void useStrategy(Unit u) {
 		// Check the range of targets
-		target = setInitTarget(model.getMap(), u);
-		grid = new Grid(model.getMap(), target, u);
+		target = setInitTarget(model.getGame().getMap(), u);
+		grid = new Grid(model.getGame().getMap(), target, u);
 		start = grid.getStart();
 		targetNode = grid.getTarget();
 
@@ -66,7 +61,7 @@ public class AI implements Serializable {
 			this.setStrategy(new AttackPlayer());
 		else
 			this.setStrategy(new Roam());
-		s.strategy(u, model.getMap(), p.findPath(start));
+		s.strategy(u, model.getGame().getMap(), p.findPath(start));
 		// Check to see if unit died
 //		if (s instanceof AttackPlayer) {
 //			if (u.getCurrentHp() < 1) {

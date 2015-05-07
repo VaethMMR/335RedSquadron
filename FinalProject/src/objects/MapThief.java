@@ -1,15 +1,10 @@
 package objects;
-import sprites.ThiefSprite;
+import sprites.SpriteBuilder;
 
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapThief extends SpriteObject{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -9183840333595157295L;
-
 	public MapThief(int x, int y){
-		super(new ThiefSprite(), null, x, y, 100);
+		super(new SpriteBuilder("images/ThiefWalkingAlpha.png"), null, x, y, 100);
 	}
 	
 	@Override

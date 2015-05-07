@@ -1,15 +1,10 @@
 package objects;
-import sprites.DarkDruidSprite;
+import sprites.SpriteBuilder;
 
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapDarkDruid extends SpriteObject{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6104021089942630233L;
-
 	public MapDarkDruid(int x, int y){
-		super(new DarkDruidSprite(), null, x, y, 100);
+		super(new SpriteBuilder("images/DarkDruidWalkingAlpha.png"), null, x, y, 100);
 	}
 	
 	@Override

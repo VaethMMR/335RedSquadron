@@ -4,7 +4,6 @@ package model;
  I added a tostring method
  Author: Connor Broderick
  */
-import java.util.Observable;
 import java.util.Random;
 import java.io.*;
 
@@ -14,7 +13,7 @@ import objects.SpriteObject;
 import sprites.Sprite;
 import controller.GamePlay.Team;
 
-public abstract class Unit implements Serializable {
+public abstract class Unit {
 	private String name;
 	private int level;
 	private int hp;

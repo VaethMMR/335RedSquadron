@@ -1,8 +1,6 @@
 package model;
 
-import java.io.Serializable;
-
-public class ConsumableFactory implements Serializable {
+public class ConsumableFactory {
 	private Consumable consumable;
 	
 	public ConsumableFactory(){
