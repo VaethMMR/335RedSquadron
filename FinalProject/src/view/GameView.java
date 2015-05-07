@@ -333,8 +333,9 @@ public class GameView extends JPanel {
 			// run AI Move
 			AI ai = theGame.getAI();
 			for(int i = 0; i < ai.getTeam().size(); i++){
-				ai.useStrategy(ai.getTeam().get(i));
-//					if(theGame.getMap);
+				try {
+					ai.useStrategy(theGame.getMap().getAITeam().get(i));
+				} catch (NullPointerException e) { }
 				if(theGame.getAiTeam().isEmpty() == true){
 					JOptionPane.showMessageDialog(null, " Victory.");
 					break;

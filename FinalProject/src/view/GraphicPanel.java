@@ -9,13 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 import controller.GamePlay;
 import controller.GamePlay.Team;
@@ -33,7 +30,6 @@ public class GraphicPanel extends JPanel implements Observer {
 	private BufferedImage attackHighlighter;
 	private BufferedImage cursor;
 	private BufferedImage barrier;
-	private BufferedImage mine;
 	private int[] selectedTile = new int[] { 0, 0 };
 
 	public GraphicPanel(GamePlay theGame) {
@@ -52,7 +48,6 @@ public class GraphicPanel extends JPanel implements Observer {
 			attackHighlighter = ImageIO.read(new File(
 					"images/attackHighlight.png"));
 			barrier = ImageIO.read(new File("images/barrier.png"));
-			mine = ImageIO.read(new File("images/mine.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -107,11 +102,7 @@ public class GraphicPanel extends JPanel implements Observer {
 		}
 		if (terrainPiece.getItem() != null) {
 			// if there is an item on the tile
-			if (terrainPiece.getItem().getName().equals("Mine")) {
-				g.drawImage(mine, x, y, 32, 32, null);
-			} else if (terrainPiece.getItem().getName().equals("Barrier")) {
-				g.drawImage(barrier, x, y, 32, 32, null);
-			}
+			g.drawImage(barrier, x, y, 32, 32, null);
 		}
 	}
 
@@ -221,7 +212,7 @@ public class GraphicPanel extends JPanel implements Observer {
 									// unit and attack
 									// attack the enemy unit
 									selectedUnit.attack(clickedTile.getUnit(),
-											0);
+											selectedUnit.getWeapon().getRange());
 									selectedUnit.setAttacked(true);
 									if (clickedTile.getUnit().getCurrentHp() < 1) {
 										// figure out which team the dead Unit
@@ -233,7 +224,7 @@ public class GraphicPanel extends JPanel implements Observer {
 											theGame.getPlayerTeam().remove(
 													clickedTile.getUnit());
 										else
-											theGame.getAiTeam().remove(
+											theGame.getMap().getAITeam().remove(
 													clickedTile.getUnit());
 									}
 									if (selectedUnit.getCurrentHp() < 1) {
@@ -247,6 +238,14 @@ public class GraphicPanel extends JPanel implements Observer {
 										theGame.getGameView().hideStats(clickedTile.getUnit());
 									}
 								}
+							} else {
+								// if the Unit has already attacked this turn
+								JOptionPane
+										.showMessageDialog(
+												null, selectedUnit.getName()
+												+ " cannot attack again until next turn.",
+												"Unit has already attacked",
+														JOptionPane.ERROR_MESSAGE);
 							}
 						} else if (!clickedTile.hasAttackHighlight()) {
 							// the clicked Unit is out of range of the selected Unit
@@ -254,15 +253,7 @@ public class GraphicPanel extends JPanel implements Observer {
 							deselectUnit();
 							selectUnit(clickedTile.getUnit());
 							theGame.getGameView().showStats(clickedTile.getUnit());
-						} else {
-							// if the Unit has already attacked this turn
-							JOptionPane
-									.showMessageDialog(
-											null, selectedUnit.getName()
-											+ " cannot attack again until next turn.",
-											"Unit has already attacked",
-													JOptionPane.ERROR_MESSAGE);
-						}
+						} 
 					} else {
 						// a unit is not currently selected
 						deselectUnit();

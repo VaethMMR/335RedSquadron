@@ -34,7 +34,7 @@ public class GameMap extends Observable {
 		if (type == "Riverfront") {
 			map = new RiverfrontMap().buildMap();
 		} else {
-			map = new RiverfrontMap().buildMap();
+			//map = new MountainMap().buildMap();
 		}
 	}
 
@@ -45,6 +45,7 @@ public class GameMap extends Observable {
 
 	public void setMap(Terrain[][] newMap) {
 		this.map = newMap;
+		notifyObservers();
 	}
 
 	public int getRows() {

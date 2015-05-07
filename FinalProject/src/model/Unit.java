@@ -69,8 +69,13 @@ public abstract class Unit {
 		// All other units are strictly limited to 1 range
 		// i.e Melee can only attack from 1 distance and have a range of 1
 		// but Marksmen can onlt attack from 2 away but have a range of 2
-		if (distance > range)
-			return false;
+		if (this instanceof SpellCaster) {
+			if (distance > range)
+				return false;
+		} else {
+			if (distance != range)
+				return false;
+		}
 		if (damage < 0)
 			damage = 0;
 		if (damage > 100)
@@ -93,7 +98,12 @@ public abstract class Unit {
 				JOptionPane.INFORMATION_MESSAGE);
 
 		Random randomGenerator = new Random();
-		int randomInt = randomGenerator.nextInt(hitchance);
+		int randomInt;
+		if (hitchance == 0) {
+			randomInt = randomGenerator.nextInt(1);
+		} else {
+			randomInt = randomGenerator.nextInt(hitchance);
+		}
 		if (randomInt > 100 - hitchance) {// hit confirmed
 			critChance = ((skill / 2) + uWeapon.getCritical()) - other.luck;
 			nextrandomInt = randomGenerator.nextInt();
