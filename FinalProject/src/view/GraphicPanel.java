@@ -183,10 +183,12 @@ public class GraphicPanel extends JPanel implements Observer {
 					if (selectedUnit == clickedTile.getUnit()) {
 						// if the clicked Unit is the selected Unit, deselect
 						deselectUnit();
+						theGame.getGameView().hideStats(clickedTile.getUnit());
 					} else {
 						// if the clicked Unit is not already selected, select
 						// it
 						selectUnit(clickedTile.getUnit());
+						theGame.getGameView().showStats(clickedTile.getUnit());
 					}
 				} else {
 					// the clicked Unit is on the AI's team
@@ -196,6 +198,7 @@ public class GraphicPanel extends JPanel implements Observer {
 							// if the selected unit is an ai Unit, switch the selection
 							// to the new ai Unit
 							selectUnit(clickedTile.getUnit());
+							theGame.getGameView().showStats(clickedTile.getUnit());
 						} else if (clickedTile.hasAttackHighlight()) {
 							// the selected Unit is a player Unit and the clicked Unit is ai
 							// the ai Unit is within the selected Unit's
@@ -241,6 +244,7 @@ public class GraphicPanel extends JPanel implements Observer {
 										theGame.getPlayerTeam().remove(
 												selectedUnit);
 										deselectUnit();
+										theGame.getGameView().hideStats(clickedTile.getUnit());
 									}
 								}
 							}
@@ -249,6 +253,7 @@ public class GraphicPanel extends JPanel implements Observer {
 							// so switch the selection to the clicked Unit
 							deselectUnit();
 							selectUnit(clickedTile.getUnit());
+							theGame.getGameView().showStats(clickedTile.getUnit());
 						} else {
 							// if the Unit has already attacked this turn
 							JOptionPane
@@ -295,6 +300,7 @@ public class GraphicPanel extends JPanel implements Observer {
 									clickedTile.getLocation());
 							selectedUnit.setMoved(true);
 							deselectUnit();
+							theGame.getGameView().hideStats(clickedTile.getUnit());
 						}
 					} else {
 						// the unit has already moved this turn
@@ -310,6 +316,7 @@ public class GraphicPanel extends JPanel implements Observer {
 					// is out of the
 					// selected Unit's movement range
 					deselectUnit();
+					theGame.getGameView().hideStats(clickedTile.getUnit());
 				}
 			}
 		}
