@@ -6,10 +6,20 @@ public class ConsumableFactory {
 	public ConsumableFactory(){
 	}
 	
+	/**
+	 * This method creates a consumable that has different effects depending on its name
+	 * 
+	 * @param name
+	 *            The name of the consumable
+	 * @param level
+	 *            The level of the consumable. All are level 1 by default
+	 * @return consumable
+	 * 			  returns the created consumable           
+	 */
 	public Consumable makeConsumable(String name, int level){
 		if(name == "Health Potion"){
 			consumable = new Consumable(name, level);
-			consumable.setHealth(5);
+			consumable.setHealth(10);
 			consumable.setDefense(0);
 			consumable.setResistance(0);
 			consumable.setLevel(1);
@@ -19,7 +29,7 @@ public class ConsumableFactory {
 		}
 		if(name == "Defense Potion"){
 			consumable = new Consumable(name, level);
-			consumable.setDefense(1);
+			consumable.setDefense(5);
 			consumable.setResistance(0);
 			consumable.setHealth(0);
 			consumable.setLevel(1);
@@ -29,7 +39,7 @@ public class ConsumableFactory {
 		}
 		if(name == "Resistance Potion"){
 			consumable = new Consumable(name, level);
-			consumable.setResistance(2);
+			consumable.setResistance(5);
 			consumable.setHealth(0);
 			consumable.setDefense(0);
 			consumable.setLevel(1);
