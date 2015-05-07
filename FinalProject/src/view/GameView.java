@@ -329,13 +329,10 @@ public class GameView extends JPanel {
 			this.m = m;
 		}
 		public void actionPerformed(ActionEvent arg0) {
-			//Restore the JList of all living units
-			setupPlayerList(theGame.getPlayerTeam());
 			// run AI Move
 			AI ai = theGame.getAI();
 			for(int i = 0; i < ai.getTeam().size(); i++){
 				ai.useStrategy(ai.getTeam().get(i));
-//					if(theGame.getMap);
 				if(theGame.getAiTeam().isEmpty() == true){
 					JOptionPane.showMessageDialog(null, " Victory.");
 					break;
@@ -345,7 +342,16 @@ public class GameView extends JPanel {
 					break;
 				}
 			}
-			setupPlayerList(theGame.getMap().getPlayerTeam());
+			if (theGame.getMap().getPlayerTeam().size() > 0) {
+				for (Unit i: theGame.getMap().getPlayerTeam()) {
+					i.setMoved(false);
+					i.setAttacked(false);
+				}
+			} else {
+				JOptionPane.showMessageDialog(
+						null, "All of your players are destroyed, you lose.",
+						"GAME OVER", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
