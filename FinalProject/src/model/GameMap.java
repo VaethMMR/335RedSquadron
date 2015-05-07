@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
+
 import javax.swing.JOptionPane;
 
 import terrain.Terrain;
+import view.InventoryView;
 import controller.GamePlay;
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
@@ -34,7 +36,7 @@ public class GameMap extends Observable {
 		if (type == "Riverfront") {
 			map = new RiverfrontMap().buildMap();
 		} else {
-			//map = new MountainMap().buildMap();
+			map = new MountainMap().buildMap();
 		}
 	}
 
@@ -437,5 +439,17 @@ public class GameMap extends Observable {
 
 	public List<Unit> getAITeam() {
 		return aiTeam;
+	}
+	
+	public boolean layTrap(Unit theUnit, Trap theTrap){
+		Terrain location = this.getUnitLocations().get(theUnit);
+		int[] newLocation = location.getLocation();
+		int y = newLocation[1];
+		int x = newLocation[0]+1;
+		if((this.getMap()[x][y].getStandable() == true) && (this.getMap()[x][y].getUnit() == null)){
+			this.getMap()[x][y].setItem(theTrap);
+			this.notifyObservers();
+		}
+		return false;	
 	}
 }

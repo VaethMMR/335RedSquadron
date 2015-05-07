@@ -93,7 +93,7 @@ public class GamePlay extends JFrame { // implements Observer{
 		
 		// make map
 		try {
-			this.map = new GameMap("Riverfront", this, 20, 30);
+			this.map = new GameMap("Mountain", this, 20, 30);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

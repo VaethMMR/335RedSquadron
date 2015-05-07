@@ -265,7 +265,9 @@ public class InventoryView extends JPanel {
 								+ " has been swapped with " + theUnit.getWeapon().getName());
 					}
 					if(theItem instanceof Trap){
-						
+						theGame.getMap().layTrap(theUnit,(Trap)theItem);
+						theInventory.remove(theItem);
+						setUpTable(theInventory);
 					}
 					
 				}
