@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import ai.AI;
@@ -54,7 +56,7 @@ public class GameView extends JPanel {
 		// Set up the HUD
 		JPanel hud = new JPanel();
 		hud.setPreferredSize(new Dimension(260,710));
-		hud.setLayout(new GridLayout(4, 1));
+		hud.setLayout(new GridLayout(3, 1));
 		
 		// display the current win condition
 		//if (theGame.getMap().get)
@@ -64,13 +66,19 @@ public class GameView extends JPanel {
 		winCondition.setPreferredSize(new Dimension(260,50));
 		hud.add(winCondition);
 		
-		
+		JScrollPane scroll = new JScrollPane();
+		playerUnitsModel = new DefaultListModel<String>();
+		playerUnits = new JList<String>(playerUnitsModel);
+		playerUnits.setPreferredSize(new Dimension(150,250));
+		playerUnits.setFont(new Font("monospaced",Font.PLAIN,12));	
+		scroll.setViewportView(playerUnits);
+		hud.add(scroll);
 		
 		// set up end turn button
 		JButton endTurn = new JButton("End Turn");
 		hud.add(endTurn);
 		endTurn.addActionListener(new endTurnActionListener(m));
-
+		
 		// add the HUD to the GameView
 		add(hud, BorderLayout.EAST);
 		
@@ -132,6 +140,33 @@ public class GameView extends JPanel {
 			//now add the element
 			inRangeUnitsModel.addElement(listItem);
 		}
+	}
+	
+	/**
+	 * This method shows the stats of the selected unit in the hud
+	 * 
+	 * @param unit
+	 *            A Unit to show the stats for
+	 */
+	public void showStats(Unit theUnit){
+		playerUnitsModel.clear();
+		playerUnitsModel.addElement("Unit:         " + theUnit.getName());
+		playerUnitsModel.addElement("Level:        " + theUnit.getLevel());
+		playerUnitsModel.addElement("Total Hp:     " + theUnit.getHp());
+		playerUnitsModel.addElement("Current Hp:   " + theUnit.getCurrentHp());
+		playerUnitsModel.addElement("Attack Range: " + theUnit.getAttackRange());
+		playerUnitsModel.addElement("Defense:      " + theUnit.getDefense());
+		playerUnitsModel.addElement("Luck:         " + theUnit.getLuck());
+		playerUnitsModel.addElement("Magic:        " + theUnit.getMagic());
+		playerUnitsModel.addElement("Movement:     " + theUnit.getMovement());
+		playerUnitsModel.addElement("Resistance:   " + theUnit.getResistance());
+		playerUnitsModel.addElement("Skill:        " + theUnit.getSkill());
+		playerUnitsModel.addElement("Speed:        " + theUnit.getSpeed());
+		playerUnitsModel.addElement("Strength:     " + theUnit.getStrength());
+	}
+	
+	public void hideStats(Unit theUnit){
+		playerUnitsModel.clear();
 	}
 	
 	// action listeners
