@@ -6,24 +6,10 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-import ai.GridNode;
-import terrain.Bridge;
-import terrain.BridgeEntry;
-import terrain.Dirt;
-import terrain.Fort;
-import terrain.Gate;
-import terrain.Grass;
-import terrain.Mountain;
-import terrain.Shore;
 import terrain.Terrain;
-import terrain.Tree;
-import terrain.Water;
-import terrain.LeftGate;
-import terrain.RightGate;
 import controller.GamePlay;
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
@@ -74,6 +60,12 @@ public class GameMap extends Observable {
 		return this.unitLocations;
 	}
 
+	/**
+	 * This method returns the units currently on the map
+	 * 
+	 * @return unitsOnMap
+	 * 			  returns an ArrayList<Unit> for the units on the map           
+	 */
 	public List<Unit> getUnitsOnMap() {
 		List<Unit> unitsOnMap = new ArrayList<Unit>();
 		unitsOnMap.addAll(this.unitLocations.keySet());
@@ -92,6 +84,12 @@ public class GameMap extends Observable {
 		this.aiTeam = aiTeam;
 	}
 	
+	/**
+	 * This method gets the highlighted terrain pieces
+	 * 
+	 * @return highlightedTiles
+	 * 			  returns an ArrayList<Terrain> for the highlighted tiles           
+	 */
 	public List<Terrain> getHighlightedTiles() {
 		ArrayList<Terrain> highlightedTiles = new ArrayList<Terrain>();
 		for (int i = 0; i < this.rows; i++) {
@@ -105,6 +103,20 @@ public class GameMap extends Observable {
 	}
 
 	// misc methods
+	/**
+	 * This method places a unit on the specified terrain piece on the map
+	 * 
+	 * @param newUnit
+	 *            An instance of the Unit
+	 * @param coordinates
+	 *            an int[] of coordinates
+	 * @return boolean
+	 * 			  returns true if unit was successfully placed
+	 * @throws TileOccupiedException
+	 * 		      occurs if tile is occupied
+	 * @throws TileNotStandableException
+	 * 		      occurs if tile isn't standable           
+	 */
 	public boolean placeUnit(Unit newUnit, int[] coordinates) {
 		Terrain location = this.map[coordinates[0]][coordinates[1]];
 		try {
@@ -120,6 +132,15 @@ public class GameMap extends Observable {
 		}
 	}
 
+	/**
+	 * This method removes a unit from a terrain piece
+	 * 
+	 * @param toRemove
+	 *            A Unit to remove
+	 * 
+	 * @return boolean
+	 * 			  returns true if the unit was removed           
+	 */
 	public boolean removeUnit(Unit toRemove) {
 		// make sure the Unit toRemove is on the map
 		if (!this.unitLocations.containsKey(toRemove)) {
@@ -131,7 +152,18 @@ public class GameMap extends Observable {
 		return true;
 	}
 
-	// move Unit by passing in the Unit
+	/**
+	 * This method moves a unit to a different location
+	 * 
+	 * @param toMove
+	 *            A Unit to move
+	 *            
+	 * @param newCoordinates
+	 *            int[] new coordinates to move to
+	 * 
+	 * @return boolean
+	 * 			  returns true if the unit was moved           
+	 */
 	public boolean moveUnit(Unit toMove, int[] newCoordinates) {
 		// make sure the Unit toMove is on the map
 		if (!this.unitLocations.containsKey(toMove)) {
@@ -196,6 +228,15 @@ public class GameMap extends Observable {
 		return true;
 	}
 
+	/**
+	 * This method gets the in range  ai units
+	 * 
+	 * @param theUnit
+	 *            A Unit to get a list of its in range units for
+	 * 
+	 * @return inRangeUnits
+	 * 			  returns a List<Unit> of in range ai units           
+	 */
 	public List<Unit> getInRangeAiUnits(Unit theUnit) {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
@@ -228,6 +269,15 @@ public class GameMap extends Observable {
 		return inRangeUnits;
 	}
 
+	/**
+	 * This method gets the in range  player units
+	 * 
+	 * @param theUnit
+	 *            A Unit to get a list of its in range units for
+	 * 
+	 * @return inRangeUnits
+	 * 			  returns a List<Unit> of in range player units           
+	 */
 	public List<Unit> getInRangePlayerUnits(Unit theUnit) {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
@@ -260,6 +310,15 @@ public class GameMap extends Observable {
 		return inRangeUnits;
 	}
 	
+	/**
+	 * This method gets the possible moves of a unit
+	 * 
+	 * @param theUnit
+	 *            A Unit to get a list of its in range units for
+	 * 
+	 * @return possibleMoves
+	 * 			  returns a List<Terrain> of of possible terrain pieces to move to           
+	 */
 	public List<Terrain> getPossibleMoves(Unit theUnit) {
 		ArrayList<Terrain> possibleMoves = new ArrayList<Terrain>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
@@ -309,6 +368,15 @@ public class GameMap extends Observable {
 		return possibleMoves;
 	}
 	
+	/**
+	 * This method gets the possible attack moves
+	 * 
+	 * @param theUnit
+	 *            A Unit to get a list of its attack moves for
+	 * 
+	 * @return possibleAttacks
+	 * 			  returns a List<Terrain> of possible attacks           
+	 */
 	public List<Terrain> getPossibleAttacks(Unit theUnit) {
 		ArrayList<Terrain> possibleAttacks = new ArrayList<Terrain>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();

@@ -19,24 +19,24 @@ public class Consumable extends Item{
 	
 	// getters 
 	public int getRemainingUses() {
-		return this.remainingUses;
+		return remainingUses;
 	}
    
    public int getLevel(){
-	   return this.level;
+	   return level;
    }
    
    public int getHealth(){
-	   return this.health;
+	   return health;
    }
    public int getDefense(){
-	   return this.defense;
+	   return defense;
    }
    public int getResistance(){
-	   return this.resistance;
+	   return resistance;
    }
    public int getCost(){
-	   return this.cost;
+	   return cost;
    }
    
    // setters
@@ -56,15 +56,21 @@ public class Consumable extends Item{
 	   this.level = level;
    }
    
-   public void setResistance(int level){
+   public void setResistance(int resistance){
 	   this.resistance = resistance;
    }
    
-   public void setDefense(int level){
+   public void setDefense(int defense){
 	   this.defense = defense;
    }
 	
 	// misc methods
+   /**
+	 * This method decreases the number of uses from 3 down to 0
+	 * 
+	 * @return remainingUses
+	 * 			  returns the number of remaining uses           
+	 */
 	public int decreaseRemainingUses() {
 		this.remainingUses--;
 		return this.remainingUses;

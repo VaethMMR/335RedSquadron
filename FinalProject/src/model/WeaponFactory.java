@@ -8,6 +8,16 @@ public class WeaponFactory {
 	public WeaponFactory() {
 	}
 
+	/**
+	 * This method builds a weapon with different effects based on its name
+	 * 
+	 * @param name
+	 *            The name of the weapon
+	 * @param level
+	 *            The level of the weapon
+	 * @return weapon
+	 * 			  returns the created weapon
+	 */
 	public Weapon makeWeapon(String name, int level) {
 		if (level == -1) {
 			Random generator = new Random();

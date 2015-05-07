@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import controller.GamePlay;
 import terrain.Terrain;
@@ -298,6 +301,6 @@ public class GraphicPanel extends JPanel implements Observer {
 		@Override
 		public void mouseExited(java.awt.event.MouseEvent e) {
 		}
-
+	        	
 	}
 }

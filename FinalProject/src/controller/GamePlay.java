@@ -181,6 +181,7 @@ public class GamePlay extends JFrame { // implements Observer{
 
 		setLayout(new BorderLayout()); // set the layout manager
 
+		//create a tab pane
 		this.setPreferredSize(new Dimension(1250, 710));
 		final JTabbedPane tabPane = new JTabbedPane();
 

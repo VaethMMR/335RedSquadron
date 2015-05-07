@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -117,6 +118,7 @@ public class InventoryView extends JPanel {
 	 *            An instance of the inventory ArrayList of Items
 	 */
 	public void setUpTable(Inventory theInventory) {
+		data.setRowCount(0);
 		data.setRowCount(5);
 		data.setColumnCount(5);
 		int counter = 0;
@@ -221,6 +223,7 @@ public class InventoryView extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if (table.getSelectionModel() != null) {
 				if (!playerUnits.isSelectionEmpty()) {
+					// get the selected unit
 					Unit theUnit = null;
 					String unitName = playerUnits.getSelectedValue();
 					List<Unit> units = theGame.getPlayerTeam();
@@ -229,16 +232,42 @@ public class InventoryView extends JPanel {
 							theUnit = i;
 						}
 					}
-					// The weapon increases the unit's stats
-					// theUnit.setWeapon(true);
-					// theUnit.setStrength(theUnit.getStrength() +
-					// weapon.getMight());
-					// theUnit.setLuck(theUnit.getLuck() +
-					// weapon.getCritical());
-					// theUnit.setSkill(theUnit.getSkill() +
-					// weapon.getAccuracy());
-					// TODO the range of the weapon currently does not affect
-					// unit
+					// get the selected item
+					Item theItem = null;
+					String itemName = (String) table.getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+					for (Item i : theInventory.getInventory()) {
+						if (i.getName() == itemName) {
+							theItem = i;
+						}
+					}
+					// if the item is a potion, increase the units stats
+					if(theItem instanceof Consumable){
+						theUnit.setCurrentHp( theUnit.getCurrentHp() + ((Consumable) theItem).getHealth());
+						theUnit.setHp( theUnit.getHp() + ((Consumable) theItem).getHealth());
+						theUnit.setDefense( theUnit.getDefense() + ((Consumable) theItem).getDefense());
+						theUnit.setResistance( theUnit.getResistance() + ((Consumable) theItem).getResistance());
+						((Consumable) theItem).decreaseRemainingUses();
+						JOptionPane.showMessageDialog(null, theUnit.getName() + "'s abilities have improved.\n"
+								+ "Remaining uses: " + ((Consumable)theItem).getRemainingUses());
+						if(((Consumable) theItem).getRemainingUses() == 0){
+							theInventory.remove(theItem);
+							setUpTable(theInventory);
+						}
+					}
+					// if the item is a weapon, equip the weapon
+					if(theItem instanceof Weapon){
+						Weapon oldWeapon = theUnit.getWeapon();
+						theUnit.setWeapon((Weapon) theItem);
+						theInventory.remove(theItem);
+						theInventory.add(oldWeapon);
+						setUpTable(theInventory);
+						JOptionPane.showMessageDialog(null, theUnit.getName() + "'s " + oldWeapon.getName()
+								+ " has been swapped with " + theUnit.getWeapon().getName());
+					}
+					if(theItem instanceof Trap){
+						
+					}
+					
 				}
 			}
 		}
