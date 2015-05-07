@@ -51,18 +51,18 @@ public class GamePlay extends JFrame { // implements Observer{
 		playerTeam.add(UnitBuilder.makeUnit(Hero.getHero()));
 		playerTeam.add(UnitBuilder.makeUnit(new Swordmaster(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Lancecaster(Team.PLAYER)));
-		//playerTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.PLAYER)));
+		playerTeam.add(UnitBuilder.makeUnit(new Axereaver(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Marksman(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Saint(Team.PLAYER)));
-		//playerTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.PLAYER)));
-		//playerTeam.add(UnitBuilder.makeUnit(new Druid(Team.PLAYER)));
+		playerTeam.add(UnitBuilder.makeUnit(new Sorcerer(Team.PLAYER)));
+		playerTeam.add(UnitBuilder.makeUnit(new Druid(Team.PLAYER)));
 		playerTeam.add(UnitBuilder.makeUnit(new Thief(Team.PLAYER)));
 
 		// make ai team
 		aiTeam = new ArrayList<Unit>();
 		Random rand = new Random();
 		aiTeam.add(UnitBuilder.makeUnit(General.getGeneral()));
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i < 8; i++){
 			switch(rand.nextInt() % 7){
 			case 0:
 				aiTeam.add(UnitBuilder.makeUnit(new Swordmaster(Team.COMPUTER)));
@@ -93,7 +93,7 @@ public class GamePlay extends JFrame { // implements Observer{
 		
 		// make map
 		try {
-			this.map = new GameMap("GrassMap", this, 20, 30);
+			this.map = new GameMap("Riverfront", this, 20, 30);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -134,7 +134,7 @@ public class GamePlay extends JFrame { // implements Observer{
 			}
 		}
 		for (Unit unit: aiTeam) {
-			if (unit instanceof Hero) {
+			if (unit instanceof General) {
 				if (aiHeroSpawnPoint != null) {
 					map.placeUnit(unit, aiHeroSpawnPoint.getLocation());
 				}

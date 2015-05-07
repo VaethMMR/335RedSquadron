@@ -14,11 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import objects.Cursor;
-import objects.SpriteObject;
 import terrain.Terrain;
 import model.GameMap;
-import model.Hero;
 import model.Unit;
 
 public class GraphicPanel extends JPanel implements Observer {
@@ -26,10 +23,10 @@ public class GraphicPanel extends JPanel implements Observer {
 	private static final long serialVersionUID = 321562980917862556L;
 	private GameMap theMap;
 	private Unit selectedUnit = null;
-	private BufferedImage character;
 	private BufferedImage moveHighlighter;
 	private BufferedImage attackHighlighter;
-	private SpriteObject cursor;
+	private BufferedImage cursor;
+	private int[] selectedTile = new int[] {0,0};
 
 	public GraphicPanel(GameMap theMap) {
 		this.theMap = theMap;
@@ -41,13 +38,7 @@ public class GraphicPanel extends JPanel implements Observer {
 
 	private void loadImages() {
 		try {
-			cursor = new Cursor(16,16);
-			// for(Unit u : theMap.getPlayerTeam())
-			// sprites.add(ImageIO.read(new File(u.getSprite())));
-			// for(Unit u : theMap.getAITeam())
-			// sprites.add(ImageIO.read(new File("images/" + u.getSprite() +
-			// "WalkingAlpha.png")));
-			character = ImageIO.read(new File("images/TheHunter.png"));
+			cursor = ImageIO.read(new File("images/Gamecursor.png"));
 			moveHighlighter = ImageIO.read(new File("images/highlight.png"));
 			attackHighlighter = ImageIO.read(new File(
 					"images/attackHighlight.png"));
@@ -76,9 +67,9 @@ public class GraphicPanel extends JPanel implements Observer {
 
 	public void drawTile(Graphics g, Terrain terrainPiece, int x, int y) {
 		if (!terrainPiece.hasMoveHighlight()
-				&& !terrainPiece.hasAttackHighlight()) {
+				&& !terrainPiece.hasAttackHighlight() && !terrainPiece.getSelected()) {
 			// if the terrain piece is not flagged for highlighting, draw it
-			// regularly
+			// normally
 			g.drawImage(terrainPiece.getGraphic(), x, y, 32, 32, null);
 		} else {
 			// if the terrain piece is flagged for highlighting
@@ -87,6 +78,10 @@ public class GraphicPanel extends JPanel implements Observer {
 				g.drawImage(
 						highlightTile(terrainPiece.getGraphic(),
 								moveHighlighter), x, y, 32, 32, null);
+			} else if (terrainPiece.getSelected()) {
+				g.drawImage(
+						highlightTile(terrainPiece.getGraphic(),
+								cursor), x, y, 32, 32, null);
 			} else {
 				// add an attack highlight (red)
 				g.drawImage(
@@ -96,14 +91,7 @@ public class GraphicPanel extends JPanel implements Observer {
 		}
 		if (terrainPiece.getUnit() != null) {
 			// if the terrain piece has a Unit on it, draw the Unit
-			int[] coordinates = terrainPiece.getLocation();
-			int[] heroLocale = null;
 			terrainPiece.getUnit().setSpriteObject(x + 16, y + 16);
-			if (terrainPiece.getUnit() == Hero.getHero()) {
-				heroLocale = terrainPiece.getLocation();
-//				cursor.setPosition(heroLocale[0] + 16, heroLocale[1] + 16);
-//				cursor.draw(g);
-			}
 			terrainPiece.getUnit().getSpriteObject().draw(g);
 		}
 	}
@@ -166,8 +154,9 @@ public class GraphicPanel extends JPanel implements Observer {
 		@Override
 		public void mouseClicked(java.awt.event.MouseEvent e) {
 			Terrain clickedTile = theMap.getMap()[e.getY() / 32][e.getX() / 32];
-			cursor.setPosition(clickedTile.getLocation()[0],
-					clickedTile.getLocation()[1]);
+			theMap.getMap()[selectedTile[0]][selectedTile[1]].setSelected(false);
+			clickedTile.setSelected(true);
+			selectedTile = clickedTile.getLocation();
 			if (clickedTile.getUnit() != null) {
 				// there is a Unit on the clicked tile
 

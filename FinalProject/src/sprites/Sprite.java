@@ -1,12 +1,7 @@
 package sprites;
 import java.awt.Image;
 
-// TODO 1: Look at the Sprite class
 public abstract class Sprite {
-	/*
-	 * TODO 2: Note, we're storing states for sprites as an enumerated type. This is a different approach than using the 
-	 * State design pattern. How could we refactor this to use State? What would some of the advantages/disadvantages be?
-	 */
 	public static enum State {
 		IDLE, MOVING_LEFT, MOVING_RIGHT, MOVING_DOWN, MOVING_UP
 	};
@@ -57,12 +52,16 @@ public abstract class Sprite {
 	 * Gets the width of the sprite
 	 * @return	the width of the sprite
 	 */
-	public abstract int getWidth();
+	public int getWidth() {
+		return 32;
+	}
 	
 	/**
 	 * Gets the height of the sprite
 	 * @return	the height of the sprite
 	 */
-	public abstract int getHeight();
+	public int getHeight() {
+		return 32;
+	}
 
 }

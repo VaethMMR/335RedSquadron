@@ -18,135 +18,152 @@ public abstract class SpriteObject {
 	private Sprite sprite; // the object's sprite
 	private Image frame; // the last frame of the sprite
 	private Timer t; // timer used to update the frame
-	
+
 	/**
 	 * Constructs a new SpriteObject.
 	 * 
-	 * @param sprite	sprite to use for this object
-	 * @param x	x position of the object
-	 * @param y	y position of the object
-	 * @param delay	delay in switching animation frames
+	 * @param sprite
+	 *            sprite to use for this object
+	 * @param x
+	 *            x position of the object
+	 * @param y
+	 *            y position of the object
+	 * @param delay
+	 *            delay in switching animation frames
 	 */
-	protected SpriteObject(Sprite sprite, Unit unit, int x, int y, int delay){
+	protected SpriteObject(Sprite sprite, Unit unit, int x, int y, int delay) {
 		this.sprite = sprite;
 		this.position = new Point(x, y);
 		frame = sprite.getImage();
-		
+
 		// this timer is constructed using an anonymous class
-		t = new Timer(delay, new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		t = new Timer(delay, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				nextFrame();
 			}
 		});
 	}
-	
+
 	/**
 	 * Get the sprite for this SpriteObject
-	 * @return	the object's sprite
+	 * 
+	 * @return the object's sprite
 	 */
-	public Sprite getSprite(){
+	public Sprite getSprite() {
 		return sprite;
 	}
-	
+
 	/**
 	 * Sets the SpriteObject to be at the given position
-	 * @param x	the new x position
-	 * @param y	the new y position
+	 * 
+	 * @param x
+	 *            the new x position
+	 * @param y
+	 *            the new y position
 	 */
-	public void setPosition(int x, int y){
+	public void setPosition(int x, int y) {
 		position.setLocation(x, y);
 	}
 
 	/**
 	 * Draws the SpriteObject on the given context
-	 * @param g	the graphics context to render to
+	 * 
+	 * @param g
+	 *            the graphics context to render to
 	 */
-	public void draw(Graphics g){
-		if (sprite != null && !sprite.isFinished()) // only render if not finished
-			g.drawImage(frame, position.x  - sprite.getWidth()/2, position.y - sprite.getHeight()/2, null);
+	public void draw(Graphics g) {
+		if (sprite != null && !sprite.isFinished()) { // only render if not
+														// finished
+			//g.drawImage(frame, position.x - sprite.getWidth() / 2, position.y - sprite.getHeight() / 2, null);
+			// TODO: Delete previous line
+			// draw the sprite and scale it to proper size
+			g.drawImage(frame, position.x - sprite.getWidth() / 2, position.y
+					- sprite.getHeight() / 2, 32, 32, null);
+		}
 	}
-	
+
 	/**
 	 * Move the SpriteObject left
 	 */
-	public void moveLeft(){
-		if (sprite.getState() != Sprite.State.MOVING_LEFT){
+	public void moveLeft() {
+		if (sprite.getState() != Sprite.State.MOVING_LEFT) {
 			sprite.setState(Sprite.State.MOVING_LEFT);
 			nextFrame();
 		}
-		
+
 		position.translate(-5, 0);
 	}
-	
+
 	/**
 	 * Move the SpriteObject right
 	 */
-	public void moveRight(){
-		if (sprite.getState() != Sprite.State.MOVING_RIGHT){
+	public void moveRight() {
+		if (sprite.getState() != Sprite.State.MOVING_RIGHT) {
 			sprite.setState(Sprite.State.MOVING_RIGHT);
 			nextFrame();
 		}
-		
+
 		position.translate(5, 0);
 	}
-	
+
 	/**
 	 * Move the SpriteObject up
 	 */
-	public void moveUp(){
-		if (sprite.getState() != Sprite.State.MOVING_UP){
+	public void moveUp() {
+		if (sprite.getState() != Sprite.State.MOVING_UP) {
 			sprite.setState(Sprite.State.MOVING_UP);
 			nextFrame();
 		}
-		
+
 		position.translate(0, -5);
 	}
-	
+
 	/**
 	 * Move the SpriteObject down
 	 */
-	public void moveDown(){
-		if (sprite.getState() != Sprite.State.MOVING_DOWN){
+	public void moveDown() {
+		if (sprite.getState() != Sprite.State.MOVING_DOWN) {
 			sprite.setState(Sprite.State.MOVING_DOWN);
 			nextFrame();
 		}
-		
+
 		position.translate(0, 5);
 	}
-	
+
 	/**
 	 * Stop moving the SpriteObject
 	 */
-	public void moveStop(){
-		if (sprite.getState() != Sprite.State.IDLE){
+	public void moveStop() {
+		if (sprite.getState() != Sprite.State.IDLE) {
 			sprite.setState(Sprite.State.IDLE);
 			nextFrame();
 		}
 	}
-	
+
 	/**
 	 * Start animating the SpriteObject
 	 */
-	public void start(){
+	public void start() {
 		if (!t.isRunning())
 			t.start();
 		sprite.reset();
 	}
-	
+
 	/**
 	 * Stop animating the sprite
 	 */
-	public void stop(){
+	public void stop() {
 		t.stop();
 	}
-	
+
 	/**
 	 * Advance the frame to the next image
 	 */
-	private void nextFrame(){
+	private void nextFrame() {
 		frame = sprite.getImage();
 	}
+
 	public abstract void setSelected(SpriteObject sprite);
-	
+
 	public abstract SpriteObject getSelected();
 }

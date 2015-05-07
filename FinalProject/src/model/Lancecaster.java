@@ -1,12 +1,9 @@
 package model;
 
 import objects.MapLanceCaster;
-import objects.MapMarksman;
+import objects.MapSoldier;
 import objects.SpriteObject;
 import controller.GamePlay.Team;
-import sprites.LanceCasterSprite;
-import sprites.SoldierSprite;
-import sprites.Sprite;
 
 public class Lancecaster extends Melee {
 	private Weapon weapon;
@@ -31,7 +28,7 @@ public class Lancecaster extends Melee {
 		if(team == Team.PLAYER)
 			sprite = new MapLanceCaster(x, y);
 		else
-			sprite = new MapMarksman(x, y);
+			sprite = new MapSoldier(x, y);
 	}
 
 	@Override

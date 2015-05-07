@@ -1,10 +1,10 @@
 package objects;
-import sprites.MarksmanSprite;
+import sprites.SpriteBuilder;
 
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
-public class MapRanger extends SpriteObject{
-	public MapRanger(int x, int y){
-		super(new MarksmanSprite(), null, x, y, 100);
+public class MapSoldier extends SpriteObject{
+	public MapSoldier(int x, int y){
+		super(new SpriteBuilder("images/SoldierWalkingAlpha.png"), null, x, y, 100);
 	}
 	
 	@Override
