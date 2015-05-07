@@ -152,7 +152,6 @@ public class GameView extends JPanel {
 		playerUnitsModel.clear();
 		playerUnitsModel.addElement("Unit:         " + theUnit.getName());
 		playerUnitsModel.addElement("Level:        " + theUnit.getLevel());
-		playerUnitsModel.addElement("Total Hp:     " + theUnit.getHp());
 		playerUnitsModel.addElement("Current Hp:   " + theUnit.getCurrentHp());
 		playerUnitsModel.addElement("Attack Range: " + theUnit.getAttackRange());
 		playerUnitsModel.addElement("Defense:      " + theUnit.getDefense());
