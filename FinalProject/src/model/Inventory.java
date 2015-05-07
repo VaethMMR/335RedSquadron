@@ -1,4 +1,5 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
 
 import exceptions.InventoryFullException;
@@ -6,7 +7,7 @@ import exceptions.InventoryFullException;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public class Inventory {
+public class Inventory implements Serializable {
 	// private variables
 	private List<Item> inventory;
 	private int maxSize;

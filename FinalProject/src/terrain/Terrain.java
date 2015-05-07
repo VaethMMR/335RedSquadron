@@ -1,13 +1,15 @@
 package terrain;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.util.Observable;
 
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
 import model.Item;
 import model.Unit;
 
-public abstract class Terrain {
+public abstract class Terrain implements Serializable {
 	// private variables
 	private Unit unit;
 	private Item item;
@@ -17,7 +19,6 @@ public abstract class Terrain {
 	private boolean heroSpawnPoint;
 	private boolean moveHighlight = false;
 	private boolean attackHighlight = false;
-	private boolean selected = false;
 	private int[] location;
 	
 	// constructor
@@ -91,14 +92,6 @@ public abstract class Terrain {
 	
 	public void setAttackHighlighted(boolean highlighted) {
 		this.attackHighlight = highlighted;
-	}
-	
-	public boolean getSelected() {
-		return this.selected;
-	}
-	
-	public void setSelected(boolean selected) {
-		this.selected = selected;
 	}
 	
 	public Item getItem() {

@@ -1,10 +1,15 @@
 package objects;
-import sprites.SpriteBuilder;
+import sprites.WarriorSprite;
 
 // TODO 10: Look at Frog. How could this design be improved (think Factory)
 public class MapWarrior extends SpriteObject{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3317991252865927451L;
+
 	public MapWarrior(int x, int y){
-		super(new SpriteBuilder("images/WarriorWalkingAlpha.png"), null, x, y, 100);
+		super(new WarriorSprite(), null, x, y, 100);
 	}
 	
 	@Override

@@ -7,11 +7,15 @@ import javax.imageio.ImageIO;
 
 
 public class DarkSageSprite extends Sprite {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7385418014489142130L;
 	private static final int leftBorder = 5, vertBorder = 6; // magic numbers for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
 	private static final int width = 32, height = 26; // width and height of a single frame
 	
-	private static BufferedImage sheet; // the sprite sheet
+	private static transient BufferedImage sheet; // the sprite sheet
 	private State previousState; // the last state of the frog
 
 	// TODO 11: talk about WarriorSprite

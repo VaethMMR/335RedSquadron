@@ -1,9 +1,13 @@
 package model;
 
 import objects.MapLanceCaster;
+import objects.MapMarksman;
 import objects.MapSoldier;
 import objects.SpriteObject;
 import controller.GamePlay.Team;
+import sprites.LanceCasterSprite;
+import sprites.SoldierSprite;
+import sprites.Sprite;
 
 public class Lancecaster extends Melee {
 	private Weapon weapon;

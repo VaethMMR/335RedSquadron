@@ -7,11 +7,15 @@ import javax.imageio.ImageIO;
 
 
 public class TruebladeSprite extends Sprite {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5863371102236130453L;
 	private static final int leftBorder = 2, vertBorder = 6; // magic numbers for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
 	private static final int width = 32, height = 32; // width and height of a single frame
 	
-	private static BufferedImage sheet; // the sprite sheet
+	private static transient BufferedImage sheet; // the sprite sheet
 	private State previousState; // the last state of the frog
 
 	// TODO 11: talk about WarriorSprite

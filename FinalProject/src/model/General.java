@@ -9,6 +9,7 @@ public final class General extends Commander {
 
 	private SpriteObject sprite;
 	private Weapon weapon;
+
 	private static General general;
 
 	private General(Team team) {

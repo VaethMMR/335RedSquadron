@@ -7,13 +7,17 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class AssassinSprite extends Sprite {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6288123448853605193L;
 	private static final int leftBorder = 6, vertBorder = 10; // magic numbers
 																// for the sheet
 	private static final int MAX_FRAMES = 4; // more magic numbers
 	private static final int width = 32, height = 35; // width and height of a
 														// single frame
 
-	private static BufferedImage sheet; // the sprite sheet
+	private static transient BufferedImage sheet; // the sprite sheet
 	private State previousState; // the last state of the frog
 
 	// TODO 11: talk about WarriorSprite
