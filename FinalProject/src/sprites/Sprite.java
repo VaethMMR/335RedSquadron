@@ -1,8 +1,14 @@
 package sprites;
 import java.awt.Image;
+import java.io.Serializable;
 
 // TODO 1: Look at the Sprite class
-public abstract class Sprite {
+public abstract class Sprite implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8258210703522910694L;
+
 	/*
 	 * TODO 2: Note, we're storing states for sprites as an enumerated type. This is a different approach than using the 
 	 * State design pattern. How could we refactor this to use State? What would some of the advantages/disadvantages be?

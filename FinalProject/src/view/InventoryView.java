@@ -1,14 +1,12 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -29,7 +27,11 @@ import model.Unit;
 import model.Weapon;
 import controller.GamePlay;
 
-public class InventoryView extends JPanel {
+public class InventoryView extends JPanel implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5774377123881270843L;
 	private GamePlay theGame;
 	private Inventory theInventory;
 	private DefaultTableModel data;
@@ -58,6 +60,11 @@ public class InventoryView extends JPanel {
 		// set up the top table
 		data = new DefaultTableModel();
 		table = new JTable(data) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2683617348643076553L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -79,6 +86,11 @@ public class InventoryView extends JPanel {
 		String[][] test = new String[1][7];
 
 		stats = new JTable(test, columnNames2) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4264194356342457061L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -167,7 +179,8 @@ public class InventoryView extends JPanel {
 					table.getSelectedColumn())).contains("Potion")) {
 				stats.setVisible(false);
 			} else if (((String) table.getValueAt(table.getSelectedRow(),
-					table.getSelectedColumn())).contains("Mine") || ((String) table.getValueAt(table.getSelectedRow(),
+					table.getSelectedColumn())).contains("Mine")
+					|| ((String) table.getValueAt(table.getSelectedRow(),
 							table.getSelectedColumn())).contains("Barrier")) {
 				stats.setVisible(false);
 			} else {
@@ -267,20 +280,11 @@ public class InventoryView extends JPanel {
 					if(theItem instanceof Trap){
 						
 					}
-					// The weapon increases the unit's stats
-					// theUnit.setWeapon(true);
-					// theUnit.setStrength(theUnit.getStrength() +
-					// weapon.getMight());
-					// theUnit.setLuck(theUnit.getLuck() +
-					// weapon.getCritical());
-					// theUnit.setSkill(theUnit.getSkill() +
-					// weapon.getAccuracy());
-					// TODO the range of the weapon currently does not affect
-					// unit
+					
 				}
 			}
-		}
 
+		}
 	}
 
 }

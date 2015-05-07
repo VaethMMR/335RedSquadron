@@ -24,6 +24,12 @@ public class AttackPlayer implements Offensive {
 					destination = path.get(i);
 					break;
 				}
+				if (i + attackRange < path.size() && map.getPlayerTeam().contains(path.get(i).getKey().getUnit())) {
+					if (!(path.get(i).isOccupied())) {
+						destination = path.get(i);
+						break;
+					}
+				}
 			}
 //				// If the space is occupied, look for another in range the we
 //				// can attack from

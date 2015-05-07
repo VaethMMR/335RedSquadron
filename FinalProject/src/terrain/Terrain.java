@@ -1,13 +1,15 @@
 package terrain;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.util.Observable;
 
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
 import model.Item;
 import model.Unit;
 
-public abstract class Terrain {
+public abstract class Terrain implements Serializable {
 	// private variables
 	private Unit unit;
 	private Item item;

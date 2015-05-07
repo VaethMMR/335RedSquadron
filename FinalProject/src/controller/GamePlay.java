@@ -4,7 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -27,22 +34,27 @@ import view.InventoryView;
 import view.ShopView;
 import model.*;
 
-public class GamePlay extends JFrame { // implements Observer{
+public class GamePlay extends JFrame implements Serializable, Observer { // implements Observer{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5597276931989494424L;
 	// private variables
 	private GameMap map;
 	private List<Unit> playerTeam;
 	private List<Unit> aiTeam;
 	private GameView console;
-	private Model model;
 	private AI ai;
 	private Inventory inventory;
 	private InventoryView inventoryView;
 	private int choice = 2;
-	private JMenu menu;
-	private JMenuItem loader;
-	private JMenuItem saver;
 	private Model m;
 	private Random rand;
+	private JMenuBar menu;
+	private JMenu file;
+	private JMenuItem saver;
+	private JMenuItem loader;
+	private JMenuItem quitter;
 	
 	// constructor
 	public GamePlay() {
@@ -97,6 +109,7 @@ public class GamePlay extends JFrame { // implements Observer{
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+
 		map.setPlayerTeam(playerTeam);
 		map.setAiTeam(aiTeam);
 
@@ -174,10 +187,26 @@ public class GamePlay extends JFrame { // implements Observer{
 
 		map.setPlayerTeam(playerTeam);
 		map.setAiTeam(aiTeam);
-
-		m = new Model(this);
+		
+//		// place units on map
+//		map.placeUnit(playerTeam.get(0), new int[]{0,0});
+//		map.placeUnit(playerTeam.get(1), new int[]{1,0});
+//		map.placeUnit(playerTeam.get(2), new int[]{0,1});
+//		map.placeUnit(playerTeam.get(3), new int[]{1,1});
+//		map.placeUnit(playerTeam.get(4), new int[]{0,2});
+//		map.placeUnit(playerTeam.get(5), new int[]{2,0});
+//		
+//		map.placeUnit(aiTeam.get(0), new int[]{19,17});
+//		map.placeUnit(aiTeam.get(1), new int[]{18,17});
+//		map.placeUnit(aiTeam.get(2), new int[]{19,16});
+//		map.placeUnit(aiTeam.get(3), new int[]{18,16});
+//		map.placeUnit(aiTeam.get(4), new int[]{19,15});
+//		map.placeUnit(aiTeam.get(5), new int[]{17,17});
+		
 		ai = new AI(aiTeam, m);
+		m = new Model(map);
 		this.console = new view.GameView(m, this);
+		m.addObserver(this);
 
 		setLayout(new BorderLayout()); // set the layout manager
 
@@ -202,23 +231,21 @@ public class GamePlay extends JFrame { // implements Observer{
 	    		inventoryView.setupInventoryList(getPlayerTeam());
 	    	}
 	    });
-		
-		// set up menu bar
-		JMenuBar menu = new JMenuBar();
-		ActionListener listener = new MenuListener(this.getMap(), m);
-		JMenu file = new JMenu("File");
-		JMenuItem saver = new JMenuItem("Save");
-		saver.addActionListener(listener);
-		JMenuItem quit = new JMenuItem("Quit");
-		quit.addActionListener(listener);
-		JMenuItem loader = new JMenuItem("Load");
-		loader.addActionListener(listener);
+
+		menu = new JMenuBar();
+		ActionListener listener = new MenuListener(this.getMap(), m, this);
+		file = new JMenu("File");
+		saver = new JMenuItem("Save");
+		quitter = new JMenuItem("Quit");
+		loader = new JMenuItem("Load");
 		file.add(saver);
 		file.add(loader);
-		file.add(quit);
+		file.add(quitter);
 		menu.add(file);
 		this.setJMenuBar(menu);
-
+		loader.addActionListener(listener);
+		quitter.addActionListener(listener);
+		saver.addActionListener(listener);
 		// set up close operation
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -229,9 +256,13 @@ public class GamePlay extends JFrame { // implements Observer{
 	// getters and setters
 	public GameMap getMap() {
 		return this.map;
-	}
 
-	public Model getModel() {
+	}
+	private void setMap(GameMap map){
+		this.map = map;
+	}
+	
+	public Model getModel(){
 		return this.m;
 	}
 
@@ -266,19 +297,26 @@ public class GamePlay extends JFrame { // implements Observer{
 	private class MenuListener implements ActionListener {
 		private GameMap map;
 		private Model model;
-		private MenuListener(GameMap map, Model m){
+		private GamePlay game;
+		private MenuListener(GameMap map, Model m, GamePlay game){
 			this.map = map;
 			this.model = m;
+			this.game = game;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			map.notifyObservers();
-			if(e.getSource().equals(saver))
-				model.save(model);
+			if(e.getSource().equals(saver)){
+				map.notifyObs();
+				save(model);
+			}
 			if(e.getSource().equals(loader)){
-				model.load(model);
-				map.notifyObservers();
+				load(model);
+				game.setMap(model.getMap());
+				map.notifyObs();
+			}
+			if(e.getSource().equals(quitter)){
+				System.exit(0);
 			}
 		}
 }
@@ -287,5 +325,75 @@ public class GamePlay extends JFrame { // implements Observer{
 	public static void main(String[] arg) {
 		GamePlay newGame = new GamePlay();
 		newGame.setVisible(true);
+				
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
+
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		
+		//newGame.getGameView().setConsole(newGame.getMap().returnMap());
+		}
+
+	public void save(Model m) {
+
+		try {
+			// Write to out with FileOutputStream
+			FileOutputStream stream = new FileOutputStream("BattleSave.ser");
+
+			// Write object with ObjectOutputStream
+			ObjectOutputStream out = new ObjectOutputStream(stream);
+
+			// Write it
+			out.writeObject(m);
+
+			// Close stream
+			out.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private boolean load(Model m) {
+		// We are in progress of a game
+		if (map != null) {
+			if (JOptionPane.YES_OPTION != JOptionPane.showConfirmDialog(null,
+					"Load game?\n" + "All unsaved data will be lost.", "Load",
+					JOptionPane.YES_NO_CANCEL_OPTION)) {
+				JOptionPane.showMessageDialog(null, "Load canceled.", "Load",
+						JOptionPane.INFORMATION_MESSAGE);
+				return false;
+			}
+		}
+		File filename = new File("Battlesave.ser");
+
+		// set in stream
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(filename);
+
+			// read in stream
+			BufferedInputStream bis = new BufferedInputStream(fis);
+
+			// read object
+			ObjectInputStream ois = new ObjectInputStream(bis);
+			Object in = ois.readObject();
+			ois.close();
+			map = ((Model) in).getMap();
+			map.notifyObservers();
+			return true;
+			
+		} catch (IOException | ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File not found", "404",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof GameMap)
+			map = (GameMap) o;
 	}
 }

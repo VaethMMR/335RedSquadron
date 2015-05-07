@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 
 public class Door extends Terrain {
 	// private variables
-	private BufferedImage graphic;
-	private static BufferedImage door;
+	private transient BufferedImage graphic;
+	private static transient BufferedImage door;
 	private boolean standable;
 	
 	static {
@@ -28,7 +28,7 @@ public class Door extends Terrain {
 		super(false, location);
 		this.graphic = buildGraphic();
 	}
-
+	
 	// get methods
 	public BufferedImage getGraphic() {
 		return this.graphic;

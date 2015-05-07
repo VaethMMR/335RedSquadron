@@ -1,8 +1,10 @@
 package model;
+
+import java.io.Serializable;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public abstract class Item {
+public abstract class Item implements Serializable{
 	// private variables
 	private int level;
 	private String name;

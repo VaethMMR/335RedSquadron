@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -15,7 +16,6 @@ import javax.swing.event.ListSelectionListener;
 
 import model.Consumable;
 import model.ConsumableFactory;
-import model.Inventory;
 import model.Trap;
 import model.TrapFactory;
 import model.Weapon;
@@ -24,7 +24,11 @@ import controller.GamePlay;
 import exceptions.InventoryFullException;
 import exceptions.NotEnoughCoinsException;
 
-public class ShopView extends JPanel {
+public class ShopView extends JPanel implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GamePlay theGame;
 	private String[][] data;
 	private JScrollPane scroll2;
@@ -52,6 +56,11 @@ public class ShopView extends JPanel {
 		String[] columnNames = {"Item", "level", "cost"};
 		data = new String[17][3];
 		table = new JTable(data, columnNames) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -67,6 +76,11 @@ public class ShopView extends JPanel {
 		String [] consumableCols = {"Item", "Level", "Health", "Defense", "Resistance", "Uses"};
 		String [][] consData = new String[1][6];
 		conStats = new JTable(consData, consumableCols){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -77,6 +91,11 @@ public class ShopView extends JPanel {
 		String[][] test = new String[1][6];
 		String [] columnNames2 = {"Item","Range","Might","Accuracy","Critical", "Magic"};
 		stats = new JTable(test, columnNames2){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}

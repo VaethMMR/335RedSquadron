@@ -1,10 +1,12 @@
 package objects;
 
 import java.awt.Graphics;
+
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
 import javax.swing.Timer;
 
@@ -13,10 +15,14 @@ import sprites.Sprite;
 
 //TODO 8: Look at and discuss SpriteObject.
 // Consider: Despite having no abstract methods, this class is abstract. Why would that be necessary?
-public abstract class SpriteObject {
+public abstract class SpriteObject implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7571863571794485131L;
 	public Point position; // position of the sprite object
 	private Sprite sprite; // the object's sprite
-	private Image frame; // the last frame of the sprite
+	private transient Image frame; // the last frame of the sprite
 	private Timer t; // timer used to update the frame
 	
 	/**

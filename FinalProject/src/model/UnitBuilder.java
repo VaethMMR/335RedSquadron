@@ -16,14 +16,16 @@ public class UnitBuilder {
 				Hero.getHero().setMagic(0);
 				Hero.getHero().setHp(35);
 				Hero.getHero().setCurrentHp(30);
-				Hero.getHero().setStrength(10);
+				Hero.getHero().setStrength(13);
 				Hero.getHero().setSkill(14);
-				Hero.getHero().setSpeed(12);
+				Hero.getHero().setSpeed(15);
 				Hero.getHero().setLuck(10);
 				Hero.getHero().setDefense(10);
 				Hero.getHero().setResistance(5);
 				Hero.getHero().setMoved(false);
-				Hero.getHero().setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
+				Hero.getHero().setWeapon(new WeaponFactory().makeWeapon("Sword", 12));
+				Hero.getHero().getWeapon().setName("Ragnell");
+				Hero.getHero().getWeapon().setLevel(12);
 				Hero.getHero().setMovement(6);
 				Hero.getHero().setSpriteObject(0,0);
 			}
@@ -40,7 +42,9 @@ public class UnitBuilder {
 				General.getGeneral().setDefense(15);
 				General.getGeneral().setResistance(8);
 				General.getGeneral().setMoved(false);
-				General.getGeneral().setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
+				General.getGeneral().setWeapon(new WeaponFactory().makeWeapon("Sword", 15));
+				General.getGeneral().getWeapon().setName("Alondite");
+				General.getGeneral().getWeapon().setLevel(15);
 				General.getGeneral().setMovement(5);
 				General.getGeneral().setSpriteObject(0,0);
 			}
@@ -60,7 +64,7 @@ public class UnitBuilder {
 				build.setDefense(12);
 				build.setResistance(3);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Lance", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Lance", 3));
 				build.setMovement(6);
 				((Lancecaster) build).setSpriteObject(0,0);
 				break;
@@ -77,7 +81,7 @@ public class UnitBuilder {
 				build.setDefense(10);
 				build.setResistance(2);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Lance", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Lance", 3));
 				build.setMovement(6);
 				((Lancecaster) build).setSpriteObject(0,0);
 				break;
@@ -98,7 +102,7 @@ public class UnitBuilder {
 				build.setDefense(8);
 				build.setResistance(4);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Sword", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
 				build.setMovement(6);
 				((Swordmaster) build).setSpriteObject(0,0);
 				break;
@@ -115,7 +119,7 @@ public class UnitBuilder {
 				build.setDefense(5);
 				build.setResistance(2);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Sword", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Sword", 4));
 				build.setMovement(6);
 				((Swordmaster) build).setSpriteObject(0,0);
 				break;
@@ -136,7 +140,7 @@ public class UnitBuilder {
 				build.setDefense(7);
 				build.setResistance(0);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Axe", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Axe", 5));
 				build.setMovement(6);
 				((Axereaver) build).setSpriteObject(0,0);
 				break;
@@ -153,7 +157,7 @@ public class UnitBuilder {
 				build.setDefense(9);
 				build.setResistance(0);
 				build.setMoved(false);
-				build.setWeapon(new WeaponFactory().makeWeapon("Axe", -1));
+				build.setWeapon(new WeaponFactory().makeWeapon("Axe", 5));
 				build.setMovement(6);
 				((Axereaver) build).setSpriteObject(0, 0);
 				break;
@@ -174,7 +178,7 @@ public class UnitBuilder {
 					build.setDefense(5);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Knife", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Knife", 1));
 					build.setMovement(7);
 					((Thief) build).setSpriteObject(0,0);
 					break;
@@ -191,7 +195,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(10);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Knife", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Knife", 1));
 					build.setMovement(7);
 					((Thief) build).setSpriteObject(0,0);
 					break;
@@ -212,7 +216,7 @@ public class UnitBuilder {
 					build.setDefense(5);
 					build.setResistance(5);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Bow", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Bow", 3));
 					build.setMovement(6);
 					((Marksman) build).setSpriteObject(0,0);
 					break;
@@ -229,7 +233,7 @@ public class UnitBuilder {
 					build.setDefense(10);
 					build.setResistance(3);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Bow", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Bow", 3));
 					build.setMovement(6);
 					((Marksman) build).setSpriteObject(0,0);
 					break;
@@ -250,7 +254,7 @@ public class UnitBuilder {
 					build.setDefense(15);
 					build.setResistance(12);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", 3));
 					build.setMovement(5);
 					((Druid) build).setSpriteObject(0,0);
 					break;
@@ -267,7 +271,7 @@ public class UnitBuilder {
 					build.setDefense(12);
 					build.setResistance(30);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Anima Magic", 3));
 					build.setMovement(5);
 					((Druid) build).setSpriteObject(0,0);
 					break;
@@ -288,7 +292,7 @@ public class UnitBuilder {
 					build.setDefense(5);
 					build.setResistance(20);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", 1));
 					build.setMovement(6);
 					((Saint) build).setSpriteObject(0,0);
 					break;
@@ -305,7 +309,7 @@ public class UnitBuilder {
 					build.setDefense(8);
 					build.setResistance(15);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Light Magic", 1));
 					build.setMovement(6);
 					((Saint) build).setSpriteObject(0,0);
 					break;
@@ -326,7 +330,7 @@ public class UnitBuilder {
 					build.setDefense(5);
 					build.setResistance(10);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", 8));
 					build.setMovement(5);
 					((Sorcerer) build).setSpriteObject(0,0);
 					break;
@@ -343,7 +347,7 @@ public class UnitBuilder {
 					build.setDefense(8);
 					build.setResistance(10);
 					build.setMoved(false);
-					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", -1));
+					build.setWeapon(new WeaponFactory().makeWeapon("Dark Magic", 8));
 					build.setMovement(5);
 					((Sorcerer) build).setSpriteObject(0,0);
 					break;

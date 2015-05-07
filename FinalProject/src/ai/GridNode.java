@@ -1,9 +1,11 @@
 package ai;
 
+import java.io.Serializable;
+
 import terrain.Terrain;
 import model.*;
 
-public class GridNode {
+public class GridNode implements Serializable{
 
 	private Terrain key;
 	private int h;

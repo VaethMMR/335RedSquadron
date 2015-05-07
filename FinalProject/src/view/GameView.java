@@ -1,15 +1,16 @@
 package view;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -23,14 +24,12 @@ import controller.GamePlay;
 import exceptions.TileNotStandableException;
 import exceptions.TileOccupiedException;
 import model.Hero;
-import model.Melee;
 import model.Model;
 import model.Unit;
-import model.Weapon;
 
 @SuppressWarnings("serial") // TODO: It's warning that we need a serial ID here,
 							// but don't we only need that in Model?
-public class GameView extends JPanel {
+public class GameView extends JPanel implements Serializable {
 	private GamePlay theGame;
 	private JList<String> playerUnits;
 	private JList<String> inRangeUnits;
@@ -112,16 +111,16 @@ public class GameView extends JPanel {
 	}
 	
 	// misc methods
-	private void setupPlayerList(List<Unit> units) {		
-		// first clear the list to make sure we don't duplicate Units
-		playerUnitsModel.clear();
-		// now add the Units from the units List back into the ListModel
-		for(Unit i : units){
-			String listItem= i.getName();
-			//now add the element
-			playerUnitsModel.addElement(listItem);
-		}
-	}
+//	private void //setupPlayerList(List<Unit> units) {		
+//		// first clear the list to make sure we don't duplicate Units
+//		playerUnitsModel.clear();
+//		// now add the Units from the units List back into the ListModel
+//		for(Unit i : units){
+//			String listItem= i.getName();
+//			//now add the element
+//			playerUnitsModel.addElement(listItem);
+//		}
+//	}
 	
 	private void setupinRangeList(List<Unit> units) {		
 		//first clear the list to make sure we don't duplicate Units
@@ -298,11 +297,15 @@ public class GameView extends JPanel {
 		}
 		public void actionPerformed(ActionEvent arg0) {
 			//Restore the JList of all living units
-			setupPlayerList(theGame.getPlayerTeam());
+//			setupPlayerList(theGame.getPlayerTeam());
+			theGame.getMap().notifyObservers(m);
+			theGame.save(m);
 			// run AI Move
 			AI ai = theGame.getAI();
+			 	ai.setModel(m);
 			for(int i = 0; i < ai.getTeam().size(); i++){
 				ai.useStrategy(ai.getTeam().get(i));
+				theGame.save(m);
 //					if(theGame.getMap);
 				if(theGame.getAiTeam().isEmpty() == true){
 					JOptionPane.showMessageDialog(null, " Victory.");
@@ -313,7 +316,8 @@ public class GameView extends JPanel {
 					break;
 				}
 			}
-			setupPlayerList(theGame.getMap().getPlayerTeam());
+//			setupPlayerList(theGame.getMap().getPlayerTeam());
+			theGame.save(m);
 		}
 	}
 

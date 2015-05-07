@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -21,17 +22,16 @@ import objects.Cursor;
 import objects.SpriteObject;
 import terrain.Terrain;
 import model.GameMap;
-import model.Hero;
+import model.Model;
 import model.Unit;
 
-public class GraphicPanel extends JPanel implements Observer {
+public class GraphicPanel extends JPanel implements Observer, Serializable {
 
 	private static final long serialVersionUID = 321562980917862556L;
 	private GameMap theMap;
 	private Unit selectedUnit = null;
-	private BufferedImage character;
-	private BufferedImage moveHighlighter;
-	private BufferedImage attackHighlighter;
+	private transient BufferedImage moveHighlighter;
+	private transient BufferedImage attackHighlighter;
 	private SpriteObject cursor;
 
 	public GraphicPanel(GameMap theMap) {
@@ -45,12 +45,7 @@ public class GraphicPanel extends JPanel implements Observer {
 	private void loadImages() {
 		try {
 			cursor = new Cursor(16,16);
-			// for(Unit u : theMap.getPlayerTeam())
-			// sprites.add(ImageIO.read(new File(u.getSprite())));
-			// for(Unit u : theMap.getAITeam())
-			// sprites.add(ImageIO.read(new File("images/" + u.getSprite() +
-			// "WalkingAlpha.png")));
-			character = ImageIO.read(new File("images/TheHunter.png"));
+			ImageIO.read(new File("images/TheHunter.png"));
 			moveHighlighter = ImageIO.read(new File("images/highlight.png"));
 			attackHighlighter = ImageIO.read(new File(
 					"images/attackHighlight.png"));
@@ -60,7 +55,10 @@ public class GraphicPanel extends JPanel implements Observer {
 	}
 
 	public void update(Observable o, Object arg) {
-		theMap = (GameMap) o;
+		if(o instanceof GameMap)
+			theMap = (GameMap) o;
+		else
+			theMap = ((Model) o).getMap();
 		repaint();
 
 	}
@@ -99,14 +97,12 @@ public class GraphicPanel extends JPanel implements Observer {
 		}
 		if (terrainPiece.getUnit() != null) {
 			// if the terrain piece has a Unit on it, draw the Unit
-			int[] coordinates = terrainPiece.getLocation();
-			int[] heroLocale = null;
 			terrainPiece.getUnit().setSpriteObject(x + 16, y + 16);
-			if (terrainPiece.getUnit() == Hero.getHero()) {
-				heroLocale = terrainPiece.getLocation();
+//			if (terrainPiece.getUnit() == Hero.getHero()) {
+//				heroLocale = terrainPiece.getLocation();
 //				cursor.setPosition(heroLocale[0] + 16, heroLocale[1] + 16);
 //				cursor.draw(g);
-			}
+			
 			terrainPiece.getUnit().getSpriteObject().draw(g);
 		}
 	}

@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Mountain extends Terrain {
 	// private variables
-	private static BufferedImage graphic;
+	private static transient BufferedImage graphic;
 	static {
 		try {
 			graphic = ImageIO.read(new File("images/mountain.png"));

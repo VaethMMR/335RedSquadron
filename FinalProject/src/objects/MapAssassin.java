@@ -1,11 +1,13 @@
 package objects;
 
-import model.Unit;
 import sprites.AssassinSprite;
-import sprites.Sprite;
-import sprites.ThiefSprite;
 
 	public class MapAssassin extends SpriteObject{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -9129634519433688510L;
+
 		public MapAssassin(int x, int y){
 			super(new AssassinSprite(), null, x, y, 100);
 		}

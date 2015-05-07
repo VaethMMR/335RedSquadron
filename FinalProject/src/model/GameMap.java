@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ import exceptions.TileOccupiedException;
 // 335 Final Project - Red Squadron
 // Authors: Alex Guyot and John Oney
 
-public class GameMap extends Observable {
+public class GameMap extends Observable implements Serializable {
 	// private variables
 	private Terrain[][] map;
 	private Map<Unit, Terrain> unitLocations = new HashMap<Unit, Terrain>();
@@ -55,6 +56,8 @@ public class GameMap extends Observable {
 	}
 
 	public void setMap(Terrain[][] newMap) {
+		this.setChanged();
+		this.notifyObservers();
 		this.map = newMap;
 	}
 
@@ -88,10 +91,14 @@ public class GameMap extends Observable {
 
 	public void setPlayerTeam(List<Unit> playerTeam) {
 		this.playerTeam = playerTeam;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void setAiTeam(List<Unit> aiTeam) {
 		this.aiTeam = aiTeam;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/**
@@ -266,6 +273,8 @@ public class GameMap extends Observable {
 		Terrain clearLocation = this.unitLocations.get(toRemove);
 		clearLocation.moveUnit();
 		this.unitLocations.remove(toRemove);
+		this.setChanged();
+		this.notifyObservers();
 		return true;
 	}
 
@@ -357,7 +366,7 @@ public class GameMap extends Observable {
 	public List<Unit> getInRangeAiUnits(Unit theUnit) {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
-		int range = theUnit.getResistance();
+		int range = theUnit.getWeapon().getRange();
 		int[] attackWidth = new int[] { location[0] - range - 1,
 				location[0] + range + 1 };
 		int[] attackHeight = new int[] { location[1] - range - 1,
@@ -398,7 +407,7 @@ public class GameMap extends Observable {
 	public List<Unit> getInRangePlayerUnits(Unit theUnit) {
 		List<Unit> inRangeUnits = new ArrayList<Unit>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
-		int range = theUnit.getResistance();
+		int range = theUnit.getWeapon().getRange();
 		int[] attackWidth = new int[] { location[0] - range - 1,
 				location[0] + range + 1 };
 		int[] attackHeight = new int[] { location[1] - range - 1,
@@ -424,6 +433,8 @@ public class GameMap extends Observable {
 				}
 			}
 		}
+		this.setChanged();
+		this.notifyObservers();
 		return inRangeUnits;
 	}
 	
@@ -498,7 +509,7 @@ public class GameMap extends Observable {
 		ArrayList<Terrain> possibleAttacks = new ArrayList<Terrain>();
 		int[] location = this.getUnitLocations().get(theUnit).getLocation();
 		int movement = theUnit.getMovement();
-		int range = theUnit.getResistance();
+		int range = theUnit.getWeapon().getRange();
 		int negYBound, negXBound, posYBound, posXBound;
 		if ((location[0] - movement - range) < 0) {
 			negYBound = 0;
@@ -546,7 +557,7 @@ public class GameMap extends Observable {
 		return possibleAttacks;
 	}
 
-	private void notifyObs() {
+	public void notifyObs() {
 		this.setChanged();
 		this.notifyObservers();
 	}

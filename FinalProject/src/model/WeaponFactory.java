@@ -1,8 +1,14 @@
 package model;
 
 import java.util.Random;
+import java.io.Serializable;
 
-public class WeaponFactory {
+public class WeaponFactory implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5255085810997770068L;
 	private Weapon weapon;
 
 	public WeaponFactory() {
@@ -26,9 +32,9 @@ public class WeaponFactory {
 		if (name == "Sword") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(2 + level);
-			weapon.setAccuracy(80 + level);
-			weapon.setCritical(2 + level);
+			weapon.setMight(8 + level);
+			weapon.setAccuracy(90 + level);
+			weapon.setCritical(10 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(2);
@@ -38,9 +44,9 @@ public class WeaponFactory {
 		if (name == "Axe") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(2 + level);
-			weapon.setAccuracy(80 + level);
-			weapon.setCritical(2 + level);
+			weapon.setMight(10 + level);
+			weapon.setAccuracy(75 + level);
+			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(2);
@@ -49,10 +55,10 @@ public class WeaponFactory {
 
 		if (name == "Bow") {
 			weapon = new Weapon(name, level);
-			weapon.setRange(4);
+			weapon.setRange(2);
 			weapon.setMight(1 + level);
-			weapon.setAccuracy(3 + level);
-			weapon.setCritical(1 + level);
+			weapon.setAccuracy(95 + level);
+			weapon.setCritical(20 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(0);
@@ -63,10 +69,10 @@ public class WeaponFactory {
 			weapon = new Weapon(name, level);
 			weapon.setRange(2);
 			weapon.setMight(0);
-			weapon.setAccuracy(2 + level);
-			weapon.setCritical(3 + level);
+			weapon.setAccuracy(100 + level);
+			weapon.setCritical(0 + level);
 			weapon.setCost(5 * level);
-			weapon.setMagic(3 + level);
+			weapon.setMagic(10 + level);
 			weapon.setWeight(0);
 			return weapon;
 		}
@@ -78,7 +84,7 @@ public class WeaponFactory {
 			weapon.setAccuracy(90 + level);
 			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
-			weapon.setMagic(3 + level);
+			weapon.setMagic(2 + level);
 			weapon.setWeight(0);
 			return weapon;
 		}
@@ -109,7 +115,7 @@ public class WeaponFactory {
 		if (name == "Lance") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(5 + level);
+			weapon.setMight(9 + level);
 			weapon.setAccuracy(85 + level);
 			weapon.setCritical(5 + level);
 			weapon.setCost(5 * level);
@@ -120,9 +126,9 @@ public class WeaponFactory {
 		if (name == "Knife") {
 			weapon = new Weapon(name, level);
 			weapon.setRange(1);
-			weapon.setMight(1 + level);
-			weapon.setAccuracy(1 + level);
-			weapon.setCritical(2 + level);
+			weapon.setMight(2 + level);
+			weapon.setAccuracy(100 + level);
+			weapon.setCritical(15 + level);
 			weapon.setCost(5 * level);
 			weapon.setMagic(0);
 			weapon.setWeight(1);
